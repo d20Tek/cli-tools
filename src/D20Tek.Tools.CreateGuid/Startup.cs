@@ -14,6 +14,7 @@ namespace D20Tek.Tools.CreateGuid
         {
             // register services here...
             registrar.Register(typeof(IGuidGenerator), typeof(GuidGenerator));
+            registrar.Register(typeof(IGuidFormatter), typeof(GuidFormatter));
         }
 
         public override IConfigurator ConfigureCommands(IConfigurator config)

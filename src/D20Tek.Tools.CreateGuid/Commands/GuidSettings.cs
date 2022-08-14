@@ -13,6 +13,11 @@ namespace D20Tek.Tools.CreateGuid.Commands
         [DefaultValue(1)]
         public int Count { get; set; } = 1;
 
+        [CommandOption("-f|--format <GUID-FORMAT>")]
+        [Description("Defines how the GUIDs are formatted in string form (Default, Number, Braces, Parens, Hex).")]
+        [DefaultValue(GuidFormat.Default)]
+        public GuidFormat Format { get; set; } = GuidFormat.Default;
+
         [CommandOption("-e|--empty")]
         [Description("Defines if the GUIDs should be empty (using zero-values).")]
         [DefaultValue(false)]
