@@ -3,6 +3,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 using D20Tek.Spectre.Console.Extensions;
 using D20Tek.Tools.CreateGuid.Commands;
+using D20Tek.Tools.CreateGuid.Services;
 using Spectre.Console.Cli;
 
 namespace D20Tek.Tools.CreateGuid
@@ -12,7 +13,7 @@ namespace D20Tek.Tools.CreateGuid
         public override void ConfigureServices(ITypeRegistrar registrar)
         {
             // register services here...
-            // registrar.Register(typeof(IDisplayWriter), typeof(ConsoleDisplayWriter));
+            registrar.Register(typeof(IGuidGenerator), typeof(GuidGenerator));
         }
 
         public override IConfigurator ConfigureCommands(IConfigurator config)
