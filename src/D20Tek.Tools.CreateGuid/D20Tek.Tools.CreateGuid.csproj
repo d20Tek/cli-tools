@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net6.0</TargetFramework>
+	<PackAsTool>true</PackAsTool>
+	<ToolCommandName>create-guid</ToolCommandName>
+	<ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <AssemblyName>create-guid</AssemblyName>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <PackageId>$(ProjectName)</PackageId>
+    <Product>$(MSBuildProjectName)</Product>
+    <Company>d20Tek</Company>
+    <Description>A command-line utility to help developers create GUIDs and UUIDs for their projects in various output formats.
+Run create-guid in your favorite console window.</Description>
+    <Copyright>Copyright (c) 2022 d20Tek</Copyright>
+    <PackageProjectUrl>https://github.com/d20Tek/cli-tools</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/d20Tek/cli-tools/src/D20Tek.Tools.CreateGuid</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>guid; create guid; uuid; guidgen; </PackageTags>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <TreatWarningsAsErrors>True</TreatWarningsAsErrors>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="D20Tek.Spectre.Console.Extensions" Version="1.0.6" />
+  </ItemGroup>
+
+</Project>

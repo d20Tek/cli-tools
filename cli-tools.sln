@@ -1,0 +1,47 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32630.192
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".items", ".items", "{E11C54DD-BB45-434B-B948-F8A8686EB17A}"
+	ProjectSection(SolutionItems) = preProject
+		.github\workflows\build-ci.yml = .github\workflows\build-ci.yml
+		.github\workflows\build-official.yml = .github\workflows\build-official.yml
+		.github\workflows\nuget-release.yml = .github\workflows\nuget-release.yml
+		README.md = README.md
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{EB084591-CE3F-4E67-ADDC-1C33E712E6E1}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{E4FD2B85-CF14-4C1A-BE08-770B352482B5}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "D20Tek.Tools.CreateGuid", "src\D20Tek.Tools.CreateGuid\D20Tek.Tools.CreateGuid.csproj", "{B5A139D0-CE3F-488A-821B-50F49D874673}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "D20Tek.Tools.CreateGuid.Tests", "tests\D20Tek.Tools.CreateGuid.Tests\D20Tek.Tools.CreateGuid.Tests.csproj", "{AB40D770-B780-42B6-90A0-16A87E9EAD84}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B5A139D0-CE3F-488A-821B-50F49D874673}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B5A139D0-CE3F-488A-821B-50F49D874673}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B5A139D0-CE3F-488A-821B-50F49D874673}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B5A139D0-CE3F-488A-821B-50F49D874673}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB40D770-B780-42B6-90A0-16A87E9EAD84}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB40D770-B780-42B6-90A0-16A87E9EAD84}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB40D770-B780-42B6-90A0-16A87E9EAD84}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB40D770-B780-42B6-90A0-16A87E9EAD84}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{B5A139D0-CE3F-488A-821B-50F49D874673} = {EB084591-CE3F-4E67-ADDC-1C33E712E6E1}
+		{AB40D770-B780-42B6-90A0-16A87E9EAD84} = {E4FD2B85-CF14-4C1A-BE08-770B352482B5}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {13741679-9DDD-4A39-AA45-1CF1595A89BE}
+	EndGlobalSection
+EndGlobal
