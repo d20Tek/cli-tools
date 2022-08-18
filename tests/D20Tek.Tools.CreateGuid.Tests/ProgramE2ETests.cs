@@ -12,10 +12,9 @@ namespace D20Tek.Tools.CreateGuid.Tests
         public async Task CreateGuidOperation_Default()
         {
             // arrange
-            var context = new CommandAppTestContext();
 
             // act
-            var result = await context.RunAsync(Program.Main, Array.Empty<string>());
+            var result = await CommandAppE2ERunner.RunAsync(Program.Main, Array.Empty<string>());
 
             // assert
             Assert.AreEqual(0, result.ExitCode);
@@ -27,11 +26,10 @@ namespace D20Tek.Tools.CreateGuid.Tests
         public async Task CreateGuidOperation_EmptyGuid()
         {
             // arrange
-            var context = new CommandAppTestContext();
             var args = "-f Default -e -u";
 
             // act
-            var result = await context.RunAsync(Program.Main, args);
+            var result = await CommandAppE2ERunner.RunAsync(Program.Main, args);
 
             // assert
             Assert.AreEqual(0, result.ExitCode);
@@ -45,11 +43,10 @@ namespace D20Tek.Tools.CreateGuid.Tests
         public async Task CreateGuidOperation_MultipleGuids()
         {
             // arrange
-            var context = new CommandAppTestContext();
             var args = "--count 5";
 
             // act
-            var result = await context.RunAsync(Program.Main, args);
+            var result = await CommandAppE2ERunner.RunAsync(Program.Main, args);
 
             // assert
             Assert.AreEqual(0, result.ExitCode);
