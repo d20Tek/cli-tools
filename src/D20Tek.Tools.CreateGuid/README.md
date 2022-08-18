@@ -11,7 +11,9 @@ The install the create-guid tool, using the command-line:
 ```
 
 The first command installs the tool into your current project directory, and can only be used in that project.
+
 The second command installs it as a global tool that can be accessed from any command-line or project.
+
 Depending on the tool and your needs, you will need to decide which to use. For GUID creation, this seems like a good candidate for a global tool that we would use in many projects.
 
 ## Usage
