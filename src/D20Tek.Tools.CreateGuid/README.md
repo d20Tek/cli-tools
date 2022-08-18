@@ -4,10 +4,10 @@ This tool creates a single or multiple random GUIDs, which can be formatted in d
 ## Installation
 First, you must have the .NET 6.0 or later runtime on your machine. If you're using Visual Studio or other developer tools, it's probably already on your machine.
 
-The install the create-guid tool, using the command-line:
+Then, install the create-guid tool, using the .NET command-line tool:
 ```
-	dotnet tool install D20Tek.Tools.CreateGuidguid
-	dotnet tool install -g D20Tek.Tools.CreateGuidguid
+dotnet tool install D20Tek.Tools.CreateGuidguid
+dotnet tool install -g D20Tek.Tools.CreateGuidguid
 ```
 
 The first command installs the tool into your current project directory, and can only be used in that project.
@@ -35,12 +35,12 @@ OPTIONS:
 ### Examples
 To get a single GUID:
 ```
-    create-guid --format Braces
-    create-guid -f B
+create-guid --format Braces
+create-guid -f B
 ```
 
 To get 5 GUIDs:
 ```
-    create-guid --count 5
-    create-guid -c 5
+create-guid --count 5
+create-guid -c 5
 ```
