@@ -7,11 +7,12 @@ namespace D20Tek.Tools.CreateGuid.Tests.Common
 {
     public static class CommandAppE2ERunner
     {
+        private static readonly char[] _separators = new char[] { ' ', '\t' };
         public static async Task<CommandAppBasicResult> RunAsync(
             Func<string[], Task<int>> mainEntryPointAsync,
             string commandLine)
         {
-            var args = commandLine.Split(' ', '\t');
+            var args = commandLine.Split(_separators);
             return await RunAsync(mainEntryPointAsync, args);
         }
 
@@ -29,7 +30,7 @@ namespace D20Tek.Tools.CreateGuid.Tests.Common
 
         public static CommandAppBasicResult Run(Func<string[], int> mainEntryPoint, string commandLine)
         {
-            var args = commandLine.Split(' ', '\t');
+            var args = commandLine.Split(_separators);
             return Run(mainEntryPoint, args);
         }
 
