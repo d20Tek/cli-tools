@@ -10,7 +10,12 @@ namespace D20Tek.Tools.CreateGuid
         Number,
         Braces,
         Parens,
-        Hex
+        Hex,
+        D,
+        N,
+        B,
+        P,
+        X
     }
 
     internal static class GuidFormatExtensions
@@ -19,10 +24,10 @@ namespace D20Tek.Tools.CreateGuid
         {
             return format switch
             {
-                GuidFormat.Number => "N",
-                GuidFormat.Braces => "B",
-                GuidFormat.Parens => "P",
-                GuidFormat.Hex => "X",
+                GuidFormat.Number or GuidFormat.N => "N",
+                GuidFormat.Braces or GuidFormat.B => "B",
+                GuidFormat.Parens or GuidFormat.P => "P",
+                GuidFormat.Hex or GuidFormat.X => "X",
                 _ => "D",
             };
         }
