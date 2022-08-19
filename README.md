@@ -1,4 +1,7 @@
 # d20Tek cli tools
+[![ci-build](https://github.com/d20Tek/cli-tools/actions/workflows/build-ci.yml/badge.svg)](https://github.com/d20Tek/cli-tools/actions/workflows/build-ci.yml)
+[![official-build](https://github.com/d20Tek/cli-tools/actions/workflows/build-official.yml/badge.svg)](https://github.com/d20Tek/cli-tools/actions/workflows/build-official.yml)
+[![nuget-publish](https://github.com/d20Tek/cli-tools/actions/workflows/nuget-release.yml/badge.svg)](https://github.com/d20Tek/cli-tools/actions/workflows/nuget-release.yml)
 
 ## Introduction
 A set of command-line tools and utilities to make coding easier. These are .NET tools that can be installed to extent the dotnet command-line experience. 
