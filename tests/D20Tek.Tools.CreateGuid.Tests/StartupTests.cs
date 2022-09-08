@@ -1,8 +1,8 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
+using D20Tek.Spectre.Console.Extensions.Testing;
 using D20Tek.Tools.CreateGuid.Services;
-using D20Tek.Tools.CreateGuid.Tests.Common;
 
 namespace D20Tek.Tools.CreateGuid.Tests
 {
@@ -13,7 +13,7 @@ namespace D20Tek.Tools.CreateGuid.Tests
         public void ConfigureServices()
         {
             // arrange
-            var context = new CommandAppTestContext();
+            var context = new CommandConfigurationTestContext();
             var startup = new Startup();
 
             // act
@@ -28,7 +28,7 @@ namespace D20Tek.Tools.CreateGuid.Tests
         public void ConfigureCommands()
         {
             // arrange
-            var context = new CommandAppTestContext();
+            var context = new CommandConfigurationTestContext();
             var startup = new Startup();
 
             // act

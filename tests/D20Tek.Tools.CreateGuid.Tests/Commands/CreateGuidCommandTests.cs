@@ -3,7 +3,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 using D20Tek.Tools.CreateGuid.Commands;
 using D20Tek.Tools.CreateGuid.Services;
-using D20Tek.Tools.CreateGuid.Tests.Common;
+using D20Tek.Tools.CreateGuid.Tests.Mocks;
 using Spectre.Console;
 
 namespace D20Tek.Tools.CreateGuid.Tests.Commands
@@ -19,13 +19,13 @@ namespace D20Tek.Tools.CreateGuid.Tests.Commands
         public void Execute_WithDefaultSettings()
         {
             // arrange
-            var context = new CommandTestContext();
+            var context = MockCommandContext.Get();
             var command = new CreateGuidCommand(InitializeMockGenerator().Object, _guidFormatter);
             var settings = new GuidSettings();
 
             // act
             AnsiConsole.Record();
-            var result = command.Execute(context.CommandContext, settings);
+            var result = command.Execute(context, settings);
 
             // assert
             Assert.AreEqual(0, result);
@@ -36,13 +36,13 @@ namespace D20Tek.Tools.CreateGuid.Tests.Commands
         public void Execute_WithEmptyGuids()
         {
             // arrange
-            var context = new CommandTestContext();
+            var context = MockCommandContext.Get();
             var command = new CreateGuidCommand(InitializeMockGenerator(Guid.Empty).Object, _guidFormatter);
             var settings = new GuidSettings { Count = 5, Format = GuidFormat.Default, UsesEmptyGuid = true };
 
             // act
             AnsiConsole.Record();
-            var result = command.Execute(context.CommandContext, settings);
+            var result = command.Execute(context, settings);
 
             // assert
             Assert.AreEqual(0, result);
@@ -53,13 +53,13 @@ namespace D20Tek.Tools.CreateGuid.Tests.Commands
         public void Execute_WithUpperCase()
         {
             // arrange
-            var context = new CommandTestContext();
+            var context = MockCommandContext.Get();
             var command = new CreateGuidCommand(InitializeMockGenerator().Object, _guidFormatter);
             var settings = new GuidSettings { UsesUpperCase = true };
 
             // act
             AnsiConsole.Record();
-            var result = command.Execute(context.CommandContext, settings);
+            var result = command.Execute(context, settings);
 
             // assert
             Assert.AreEqual(0, result);

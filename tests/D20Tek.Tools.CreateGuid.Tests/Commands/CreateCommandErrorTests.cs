@@ -3,7 +3,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 using D20Tek.Tools.CreateGuid.Commands;
 using D20Tek.Tools.CreateGuid.Services;
-using D20Tek.Tools.CreateGuid.Tests.Common;
+using D20Tek.Tools.CreateGuid.Tests.Mocks;
 
 namespace D20Tek.Tools.CreateGuid.Tests.Commands
 {
@@ -41,7 +41,7 @@ namespace D20Tek.Tools.CreateGuid.Tests.Commands
         public void Execute_WithException()
         {
             // arrange
-            var context = new CommandTestContext();
+            var context = MockCommandContext.Get();
             var settings = new GuidSettings();
             var mockGen = new Mock<IGuidGenerator>();
             mockGen.Setup(x => x.GenerateGuids(It.IsAny<int>(), It.IsAny<bool>()))
@@ -50,7 +50,7 @@ namespace D20Tek.Tools.CreateGuid.Tests.Commands
             var command = new CreateGuidCommand(mockGen.Object, _testFormatter);
 
             // act - assert
-            _ = command.Execute(context.CommandContext, settings);
+            _ = command.Execute(context, settings);
         }
     }
 }

@@ -30,7 +30,7 @@ Run create-guid in your favorite console window.</Description>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="D20Tek.Spectre.Console.Extensions" Version="1.0.6" />
+    <PackageReference Include="D20Tek.Spectre.Console.Extensions" Version="1.0.7" />
   </ItemGroup>
 
 </Project>
