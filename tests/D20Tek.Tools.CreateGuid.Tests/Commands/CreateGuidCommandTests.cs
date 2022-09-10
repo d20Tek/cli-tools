@@ -7,7 +7,6 @@ using D20Tek.Spectre.Console.Extensions.Testing;
 using D20Tek.Tools.CreateGuid.Commands;
 using D20Tek.Tools.CreateGuid.Services;
 using D20Tek.Tools.CreateGuid.Tests.Mocks;
-using Spectre.Console;
 
 namespace D20Tek.Tools.CreateGuid.Tests.Commands
 {
@@ -22,7 +21,7 @@ namespace D20Tek.Tools.CreateGuid.Tests.Commands
 
         public CreateGuidCommandTests()
         {
-            _displayWriter = new TestVerbosityWriter(_console);
+            _displayWriter = new ConsoleVerbosityWriter(_console);
         }
 
         [TestMethod]

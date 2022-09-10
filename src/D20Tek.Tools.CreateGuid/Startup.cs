@@ -28,7 +28,7 @@ namespace D20Tek.Tools.CreateGuid
             config.AddCommand<CreateGuidCommand>("generate")
                 .WithAlias("gen")
                 .WithDescription("Default command that generates GUIDs in the appropriate format.")
-                .WithExample(new[] { "gen" });
+                .WithExample(new[] { "gen", "-c", "1", "-f", "default", "-v", "normal" });
 
             return config;
         }
