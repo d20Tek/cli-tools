@@ -1,12 +1,13 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
+using D20Tek.Spectre.Console.Extensions.Settings;
 using Spectre.Console.Cli;
 using System.ComponentModel;
 
 namespace D20Tek.Tools.CreateGuid.Commands
 {
-    internal class GuidSettings : CommandSettings
+    internal class GuidSettings : VerbositySettings
     {
         [CommandOption("-c|--count <COUNT>")]
         [Description("The number of GUIDs to generate (defaults to 1).")]

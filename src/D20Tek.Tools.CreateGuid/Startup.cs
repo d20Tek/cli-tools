@@ -2,6 +2,7 @@
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
 using D20Tek.Spectre.Console.Extensions;
+using D20Tek.Spectre.Console.Extensions.Services;
 using D20Tek.Tools.CreateGuid.Commands;
 using D20Tek.Tools.CreateGuid.Services;
 using Spectre.Console.Cli;
@@ -13,6 +14,7 @@ namespace D20Tek.Tools.CreateGuid
         public override void ConfigureServices(ITypeRegistrar registrar)
         {
             // register services here...
+            registrar.WithConsoleVerbosityWriter();
             registrar.Register(typeof(IGuidGenerator), typeof(GuidGenerator));
             registrar.Register(typeof(IGuidFormatter), typeof(GuidFormatter));
         }
