@@ -135,7 +135,7 @@ namespace D20Tek.Tools.CreateGuid.Tests.Commands
             var context = MockCommandContext.Get();
             var command = new CreateGuidCommand(
                 InitializeMockGenerator().Object, _guidFormatter, _displayWriter, _clipboard.Object);
-            var settings = new GuidSettings { OutputFile = ".\\test\\guids.txt" };
+            var settings = new GuidSettings { OutputFile = "./test/guids.txt" };
 
             // act
             var result = command.Execute(context, settings);
