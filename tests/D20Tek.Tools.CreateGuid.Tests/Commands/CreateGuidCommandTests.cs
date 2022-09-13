@@ -128,6 +128,26 @@ namespace D20Tek.Tools.CreateGuid.Tests.Commands
             _clipboard.Verify(o => o.SetText(It.IsAny<string>()), Times.Once);
         }
 
+        [TestMethod]
+        public void Execute_WithOutputFile()
+        {
+            // arrange
+            var context = MockCommandContext.Get();
+            var command = new CreateGuidCommand(
+                InitializeMockGenerator().Object, _guidFormatter, _displayWriter, _clipboard.Object);
+            var settings = new GuidSettings { OutputFile = ".\\test\\guids.txt" };
+
+            // act
+            var result = command.Execute(context, settings);
+
+            // assert
+            Assert.AreEqual(0, result);
+            Assert.IsTrue(_console.Output.Contains(_defaultGuidText));
+            Assert.IsTrue(_console.Output.Contains("create-guid"));
+            Assert.IsTrue(_console.Output.Contains("successfully"));
+            _clipboard.Verify(o => o.SetText(It.IsAny<string>()), Times.Never);
+        }
+
         private Mock<IGuidGenerator> InitializeMockGenerator(Guid? expectedGuid = null)
         {
             var guid = expectedGuid ?? _defaultTestGuid;

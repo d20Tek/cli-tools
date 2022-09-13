@@ -48,6 +48,7 @@ namespace D20Tek.Tools.CreateGuid.Commands
             }
 
             CopyToClipboard(textBuffer, settings);
+            SaveOutputFile(textBuffer, settings);
             _writer.MarkupNormal($"[green]Command completed successfully![/]");
             return 0;
         }
@@ -62,6 +63,26 @@ namespace D20Tek.Tools.CreateGuid.Commands
                 _writer.WriteDiagnostics();
                 _writer.WriteDiagnostics("=> Text copied to clipboard:");
                 _writer.MarkupDiagnostics($"[gray]{text}[/]");
+            }
+        }
+
+        private void SaveOutputFile(StringBuilder builder, GuidSettings settings)
+        {
+            if (string.IsNullOrEmpty(settings.OutputFile) == false)
+            {
+                // ensure directory exists.
+                var directoryPath = Path.GetDirectoryName(settings.OutputFile);
+                if (directoryPath != null)
+                {
+                    Directory.CreateDirectory(directoryPath);
+                }
+
+                // save output file.
+                File.WriteAllText(settings.OutputFile, builder.ToString(), Encoding.ASCII);
+
+                // write diagnostic info.
+                _writer.WriteDiagnostics();
+                _writer.WriteDiagnostics($"=> Text saved to file ({settings.OutputFile}).");
             }
         }
     }

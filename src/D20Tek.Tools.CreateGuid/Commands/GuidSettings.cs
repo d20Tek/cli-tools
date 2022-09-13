@@ -33,5 +33,10 @@ namespace D20Tek.Tools.CreateGuid.Commands
         [Description("Defines whether the output of this command should be copied to the system clipboard.")]
         [DefaultValue(false)]
         public bool CopyToClipboard { get; set; } = false;
+
+        [CommandOption("-o|--output")]
+        [Description("Filename for output file used to save generated guids.")]
+        [DefaultValue("")]
+        public string OutputFile { get; set; } = string.Empty;
     }
 }
