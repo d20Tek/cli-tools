@@ -1,12 +1,13 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
+using D20Tek.Spectre.Console.Extensions.Settings;
 using Spectre.Console.Cli;
 using System.ComponentModel;
 
 namespace D20Tek.Tools.CreateGuid.Commands
 {
-    internal class GuidSettings : CommandSettings
+    internal class GuidSettings : VerbositySettings
     {
         [CommandOption("-c|--count <COUNT>")]
         [Description("The number of GUIDs to generate (defaults to 1).")]
@@ -27,5 +28,15 @@ namespace D20Tek.Tools.CreateGuid.Commands
         [Description("Defines if the generated GUIDs should be upper-cased (defaults to lower-cased).")]
         [DefaultValue(false)]
         public bool UsesUpperCase { get; set; } = false;
+
+        [CommandOption("-p|--clipboard-copy")]
+        [Description("Defines whether the output of this command should be copied to the system clipboard.")]
+        [DefaultValue(false)]
+        public bool CopyToClipboard { get; set; } = false;
+
+        [CommandOption("-o|--output")]
+        [Description("Filename for output file used to save generated guids.")]
+        [DefaultValue("")]
+        public string OutputFile { get; set; } = string.Empty;
     }
 }

@@ -1,7 +1,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
-using D20Tek.Tools.CreateGuid.Tests.Common;
+using D20Tek.Spectre.Console.Extensions.Testing;
 
 namespace D20Tek.Tools.CreateGuid.Tests
 {

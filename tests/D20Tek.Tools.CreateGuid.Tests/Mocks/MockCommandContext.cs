@@ -3,14 +3,14 @@
 //---------------------------------------------------------------------------------------------------------------------
 using Spectre.Console.Cli;
 
-namespace D20Tek.Tools.CreateGuid.Tests.Common
+namespace D20Tek.Tools.CreateGuid.Tests.Mocks
 {
-    public interface ITestConfigurator : IConfigurator
+    internal static class MockCommandContext
     {
-        IList<CommandMetadata> Commands { get; }
-
-        CommandMetadata? DefaultCommand { get; }
-
-        IList<string[]> Examples { get; }
+        internal static CommandContext Get(string name = "_defaultName")
+        {
+            var remaining = new Mock<IRemainingArguments>().Object;
+            return new CommandContext(remaining, name, null);
+        }
     }
 }

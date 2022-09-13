@@ -1,8 +1,9 @@
 ﻿//---------------------------------------------------------------------------------------------------------------------
 // Copyright (c) d20Tek.  All rights reserved.
 //---------------------------------------------------------------------------------------------------------------------
+using D20Tek.Spectre.Console.Extensions.Testing;
 using D20Tek.Tools.CreateGuid.Services;
-using D20Tek.Tools.CreateGuid.Tests.Common;
+using TextCopy;
 
 namespace D20Tek.Tools.CreateGuid.Tests
 {
@@ -13,7 +14,7 @@ namespace D20Tek.Tools.CreateGuid.Tests
         public void ConfigureServices()
         {
             // arrange
-            var context = new CommandAppTestContext();
+            var context = new CommandConfigurationTestContext();
             var startup = new Startup();
 
             // act
@@ -22,13 +23,14 @@ namespace D20Tek.Tools.CreateGuid.Tests
             // assert
             Assert.IsInstanceOfType(context.Resolver.Resolve(typeof(IGuidGenerator)), typeof(GuidGenerator));
             Assert.IsInstanceOfType(context.Resolver.Resolve(typeof(IGuidFormatter)), typeof(GuidFormatter));
+            Assert.IsInstanceOfType(context.Resolver.Resolve(typeof(IClipboard)), typeof(Clipboard));
         }
 
         [TestMethod]
         public void ConfigureCommands()
         {
             // arrange
-            var context = new CommandAppTestContext();
+            var context = new CommandConfigurationTestContext();
             var startup = new Startup();
 
             // act
