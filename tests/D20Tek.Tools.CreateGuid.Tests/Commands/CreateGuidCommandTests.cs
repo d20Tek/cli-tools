@@ -7,6 +7,7 @@ using D20Tek.Spectre.Console.Extensions.Testing;
 using D20Tek.Tools.CreateGuid.Commands;
 using D20Tek.Tools.CreateGuid.Services;
 using D20Tek.Tools.CreateGuid.Tests.Mocks;
+using TextCopy;
 
 namespace D20Tek.Tools.CreateGuid.Tests.Commands
 {
@@ -18,10 +19,13 @@ namespace D20Tek.Tools.CreateGuid.Tests.Commands
         private static readonly IGuidFormatter _guidFormatter = new GuidFormatter();
         private readonly TestConsole _console = new TestConsole();
         private readonly IVerbosityWriter _displayWriter;
+        private readonly Mock<IClipboard> _clipboard = new Mock<IClipboard>();
 
         public CreateGuidCommandTests()
         {
             _displayWriter = new ConsoleVerbosityWriter(_console);
+
+            _clipboard.Setup(p => p.SetText(It.IsAny<string>())).Verifiable();
         }
 
         [TestMethod]
@@ -30,7 +34,7 @@ namespace D20Tek.Tools.CreateGuid.Tests.Commands
             // arrange
             var context = MockCommandContext.Get();
             var command = new CreateGuidCommand(
-                InitializeMockGenerator().Object, _guidFormatter, _displayWriter);
+                InitializeMockGenerator().Object, _guidFormatter, _displayWriter, _clipboard.Object);
             var settings = new GuidSettings();
 
             // act
@@ -41,6 +45,7 @@ namespace D20Tek.Tools.CreateGuid.Tests.Commands
             Assert.IsTrue(_console.Output.Contains(_defaultGuidText));
             Assert.IsTrue(_console.Output.Contains("create-guid"));
             Assert.IsTrue(_console.Output.Contains("successfully"));
+            _clipboard.Verify(o => o.SetText(It.IsAny<string>()), Times.Never);
         }
 
         [TestMethod]
@@ -49,7 +54,7 @@ namespace D20Tek.Tools.CreateGuid.Tests.Commands
             // arrange
             var context = MockCommandContext.Get();
             var command = new CreateGuidCommand(
-                InitializeMockGenerator(Guid.Empty).Object, _guidFormatter, _displayWriter);
+                InitializeMockGenerator(Guid.Empty).Object, _guidFormatter, _displayWriter, _clipboard.Object);
             var settings = new GuidSettings { Count = 5, Format = GuidFormat.Default, UsesEmptyGuid = true };
 
             // act
@@ -60,6 +65,7 @@ namespace D20Tek.Tools.CreateGuid.Tests.Commands
             Assert.IsTrue(_console.Output.Contains(Guid.Empty.ToString()));
             Assert.IsTrue(_console.Output.Contains("create-guid"));
             Assert.IsTrue(_console.Output.Contains("successfully"));
+            _clipboard.Verify(o => o.SetText(It.IsAny<string>()), Times.Never);
         }
 
         [TestMethod]
@@ -68,7 +74,7 @@ namespace D20Tek.Tools.CreateGuid.Tests.Commands
             // arrange
             var context = MockCommandContext.Get();
             var command = new CreateGuidCommand(
-                InitializeMockGenerator().Object, _guidFormatter, _displayWriter);
+                InitializeMockGenerator().Object, _guidFormatter, _displayWriter, _clipboard.Object);
             var settings = new GuidSettings { UsesUpperCase = true };
 
             // act
@@ -79,6 +85,7 @@ namespace D20Tek.Tools.CreateGuid.Tests.Commands
             Assert.IsTrue(_console.Output.Contains(_defaultGuidText.ToUpper()));
             Assert.IsTrue(_console.Output.Contains("create-guid"));
             Assert.IsTrue(_console.Output.Contains("successfully"));
+            _clipboard.Verify(o => o.SetText(It.IsAny<string>()), Times.Never);
         }
 
         [TestMethod]
@@ -87,7 +94,7 @@ namespace D20Tek.Tools.CreateGuid.Tests.Commands
             // arrange
             var context = MockCommandContext.Get();
             var command = new CreateGuidCommand(
-                InitializeMockGenerator().Object, _guidFormatter, _displayWriter);
+                InitializeMockGenerator().Object, _guidFormatter, _displayWriter, _clipboard.Object);
             var settings = new GuidSettings { Verbosity = VerbosityLevel.Minimal };
 
             // act
@@ -98,6 +105,27 @@ namespace D20Tek.Tools.CreateGuid.Tests.Commands
             Assert.IsTrue(_console.Output.Contains(_defaultGuidText));
             Assert.IsFalse(_console.Output.Contains("create-guid"));
             Assert.IsFalse(_console.Output.Contains("successfully"));
+            _clipboard.Verify(o => o.SetText(It.IsAny<string>()), Times.Never);
+        }
+
+        [TestMethod]
+        public void Execute_WithCopyToClipboard()
+        {
+            // arrange
+            var context = MockCommandContext.Get();
+            var command = new CreateGuidCommand(
+                InitializeMockGenerator().Object, _guidFormatter, _displayWriter, _clipboard.Object);
+            var settings = new GuidSettings { CopyToClipboard = true };
+
+            // act
+            var result = command.Execute(context, settings);
+
+            // assert
+            Assert.AreEqual(0, result);
+            Assert.IsTrue(_console.Output.Contains(_defaultGuidText));
+            Assert.IsTrue(_console.Output.Contains("create-guid"));
+            Assert.IsTrue(_console.Output.Contains("successfully"));
+            _clipboard.Verify(o => o.SetText(It.IsAny<string>()), Times.Once);
         }
 
         private Mock<IGuidGenerator> InitializeMockGenerator(Guid? expectedGuid = null)

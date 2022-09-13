@@ -6,6 +6,7 @@ using D20Tek.Spectre.Console.Extensions.Services;
 using D20Tek.Tools.CreateGuid.Commands;
 using D20Tek.Tools.CreateGuid.Services;
 using Spectre.Console.Cli;
+using TextCopy;
 
 namespace D20Tek.Tools.CreateGuid
 {
@@ -17,6 +18,7 @@ namespace D20Tek.Tools.CreateGuid
             registrar.WithConsoleVerbosityWriter();
             registrar.Register(typeof(IGuidGenerator), typeof(GuidGenerator));
             registrar.Register(typeof(IGuidFormatter), typeof(GuidFormatter));
+            registrar.Register(typeof(IClipboard), typeof(Clipboard));
         }
 
         public override IConfigurator ConfigureCommands(IConfigurator config)

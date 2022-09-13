@@ -28,5 +28,10 @@ namespace D20Tek.Tools.CreateGuid.Commands
         [Description("Defines if the generated GUIDs should be upper-cased (defaults to lower-cased).")]
         [DefaultValue(false)]
         public bool UsesUpperCase { get; set; } = false;
+
+        [CommandOption("-p|--clipboard-copy")]
+        [Description("Defines whether the output of this command should be copied to the system clipboard.")]
+        [DefaultValue(false)]
+        public bool CopyToClipboard { get; set; } = false;
     }
 }

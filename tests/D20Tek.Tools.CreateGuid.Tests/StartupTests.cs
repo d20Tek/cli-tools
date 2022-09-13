@@ -3,6 +3,7 @@
 //---------------------------------------------------------------------------------------------------------------------
 using D20Tek.Spectre.Console.Extensions.Testing;
 using D20Tek.Tools.CreateGuid.Services;
+using TextCopy;
 
 namespace D20Tek.Tools.CreateGuid.Tests
 {
@@ -22,6 +23,7 @@ namespace D20Tek.Tools.CreateGuid.Tests
             // assert
             Assert.IsInstanceOfType(context.Resolver.Resolve(typeof(IGuidGenerator)), typeof(GuidGenerator));
             Assert.IsInstanceOfType(context.Resolver.Resolve(typeof(IGuidFormatter)), typeof(GuidFormatter));
+            Assert.IsInstanceOfType(context.Resolver.Resolve(typeof(IClipboard)), typeof(Clipboard));
         }
 
         [TestMethod]
