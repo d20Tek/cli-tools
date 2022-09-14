@@ -23,13 +23,20 @@ USAGE:
     create-guid [OPTIONS]
 
 OPTIONS:
-    -h, --help                    Prints help information
-    -c, --count <COUNT>           The number of GUIDs to generate (defaults to 1)
-    -f, --format <GUID-FORMAT>    Defines how the GUIDs are formatted in string form
-                                  (Allowed values: Default, Number, Braces, Parens, Hex)
-    -e, --empty                   Defines if the GUIDs should be empty (using zero-values)
-    -u, --upper                   Defines if the generated GUIDs should be printed in upper-case
-                                  (defaults to lower-case)
+    -h, --help                           Prints help information
+    -v, --verbosity <VERBOSITY-LEVEL>    The verbosity level for this operation: q(uiet),
+                                         m(inimal), n(ormal), d(etailed), and diag(nostic)    -c, --count <COUNT>
+                                         The number of GUIDs to generate (defaults to 1)
+    -f, --format <GUID-FORMAT>           Defines how the GUIDs are formatted in string
+                                         form (Default, Number, Braces, Parens, Hex)
+    -e, --empty                          Defines if the GUIDs should be empty (using
+                                         zero-values)
+    -u, --upper                          Defines if the generated GUIDs should be
+                                         upper-cased (defaults to lower-cased)
+    -p, --clipboard-copy                 Defines whether the output of this command should
+                                         be copied to the system clipboard
+    -o, --output                         Filename for output file used to save generated
+                                         guids
 ```
 
 ### Examples
@@ -56,5 +63,16 @@ Sample output:
     ac313e57-bb50-442d-8424-dfd8a0a4607c
     43943fc9-bda4-493c-8578-b6aa92a17a92
     dcfd7689-378f-4ccb-841f-604fd9f1782a
+    Command completed successfully!
+```
+
+To save single GUID to file:
+```
+create-guid --output ./export/test1.txt
+create-guid -o ./export/test1.txt
+
+Sample output:
+    create-guid: running to generate your GUIDs:
+    4c29d028-e8ff-4e69-9cd2-f8ea142d5656
     Command completed successfully!
 ```
