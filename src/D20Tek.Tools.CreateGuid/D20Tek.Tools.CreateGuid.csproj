@@ -12,7 +12,7 @@
     <PackageId>$(ProjectName)</PackageId>
     <Product>$(MSBuildProjectName)</Product>
     <Company>d20Tek</Company>
-    <Description>A command-line utility to help developers create GUIDs and UUIDs for their projects in various output formats.
+    <Description>A command-line utility to help developers create GUIDs and UUIDs for their projects in various output formats, copy to clipboard, and save to output file.
 Run create-guid in your favorite console window.</Description>
     <Copyright>Copyright (c) 2022 d20Tek</Copyright>
     <PackageProjectUrl>https://github.com/d20Tek/cli-tools/tree/main/src/D20Tek.Tools.CreateGuid</PackageProjectUrl>
