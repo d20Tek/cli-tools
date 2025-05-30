@@ -5,10 +5,6 @@ internal class GuidFormatter : IGuidFormatter
 	public string Format(Guid guid, GuidFormat format, bool toUpper)
 	{
 		string text = guid.ToString(format.ToFormatString());
-		if (toUpper)
-		{
-			text = text.ToUpper();
-		}
-		return text;
+		return (toUpper) ? text.ToUpper() : text;
 	}
 }
