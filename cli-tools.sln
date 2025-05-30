@@ -1,11 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
-VisualStudioVersion = 17.13.35931.197 d17.13
+VisualStudioVersion = 17.13.35931.197
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "D20Tek.Tools.CreateGuid", "src\D20Tek.Tools.CreateGuid\D20Tek.Tools.CreateGuid.csproj", "{29E8ED6E-3ECE-427C-B40A-04B639A817AE}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{B1142D70-596B-44B7-9860-CF8A966A6A5C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "D20Tek.Tools.UnitTests", "tests\D20Tek.Tools.UnitTests\D20Tek.Tools.UnitTests.csproj", "{F0BD90FB-C599-E3B4-B2BE-CBEF366EA93F}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -17,12 +21,17 @@ Global
 		{29E8ED6E-3ECE-427C-B40A-04B639A817AE}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{29E8ED6E-3ECE-427C-B40A-04B639A817AE}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{29E8ED6E-3ECE-427C-B40A-04B639A817AE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0BD90FB-C599-E3B4-B2BE-CBEF366EA93F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0BD90FB-C599-E3B4-B2BE-CBEF366EA93F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0BD90FB-C599-E3B4-B2BE-CBEF366EA93F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0BD90FB-C599-E3B4-B2BE-CBEF366EA93F}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{29E8ED6E-3ECE-427C-B40A-04B639A817AE} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{F0BD90FB-C599-E3B4-B2BE-CBEF366EA93F} = {B1142D70-596B-44B7-9860-CF8A966A6A5C}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EB08EAA5-3389-4600-A9EA-5FAE71AD7F0E}

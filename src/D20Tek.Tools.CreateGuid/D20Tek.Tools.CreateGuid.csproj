@@ -24,4 +24,8 @@
     <PackageReference Include="TextCopy" Version="6.2.1" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="D20Tek.Tools.UnitTests" />
+  </ItemGroup>
+
 </Project>
