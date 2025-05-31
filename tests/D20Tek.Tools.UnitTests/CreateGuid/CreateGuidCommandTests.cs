@@ -13,7 +13,7 @@ namespace D20Tek.Tools.UnitTests.CreateGuid;
 public class CreateGuidCommandTests
 {
     private readonly IGuidFormatter _formatter = new GuidFormatter();
-    private readonly IClipboard _clipboard = new Clipboard();
+    private readonly IClipboard _clipboard = new FakeClipboard();
     private readonly CommandContext _defaultContext = new([], NullRemainingArguments.Instance, "test", null);
 
     [TestMethod]

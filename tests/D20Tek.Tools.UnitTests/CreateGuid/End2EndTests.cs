@@ -4,10 +4,10 @@ using Spectre.Console;
 namespace D20Tek.Tools.UnitTests.CreateGuid;
 
 [TestClass]
-[TestCategory("E2E")]
 public class End2EndTests
 {
     [TestMethod]
+    [TestCategory("E2E")]
     public async Task Run_WithDefaultArgs()
     {
         // arrange
@@ -25,6 +25,7 @@ public class End2EndTests
     }
 
     [TestMethod]
+    [TestCategory("E2E")]
     public async Task Run_WithCountArgs()
     {
         // arrange
