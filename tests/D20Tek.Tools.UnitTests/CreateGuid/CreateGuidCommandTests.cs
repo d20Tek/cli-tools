@@ -117,7 +117,7 @@ public class CreateGuidCommandTests
         var guid = Guid.NewGuid();
         var guidGen = new FakeGuidGenerator(guid);
         var command = new CreateGuidCommand(guidGen, _formatter, writer, _clipboard);
-        var settings = new GuidSettings { CopyToClipboard = true, OutputFile = ".\\test.txt" };
+        var settings = new GuidSettings { CopyToClipboard = true, OutputFile = "./test.txt" };
 
         // act
         var result = command.Execute(_defaultContext, settings);
