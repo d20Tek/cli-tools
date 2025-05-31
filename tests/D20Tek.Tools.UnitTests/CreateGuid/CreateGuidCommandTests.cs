@@ -1,12 +1,13 @@
 ﻿using D20Tek.Spectre.Console.Extensions.Services;
 using D20Tek.Spectre.Console.Extensions.Testing;
+using D20Tek.Tools.CreateGuid;
 using D20Tek.Tools.CreateGuid.Commands;
 using D20Tek.Tools.CreateGuid.Services;
 using D20Tek.Tools.UnitTests.Fakes;
 using Spectre.Console.Cli;
 using TextCopy;
 
-namespace D20Tek.Tooks.UnitTests.CreateGuid;
+namespace D20Tek.Tools.UnitTests.CreateGuid;
 
 [TestClass]
 public class CreateGuidCommandTests
@@ -128,5 +129,29 @@ public class CreateGuidCommandTests
         StringAssert.StartsWith(output, "create-guid: running");
         StringAssert.Contains(output, "Command completed successfully!");
         StringAssert.Contains(_clipboard.GetText(), guid.ToString());
+    }
+
+    [TestMethod]
+    public void Execute_WithFormatSettings_CreatesGuid()
+    {
+        // arrange
+        var console = new TestConsole();
+        var writer = new ConsoleVerbosityWriter(console);
+
+        var guid = Guid.NewGuid();
+        var guidGen = new FakeGuidGenerator(guid);
+        var command = new CreateGuidCommand(guidGen, _formatter, writer, _clipboard);
+        var settings = new GuidSettings { Format = GuidFormat.Number };
+
+        // act
+        var result = command.Execute(_defaultContext, settings);
+
+        // assert
+        Assert.AreEqual(0, result);
+        var output = console.Output;
+        StringAssert.Contains(output, guid.ToString("N"));
+        Assert.IsFalse(output.Contains(guid.ToString()));
+        StringAssert.StartsWith(output, "create-guid: running");
+        StringAssert.Contains(output, "Command completed successfully!");
     }
 }
