@@ -17,6 +17,8 @@
     <RepositoryType>git</RepositoryType>
     <PackageTags>guid; create guid; uuid; guidgen; uuid7</PackageTags>
     <PackageReleaseNotes>Updated to .NET 9 and added UUID 7 guid generation option.</PackageReleaseNotes>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackAsTool>True</PackAsTool>
   </PropertyGroup>
 
   <ItemGroup>
@@ -26,6 +28,13 @@
 
   <ItemGroup>
     <InternalsVisibleTo Include="D20Tek.Tools.UnitTests" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
