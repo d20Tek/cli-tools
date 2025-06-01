@@ -16,6 +16,11 @@ internal class GuidSettings : VerbositySettings
 	[DefaultValue(GuidFormat.Default)]
 	public GuidFormat Format { get; set; }
 
+    [CommandOption("-s|--uuid-v7")]
+    [Description("Generates a UUID v7 compliant GUID for sortable unique identifiers.")]
+    [DefaultValue(false)]
+    public bool UsesUuidV7 { get; set; }
+    
 	[CommandOption("-e|--empty")]
 	[Description("Defines if the GUIDs should be empty (using zero-values).")]
 	[DefaultValue(false)]

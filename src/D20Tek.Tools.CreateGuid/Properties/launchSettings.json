@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "D20Tek.Tools.CreateGuid": {
+      "commandName": "Project",
+      "commandLineArgs": "--uuid-v7 -c 10"
+    }
+  }
+}

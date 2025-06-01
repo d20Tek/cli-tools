@@ -46,7 +46,7 @@ internal class CreateGuidCommand : Command<GuidSettings>
 	private StringBuilder GenerateGuidStrings(GuidSettings settings)
 	{
         var stringBuilder = new StringBuilder();
-        foreach (Guid item in _guidGenerator.GenerateGuids(settings.Count, settings.UsesEmptyGuid))
+        foreach (Guid item in _guidGenerator.GenerateGuids(settings.Count, settings.UsesEmptyGuid, settings.UsesUuidV7))
         {
             string text = _guidFormatter.Format(item, settings.Format, settings.UsesUpperCase);
             _writer.WriteSummary(text);
