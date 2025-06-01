@@ -40,7 +40,7 @@ jobs:
       run: dotnet pack --configuration Release /p:Version=${VERSION} --no-build --output .
 
     - name: Publish D20Tek.Tools.CreateGuid (local)
-      run: dotnet nuget push create-guid.${VERSION}.nupkg --source https://nuget.pkg.github.com/d20Tek/index.json --api-key ${GITHUB_TOKEN}
+      run: dotnet nuget push create-guid.${VERSION}.nupkg --source https://nuget.pkg.github.com/d20Tek/index.json --api-key ${GITHUB_TOKEN} --verbosity detailed
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
