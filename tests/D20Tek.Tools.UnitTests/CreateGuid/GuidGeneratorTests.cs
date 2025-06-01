@@ -12,7 +12,7 @@ public class GuidGeneratorTests
         var gen = new GuidGenerator();
 
         // act
-        var result = gen.GenerateGuids(1, false);
+        var result = gen.GenerateGuids(1, false, false);
 
         // assert
         Assert.IsNotNull(result);
@@ -27,7 +27,7 @@ public class GuidGeneratorTests
         var gen = new GuidGenerator();
 
         // act
-        var result = gen.GenerateGuids(1, true);
+        var result = gen.GenerateGuids(1, true, false);
 
         // assert
         Assert.IsNotNull(result);
@@ -42,11 +42,28 @@ public class GuidGeneratorTests
         var gen = new GuidGenerator();
 
         // act
-        var result = gen.GenerateGuids(5, false);
+        var result = gen.GenerateGuids(5, false, false);
 
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(5, result.Count());
         Assert.IsFalse(result.Contains(Guid.Empty));
+        Assert.IsTrue(result.All(x => x.Version == 4));
+    }
+
+    [TestMethod]
+    public void GenerateGuids_WithUuidV7_ReturnsFiveSortableGuids()
+    {
+        // arrange
+        var gen = new GuidGenerator();
+
+        // act
+        var result = gen.GenerateGuids(5, false, true);
+
+        // assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual(5, result.Count());
+        Assert.IsFalse(result.Contains(Guid.Empty));
+        Assert.IsTrue(result.All(x => x.Version == 7));
     }
 }

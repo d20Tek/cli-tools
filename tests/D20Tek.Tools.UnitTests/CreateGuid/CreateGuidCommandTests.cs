@@ -86,6 +86,29 @@ public class CreateGuidCommandTests
     }
 
     [TestMethod]
+    public void Execute_WithUuidV7Settings_CreatesGuid()
+    {
+        // arrange
+        var console = new TestConsole();
+        var writer = new ConsoleVerbosityWriter(console);
+
+        var guid = Guid.NewGuid();
+        var guidGen = new FakeGuidGenerator(guid);
+        var command = new CreateGuidCommand(guidGen, _formatter, writer, _clipboard);
+        var settings = new GuidSettings { UsesUuidV7 = true };
+
+        // act
+        var result = command.Execute(_defaultContext, settings);
+
+        // assert
+        Assert.AreEqual(0, result);
+        var output = console.Output;
+        StringAssert.Contains(output, guid.ToString());
+        StringAssert.StartsWith(output, "create-guid: running");
+        StringAssert.Contains(output, "Command completed successfully!");
+    }
+
+    [TestMethod]
     public void Execute_WithEmptyGuidSettings_CreatesGuid()
     {
         // arrange
