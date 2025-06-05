@@ -1,7 +1,7 @@
 ﻿using D20Tek.Spectre.Console.Extensions.Testing;
 using D20Tek.Tools.CreateGuid.Commands;
 
-namespace D20Tek.Tools.UnitTests.CreateGuid.Fakes;
+namespace D20Tek.Tools.UnitTests.CreateGuid;
 
 internal static class TestContextFactory
 {

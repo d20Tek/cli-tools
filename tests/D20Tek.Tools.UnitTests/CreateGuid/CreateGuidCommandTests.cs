@@ -27,11 +27,7 @@ public class CreateGuidCommandTests
         var result = context.Run(["generate"]);
 
         // assert
-        Assert.IsNotNull(result);
-        Assert.AreEqual(0, result.ExitCode);
-        StringAssert.Contains(result.Output, guid.ToString());
-        StringAssert.StartsWith(result.Output, "create-guid: running");
-        StringAssert.Contains(result.Output, "Command completed successfully!");
+        result.AssertValidWithGuid(guid.ToString());
     }
 
     [TestMethod]
@@ -45,11 +41,7 @@ public class CreateGuidCommandTests
         var result = context.Run(["generate", "--upper"]);
 
         // assert
-        Assert.IsNotNull(result);
-        Assert.AreEqual(0, result.ExitCode);
-        StringAssert.Contains(result.Output, guid.ToString().ToUpper());
-        StringAssert.StartsWith(result.Output, "create-guid: running");
-        StringAssert.Contains(result.Output, "Command completed successfully!");
+        result.AssertValidWithGuid(guid.ToString().ToUpper());
     }
 
     [TestMethod]
@@ -64,15 +56,7 @@ public class CreateGuidCommandTests
         var result = context.Run(["generate", "--count", "3"]);
 
         // assert
-        Assert.IsNotNull(result);
-        Assert.AreEqual(0, result.ExitCode);
-        StringAssert.Contains(result.Output, guids[0].ToString());
-        StringAssert.Contains(result.Output, guids[1].ToString());
-        StringAssert.Contains(result.Output, guids[2].ToString());
-        Assert.IsFalse(result.Output.Contains(guids[3].ToString()));
-        Assert.IsFalse(result.Output.Contains(guids[4].ToString()));
-        StringAssert.StartsWith(result.Output, "create-guid: running");
-        StringAssert.Contains(result.Output, "Command completed successfully!");
+        result.AssertValidWithThreeGuids(guids);
     }
 
     [TestMethod]
@@ -86,11 +70,7 @@ public class CreateGuidCommandTests
         var result = context.Run(["generate", "--uuidv7"]);
 
         // assert
-        Assert.IsNotNull(result);
-        Assert.AreEqual(0, result.ExitCode);
-        StringAssert.Contains(result.Output, guid.ToString());
-        StringAssert.StartsWith(result.Output, "create-guid: running");
-        StringAssert.Contains(result.Output, "Command completed successfully!");
+        result.AssertValidWithGuid(guid.ToString());
     }
 
     [TestMethod]

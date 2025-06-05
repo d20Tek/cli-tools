@@ -1,9 +1,10 @@
 ﻿using D20Tek.Spectre.Console.Extensions.Services;
 using D20Tek.Tools.CreateGuid.Services;
+using D20Tek.Tools.UnitTests.CreateGuid.Fakes;
 using Spectre.Console.Cli;
 using TextCopy;
 
-namespace D20Tek.Tools.UnitTests.CreateGuid.Fakes;
+namespace D20Tek.Tools.UnitTests.CreateGuid;
 
 internal static class RegistrarConfigurator
 {
