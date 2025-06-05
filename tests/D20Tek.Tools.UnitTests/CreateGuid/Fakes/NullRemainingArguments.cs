@@ -1,7 +1,7 @@
 ﻿using Spectre.Console.Cli;
 using System.Diagnostics.CodeAnalysis;
 
-namespace D20Tek.Tools.UnitTests.Fakes;
+namespace D20Tek.Tools.UnitTests.CreateGuid.Fakes;
 
 [ExcludeFromCodeCoverage]
 internal class NullRemainingArguments : IRemainingArguments

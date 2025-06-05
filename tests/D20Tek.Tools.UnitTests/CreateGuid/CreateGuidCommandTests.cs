@@ -3,7 +3,7 @@ using D20Tek.Spectre.Console.Extensions.Testing;
 using D20Tek.Tools.CreateGuid;
 using D20Tek.Tools.CreateGuid.Commands;
 using D20Tek.Tools.CreateGuid.Services;
-using D20Tek.Tools.UnitTests.Fakes;
+using D20Tek.Tools.UnitTests.CreateGuid.Fakes;
 using Spectre.Console.Cli;
 using TextCopy;
 
@@ -21,13 +21,7 @@ public class CreateGuidCommandTests
     {
         // arrange
         var guid = Guid.NewGuid();
-        var context = new CommandAppTestContext();
-        context.Registrar.ConfigureServices(guid);
-        context.Configure(config =>
-        {
-            config.Settings.ApplicationName = "create-guid-test";
-            config.AddCommand<CreateGuidCommand>("generate");
-        });
+        var context = TestContextFactory.CreateWithGuid(guid);
 
         // act
         var result = context.Run(["generate"]);
@@ -44,69 +38,59 @@ public class CreateGuidCommandTests
     public void Execute_WithUseUpperCaseSettings_CreatesGuid()
     {
         // arrange
-        var console = new TestConsole();
-        var writer = new ConsoleVerbosityWriter(console);
-
         var guid = Guid.NewGuid();
-        var guidGen = new FakeGuidGenerator(guid);
-        var command = new CreateGuidCommand(guidGen, _formatter, writer, _clipboard);
-        var settings = new GuidSettings { UsesUpperCase = true };
+        var context = TestContextFactory.CreateWithGuid(guid);
 
         // act
-        var result = command.Execute(_defaultContext, settings);
+        var result = context.Run(["generate", "--upper"]);
 
         // assert
-        Assert.AreEqual(0, result);
-        var output = console.Output;
-        StringAssert.Contains(output, guid.ToString().ToUpper());
-        StringAssert.StartsWith(output, "create-guid: running");
-        StringAssert.Contains(output, "Command completed successfully!");
+        Assert.IsNotNull(result);
+        Assert.AreEqual(0, result.ExitCode);
+        StringAssert.Contains(result.Output, guid.ToString().ToUpper());
+        StringAssert.StartsWith(result.Output, "create-guid: running");
+        StringAssert.Contains(result.Output, "Command completed successfully!");
     }
 
     [TestMethod]
     public void Execute_WithMultipleCountSettings_CreatesGuid()
     {
         // arrange
-        var console = new TestConsole();
-        var writer = new ConsoleVerbosityWriter(console);
+        Guid[] guids = [Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid()];
 
-        var guid = Guid.NewGuid();
-        var guidGen = new FakeGuidGenerator([guid, Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid()]);
-        var command = new CreateGuidCommand(guidGen, _formatter, writer, _clipboard);
-        var settings = new GuidSettings { Count = 3 };
+        var context = TestContextFactory.CreateWithGuids(guids);
 
         // act
-        var result = command.Execute(_defaultContext, settings);
+        var result = context.Run(["generate", "--count", "3"]);
 
         // assert
-        Assert.AreEqual(0, result);
-        var output = console.Output;
-        StringAssert.Contains(output, guid.ToString());
-        StringAssert.StartsWith(output, "create-guid: running");
-        StringAssert.Contains(output, "Command completed successfully!");
+        Assert.IsNotNull(result);
+        Assert.AreEqual(0, result.ExitCode);
+        StringAssert.Contains(result.Output, guids[0].ToString());
+        StringAssert.Contains(result.Output, guids[1].ToString());
+        StringAssert.Contains(result.Output, guids[2].ToString());
+        Assert.IsFalse(result.Output.Contains(guids[3].ToString()));
+        Assert.IsFalse(result.Output.Contains(guids[4].ToString()));
+        StringAssert.StartsWith(result.Output, "create-guid: running");
+        StringAssert.Contains(result.Output, "Command completed successfully!");
     }
 
     [TestMethod]
     public void Execute_WithUuidV7Settings_CreatesGuid()
     {
         // arrange
-        var console = new TestConsole();
-        var writer = new ConsoleVerbosityWriter(console);
-
-        var guid = Guid.NewGuid();
-        var guidGen = new FakeGuidGenerator(guid);
-        var command = new CreateGuidCommand(guidGen, _formatter, writer, _clipboard);
-        var settings = new GuidSettings { UsesUuidV7 = true };
+        var guid = Guid.CreateVersion7();
+        var context = TestContextFactory.CreateWithGuid(guid);
 
         // act
-        var result = command.Execute(_defaultContext, settings);
+        var result = context.Run(["generate", "--uuidv7"]);
 
         // assert
-        Assert.AreEqual(0, result);
-        var output = console.Output;
-        StringAssert.Contains(output, guid.ToString());
-        StringAssert.StartsWith(output, "create-guid: running");
-        StringAssert.Contains(output, "Command completed successfully!");
+        Assert.IsNotNull(result);
+        Assert.AreEqual(0, result.ExitCode);
+        StringAssert.Contains(result.Output, guid.ToString());
+        StringAssert.StartsWith(result.Output, "create-guid: running");
+        StringAssert.Contains(result.Output, "Command completed successfully!");
     }
 
     [TestMethod]

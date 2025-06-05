@@ -1,6 +1,6 @@
 ﻿using D20Tek.Tools.CreateGuid.Services;
 
-namespace D20Tek.Tools.UnitTests.Fakes;
+namespace D20Tek.Tools.UnitTests.CreateGuid.Fakes;
 
 internal class FakeGuidGenerator : IGuidGenerator
 {

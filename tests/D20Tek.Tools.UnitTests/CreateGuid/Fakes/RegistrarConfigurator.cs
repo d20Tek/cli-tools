@@ -3,13 +3,13 @@ using D20Tek.Tools.CreateGuid.Services;
 using Spectre.Console.Cli;
 using TextCopy;
 
-namespace D20Tek.Tools.UnitTests.Fakes;
+namespace D20Tek.Tools.UnitTests.CreateGuid.Fakes;
 
 internal static class RegistrarConfigurator
 {
-    public static ITypeRegistrar ConfigureServices(this ITypeRegistrar registrar, Guid? guid = null)
+    public static ITypeRegistrar ConfigureServices(this ITypeRegistrar registrar, Guid[] guids)
     {
-        IGuidGenerator guidGen = guid is not null ? new FakeGuidGenerator(guid.Value) : new GuidGenerator();
+        var guidGen = new FakeGuidGenerator(guids);
         registrar.RegisterInstance(typeof(IGuidGenerator), guidGen);
         registrar.Register(typeof(IGuidFormatter), typeof(GuidFormatter));
         registrar.Register(typeof(IClipboard), typeof(FakeClipboard));

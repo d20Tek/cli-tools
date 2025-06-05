@@ -1,7 +1,7 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using TextCopy;
 
-namespace D20Tek.Tools.UnitTests.Fakes;
+namespace D20Tek.Tools.UnitTests.CreateGuid.Fakes;
 
 internal class FakeClipboard : IClipboard
 {
