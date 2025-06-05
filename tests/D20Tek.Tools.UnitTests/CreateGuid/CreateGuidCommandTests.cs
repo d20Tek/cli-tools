@@ -20,23 +20,24 @@ public class CreateGuidCommandTests
     public void Execute_WithDefaultSettings_CreatesGuid()
     {
         // arrange
-        var console = new TestConsole();
-        var writer = new ConsoleVerbosityWriter(console);
-
         var guid = Guid.NewGuid();
-        var guidGen = new FakeGuidGenerator(guid);
-        var command = new CreateGuidCommand(guidGen, _formatter, writer, _clipboard);
-        var settings = new GuidSettings();
+        var context = new CommandAppTestContext();
+        context.Registrar.ConfigureServices(guid);
+        context.Configure(config =>
+        {
+            config.Settings.ApplicationName = "create-guid-test";
+            config.AddCommand<CreateGuidCommand>("generate");
+        });
 
         // act
-        var result = command.Execute(_defaultContext, settings);
+        var result = context.Run(["generate"]);
 
         // assert
-        Assert.AreEqual(0, result);
-        var output = console.Output;
-        StringAssert.Contains(output, guid.ToString());
-        StringAssert.StartsWith(output, "create-guid: running");
-        StringAssert.Contains(output, "Command completed successfully!");
+        Assert.IsNotNull(result);
+        Assert.AreEqual(0, result.ExitCode);
+        StringAssert.Contains(result.Output, guid.ToString());
+        StringAssert.StartsWith(result.Output, "create-guid: running");
+        StringAssert.Contains(result.Output, "Command completed successfully!");
     }
 
     [TestMethod]

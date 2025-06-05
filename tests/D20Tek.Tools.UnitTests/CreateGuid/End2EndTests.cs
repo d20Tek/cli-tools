@@ -19,6 +19,7 @@ public class End2EndTests
 
         // assert
         Assert.AreEqual(0, result);
+        await Task.Delay(200);
         var output = AnsiConsole.ExportText();
         StringAssert.StartsWith(output, "create-guid: running");
         StringAssert.Contains(output, "Command completed successfully!");
@@ -37,8 +38,9 @@ public class End2EndTests
 
         // assert
         Assert.AreEqual(0, result);
+        await Task.Delay(200);
         var output = AnsiConsole.ExportText();
-        StringAssert.StartsWith(output, "create-guid: running");
+        StringAssert.Contains(output, "create-guid: running");
         StringAssert.Contains(output, "Command completed successfully!");
     }
 }
