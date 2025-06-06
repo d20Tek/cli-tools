@@ -1,27 +1,39 @@
-﻿using D20Tek.Spectre.Console.Extensions.Testing;
-using D20Tek.Tools.CreateGuid.Commands;
+﻿using D20Tek.Spectre.Console.Extensions;
+using D20Tek.Spectre.Console.Extensions.Testing;
+using D20Tek.Tools.CreateGuid.Services;
 using D20Tek.Tools.UnitTests.CreateGuid.Fakes;
+using Microsoft.Extensions.DependencyInjection;
+using TextCopy;
 
 namespace D20Tek.Tools.UnitTests.CreateGuid;
 
 internal static class TestContextFactory
 {
-    public static CommandAppTestContext CreateWithGuid(Guid guid) =>
+    public static CommandAppBuilderTestContext CreateWithGuid(Guid guid) =>
         CreateWithGuids([guid]);
 
-    public static CommandAppTestContext CreateWithGuids(Guid[] guids, FakeClipboard? clipboard = null)
+    public static CommandAppBuilderTestContext CreateWithGuids(Guid[] guids)
     {
-        var context = new CommandAppTestContext();
-        context.Registrar.ConfigureServices(guids, clipboard);
-        context.Configure(config =>
-        {
-            config.Settings.ApplicationName = "create-guid-test";
-            config.AddCommand<CreateGuidCommand>("generate");
-        });
+        var container = new ServiceCollection().AddSingleton<IGuidGenerator>(new FakeGuidGenerator(guids));
+
+        return CreateWithContainer<FakeCreateGuidStartup>(container);
+    }
+
+    public static CommandAppBuilderTestContext CreateWithClipboard(Guid guid, FakeClipboard clipboard)
+    {
+        var container = new ServiceCollection().AddSingleton<IGuidGenerator>(new FakeGuidGenerator([guid]))
+                                               .AddSingleton<IClipboard>(clipboard);
+
+        return CreateWithContainer<FakeCreateGuidNoClipboardStartup>(container);
+    }
+
+    private static CommandAppBuilderTestContext CreateWithContainer<TStartup>(IServiceCollection container)
+            where TStartup : StartupBase, new()
+    {
+        var context = new CommandAppBuilderTestContext();
+        context.Builder.WithDIContainer(container)
+                       .WithStartup<TStartup>();
 
         return context;
     }
-
-    public static CommandAppTestContext CreateWithClipboard(Guid guid, FakeClipboard clipboard) =>
-        CreateWithGuids([guid], clipboard);
 }

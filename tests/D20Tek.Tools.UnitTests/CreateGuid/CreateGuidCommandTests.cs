@@ -11,7 +11,7 @@ public class CreateGuidCommandTests
         // arrange
         var guid = Guid.NewGuid();
         var context = TestContextFactory.CreateWithGuid(guid);
-
+                       
         // act
         var result = context.Run(["generate"]);
 
