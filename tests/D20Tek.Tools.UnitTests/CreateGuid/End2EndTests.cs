@@ -1,5 +1,6 @@
-﻿using D20Tek.Tools.CreateGuid;
-using Spectre.Console;
+﻿using D20Tek.Spectre.Console.Extensions.Testing;
+using D20Tek.Tools.CreateGuid;
+using System.Diagnostics.CodeAnalysis;
 
 namespace D20Tek.Tools.UnitTests.CreateGuid;
 
@@ -7,40 +8,32 @@ namespace D20Tek.Tools.UnitTests.CreateGuid;
 public sealed class End2EndTests
 {
     [TestMethod]
-    [TestCategory("E2E")]
     public async Task Run_WithDefaultArgs()
     {
         // arrange
-        var args = Array.Empty<string>();
-        AnsiConsole.Record();
 
         // act
-        var result = await Program.Main(args);
+        var result = await CommandAppE2ERunner.RunAsync(Program.Main, []);
 
         // assert
-        Assert.AreEqual(0, result);
-        await Task.Delay(200);
-        var output = AnsiConsole.ExportText();
-        StringAssert.StartsWith(output, "create-guid: running");
-        StringAssert.Contains(output, "Command completed successfully!");
+        Assert.AreEqual(0, result.ExitCode);
+        StringAssert.StartsWith(result.Output, "create-guid: running");
+        StringAssert.Contains(result.Output, "Command completed successfully!");
     }
 
     [TestMethod]
-    [TestCategory("E2E")]
+    [ExcludeFromCodeCoverage]
     public async Task Run_WithCountArgs()
     {
         // arrange
-        var args = new string[] { "--count", "10" };
-        AnsiConsole.Record();
+        string[] args = ["--count", "10"];
 
         // act
-        var result = await Program.Main(args);
+        var result = await CommandAppE2ERunner.RunAsync(Program.Main, args);
 
         // assert
-        Assert.AreEqual(0, result);
-        await Task.Delay(200);
-        var output = AnsiConsole.ExportText();
-        StringAssert.Contains(output, "create-guid: running");
-        StringAssert.Contains(output, "Command completed successfully!");
+        Assert.AreEqual(0, result.ExitCode);
+        StringAssert.StartsWith(result.Output, "create-guid: running");
+        StringAssert.Contains(result.Output, "Command completed successfully!");
     }
 }
