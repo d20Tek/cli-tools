@@ -1,21 +1,10 @@
-﻿using D20Tek.Spectre.Console.Extensions.Services;
-using D20Tek.Spectre.Console.Extensions.Testing;
-using D20Tek.Tools.CreateGuid;
-using D20Tek.Tools.CreateGuid.Commands;
-using D20Tek.Tools.CreateGuid.Services;
-using D20Tek.Tools.UnitTests.CreateGuid.Fakes;
-using Spectre.Console.Cli;
-using TextCopy;
+﻿using D20Tek.Tools.UnitTests.CreateGuid.Fakes;
 
 namespace D20Tek.Tools.UnitTests.CreateGuid;
 
 [TestClass]
 public class CreateGuidCommandTests
 {
-    private readonly IGuidFormatter _formatter = new GuidFormatter();
-    private readonly IClipboard _clipboard = new FakeClipboard();
-    private readonly CommandContext _defaultContext = new([], NullRemainingArguments.Instance, "test", null);
-
     [TestMethod]
     public void Execute_WithDefaultSettings_CreatesGuid()
     {
@@ -77,69 +66,42 @@ public class CreateGuidCommandTests
     public void Execute_WithEmptyGuidSettings_CreatesGuid()
     {
         // arrange
-        var console = new TestConsole();
-        var writer = new ConsoleVerbosityWriter(console);
-
-        var guidGen = new GuidGenerator();
-        var command = new CreateGuidCommand(guidGen, _formatter, writer, _clipboard);
-        var settings = new GuidSettings { UsesEmptyGuid = true };
+        var context = TestContextFactory.CreateWithGuid(Guid.Empty);
 
         // act
-        var result = command.Execute(_defaultContext, settings);
+        var result = context.Run(["generate", "--empty"]);
 
         // assert
-        Assert.AreEqual(0, result);
-        var output = console.Output;
-        StringAssert.Contains(output, Guid.Empty.ToString());
-        StringAssert.StartsWith(output, "create-guid: running");
-        StringAssert.Contains(output, "Command completed successfully!");
+        result.AssertValidWithGuid(Guid.Empty.ToString());
     }
 
     [TestMethod]
     public void Execute_WithCopyToClipboardSettings_CreatesGuidOnClipboard()
     {
         // arrange
-        var console = new TestConsole();
-        var writer = new ConsoleVerbosityWriter(console);
-
+        var clipboard = new FakeClipboard();
         var guid = Guid.NewGuid();
-        var guidGen = new FakeGuidGenerator(guid);
-        var command = new CreateGuidCommand(guidGen, _formatter, writer, _clipboard);
-        var settings = new GuidSettings { CopyToClipboard = true, OutputFile = "./test.txt" };
+        var context = TestContextFactory.CreateWithClipboard(guid, clipboard);
 
         // act
-        var result = command.Execute(_defaultContext, settings);
+        var result = context.Run(["generate", "--clipboard-copy", "--output", "./test.txt"]);
 
         // assert
-        Assert.AreEqual(0, result);
-        var output = console.Output;
-        StringAssert.Contains(output, guid.ToString());
-        StringAssert.StartsWith(output, "create-guid: running");
-        StringAssert.Contains(output, "Command completed successfully!");
-        StringAssert.Contains(_clipboard.GetText(), guid.ToString());
+        result.AssertValidWithGuid(guid.ToString());
+        StringAssert.Contains(clipboard.GetText(), guid.ToString());
     }
 
     [TestMethod]
     public void Execute_WithFormatSettings_CreatesGuid()
     {
         // arrange
-        var console = new TestConsole();
-        var writer = new ConsoleVerbosityWriter(console);
-
         var guid = Guid.NewGuid();
-        var guidGen = new FakeGuidGenerator(guid);
-        var command = new CreateGuidCommand(guidGen, _formatter, writer, _clipboard);
-        var settings = new GuidSettings { Format = GuidFormat.Number };
+        var context = TestContextFactory.CreateWithGuid(guid);
 
         // act
-        var result = command.Execute(_defaultContext, settings);
+        var result = context.Run(["generate", "--format", "Number"]);
 
         // assert
-        Assert.AreEqual(0, result);
-        var output = console.Output;
-        StringAssert.Contains(output, guid.ToString("N"));
-        Assert.IsFalse(output.Contains(guid.ToString()));
-        StringAssert.StartsWith(output, "create-guid: running");
-        StringAssert.Contains(output, "Command completed successfully!");
+        result.AssertValidWithGuid(guid.ToString("N"));
     }
 }
