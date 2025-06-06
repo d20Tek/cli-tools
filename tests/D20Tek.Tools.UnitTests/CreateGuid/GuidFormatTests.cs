@@ -3,7 +3,7 @@
 namespace D20Tek.Tools.UnitTests.CreateGuid;
 
 [TestClass]
-public class GuidFormatTests
+public sealed class GuidFormatTests
 {
     [TestMethod]
     [DataRow(GuidFormat.D, "D")]

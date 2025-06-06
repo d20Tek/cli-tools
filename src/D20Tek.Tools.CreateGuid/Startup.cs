@@ -7,7 +7,7 @@ using TextCopy;
 
 namespace D20Tek.Tools.CreateGuid;
 
-internal class Startup : StartupBase
+internal sealed class Startup : StartupBase
 {
 	public override void ConfigureServices(ITypeRegistrar registrar)
 	{

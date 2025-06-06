@@ -3,7 +3,7 @@
 namespace D20Tek.Tools.UnitTests.CreateGuid;
 
 [TestClass]
-public class CreateGuidCommandTests
+public sealed class CreateGuidCommandTests
 {
     [TestMethod]
     public void Execute_WithDefaultSettings_CreatesGuid()

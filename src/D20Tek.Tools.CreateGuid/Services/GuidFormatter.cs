@@ -1,6 +1,6 @@
 namespace D20Tek.Tools.CreateGuid.Services;
 
-internal class GuidFormatter : IGuidFormatter
+internal sealed class GuidFormatter : IGuidFormatter
 {
 	public string Format(Guid guid, GuidFormat format, bool toUpper)
 	{

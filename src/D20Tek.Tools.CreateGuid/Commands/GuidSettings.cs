@@ -4,7 +4,7 @@ using Spectre.Console.Cli;
 
 namespace D20Tek.Tools.CreateGuid.Commands;
 
-internal class GuidSettings : VerbositySettings
+internal sealed class GuidSettings : VerbositySettings
 {
 	[CommandOption("-c|--count <COUNT>")]
 	[Description("The number of GUIDs to generate (defaults to 1).")]

@@ -3,7 +3,7 @@ using TextCopy;
 
 namespace D20Tek.Tools.UnitTests.CreateGuid.Fakes;
 
-internal class FakeClipboard : IClipboard
+internal sealed class FakeClipboard : IClipboard
 {
     private string? _clipboardText = null;
 

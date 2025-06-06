@@ -1,6 +1,6 @@
 namespace D20Tek.Tools.CreateGuid.Services;
 
-internal class GuidGenerator : IGuidGenerator
+internal sealed class GuidGenerator : IGuidGenerator
 {
 	public IEnumerable<Guid> GenerateGuids(int guidCount, bool useEmptyGuid, bool isUuidV7)
 	{

@@ -3,7 +3,7 @@ using D20Tek.Tools.CreateGuid.Commands;
 
 namespace D20Tek.Tools.CreateGuid;
 
-public class Program
+public sealed class Program
 {
     public static async Task<int> Main(string[] args)
     {

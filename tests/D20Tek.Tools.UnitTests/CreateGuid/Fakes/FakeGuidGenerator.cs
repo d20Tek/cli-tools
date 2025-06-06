@@ -2,7 +2,7 @@
 
 namespace D20Tek.Tools.UnitTests.CreateGuid.Fakes;
 
-internal class FakeGuidGenerator : IGuidGenerator
+internal sealed class FakeGuidGenerator : IGuidGenerator
 {
     private readonly Guid[] _guids;
 

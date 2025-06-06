@@ -3,7 +3,7 @@
 namespace D20Tek.Tools.UnitTests.CreateGuid;
 
 [TestClass]
-public class GuidGeneratorTests
+public sealed class GuidGeneratorTests
 {
     [TestMethod]
     public void GenerateGuids_WithCountOne_ReturnsOneGuid()

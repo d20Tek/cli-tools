@@ -25,7 +25,7 @@ internal class FakeCreateGuidStartup : StartupBase
     }
 }
 
-internal class FakeCreateGuidNoClipboardStartup : FakeCreateGuidStartup
+internal sealed class FakeCreateGuidNoClipboardStartup : FakeCreateGuidStartup
 {
     public override void ConfigureServices(ITypeRegistrar registrar)
     {

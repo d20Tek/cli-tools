@@ -4,7 +4,7 @@ using Spectre.Console;
 namespace D20Tek.Tools.UnitTests.CreateGuid;
 
 [TestClass]
-public class End2EndTests
+public sealed class End2EndTests
 {
     [TestMethod]
     [TestCategory("E2E")]
