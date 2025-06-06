@@ -1,4 +1,4 @@
-﻿using D20Tek.Tools.CreateGuid.Services;
+﻿using D20Tek.Tools.CreateGuid.Contracts;
 
 namespace D20Tek.Tools.UnitTests.CreateGuid.Fakes;
 

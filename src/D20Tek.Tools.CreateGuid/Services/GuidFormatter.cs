@@ -1,3 +1,5 @@
+using D20Tek.Tools.CreateGuid.Contracts;
+
 namespace D20Tek.Tools.CreateGuid.Services;
 
 internal sealed class GuidFormatter : IGuidFormatter

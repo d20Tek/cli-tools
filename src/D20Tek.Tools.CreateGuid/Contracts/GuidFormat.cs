@@ -1,4 +1,4 @@
-namespace D20Tek.Tools.CreateGuid;
+namespace D20Tek.Tools.CreateGuid.Contracts;
 
 public enum GuidFormat
 {

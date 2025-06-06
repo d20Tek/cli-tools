@@ -1,4 +1,4 @@
-namespace D20Tek.Tools.CreateGuid.Services;
+namespace D20Tek.Tools.CreateGuid.Contracts;
 
 public interface IGuidGenerator
 {

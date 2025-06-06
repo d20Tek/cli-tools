@@ -1,4 +1,5 @@
-﻿using D20Tek.Tools.CreateGuid;
+﻿using D20Tek.Tools.CreateGuid.Contracts;
+using D20Tek.Tools.CreateGuid.Services;
 
 namespace D20Tek.Tools.UnitTests.CreateGuid;
 

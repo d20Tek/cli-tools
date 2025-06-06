@@ -1,5 +1,5 @@
 using D20Tek.Spectre.Console.Extensions.Services;
-using D20Tek.Tools.CreateGuid.Services;
+using D20Tek.Tools.CreateGuid.Contracts;
 using Spectre.Console.Cli;
 using TextCopy;
 

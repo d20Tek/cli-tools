@@ -1,6 +1,6 @@
 ﻿using D20Tek.Spectre.Console.Extensions;
 using D20Tek.Spectre.Console.Extensions.Testing;
-using D20Tek.Tools.CreateGuid.Services;
+using D20Tek.Tools.CreateGuid.Contracts;
 using D20Tek.Tools.UnitTests.CreateGuid.Fakes;
 using Microsoft.Extensions.DependencyInjection;
 using TextCopy;

@@ -1,4 +1,6 @@
-namespace D20Tek.Tools.CreateGuid;
+using D20Tek.Tools.CreateGuid.Contracts;
+
+namespace D20Tek.Tools.CreateGuid.Services;
 
 internal static class GuidFormatExtensions
 {
