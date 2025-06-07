@@ -5,6 +5,7 @@ using System.Diagnostics.CodeAnalysis;
 namespace D20Tek.Tools.UnitTests.CreateGuid;
 
 [TestClass]
+[ExcludeFromCodeCoverage]
 public sealed class End2EndTests
 {
     [TestMethod]
@@ -22,7 +23,6 @@ public sealed class End2EndTests
     }
 
     [TestMethod]
-    [ExcludeFromCodeCoverage]
     public async Task Run_WithCountArgs()
     {
         // arrange
