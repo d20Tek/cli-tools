@@ -15,13 +15,13 @@ Run create-guid in your favorite console window.
 Install globally using the .NET CLI:
 
 ```bash
-dotnet tool install --global D20Tek.Tools.CreateGuid
+dotnet tool install --global create-guid
 ```
 
 To update the tool:
 
 ```bash
-dotnet tool update --global D20Tek.Tools.CreateGuid
+dotnet tool update --global create-guid
 ```
 
 ## Usage
