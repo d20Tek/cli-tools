@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "D20Tek.NuGet.Portfolio": {
+      "commandName": "Project",
+      "commandLineArgs": ""
+    }
+  }
+}
