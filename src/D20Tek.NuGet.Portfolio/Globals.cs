@@ -1,8 +1,9 @@
-﻿global using D20Tek.NuGet.Portfolio.Common;
+﻿global using D20Tek.Functional;
+global using D20Tek.NuGet.Portfolio.Common;
 global using D20Tek.Spectre.Console.Extensions;
 global using Spectre.Console;
 global using Spectre.Console.Cli;
-
+global using System.ComponentModel;
 
 namespace D20Tek.NuGet.Portfolio;
 
@@ -18,7 +19,9 @@ internal static class Globals
 
     public const string AppVersion = "1.0.12";
 
-    public const string AppInitializeSuccessMsg = "How are your NuGet packages doing today?";
+    public const string AppInitializeSuccessMsg = "How are your NuGet packages performing today?";
+
+    public const string AppGetStartedMsg = "[green]Running interactive mode.[/] Type 'exit' to quit or '--help' to see available commands.";
 
     public const string AppPrompt = "nu-port>";
 }

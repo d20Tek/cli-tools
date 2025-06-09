@@ -9,11 +9,8 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="D20Tek.Functional" Version="0.9.15" />
     <PackageReference Include="D20Tek.Spectre.Console.Extensions" Version="1.50.1.2" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Features\Collections\" />
   </ItemGroup>
 
 </Project>
