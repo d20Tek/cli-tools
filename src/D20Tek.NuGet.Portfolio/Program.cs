@@ -2,6 +2,7 @@
 using D20Tek.NuGet.Portfolio.Features;
 using D20Tek.NuGet.Portfolio.Persistence;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 namespace D20Tek.NuGet.Portfolio;
 
@@ -9,7 +10,12 @@ public sealed class Program
 {
     public static async Task<int> Main(string[] args)
     {
-        var services = new ServiceCollection().AddDatabase();
+        var services = new ServiceCollection().AddDatabase()
+                                              .AddLogging(config =>
+                                              {
+                                                  config.AddConsole();
+                                                  config.SetMinimumLevel(LogLevel.Information);
+                                              });
         return await new CommandAppBuilder().WithDIContainer(services)
                                      .WithStartup<Startup>()
                                      .WithDefaultCommand<InteractiveCommand>()

@@ -1,19 +1,24 @@
 ﻿using D20Tek.NuGet.Portfolio.Domain;
 using D20Tek.NuGet.Portfolio.Persistence.Configurations;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 
 namespace D20Tek.NuGet.Portfolio.Persistence;
 
 internal sealed class AppDbContext : DbContext
 {
+    private readonly ILogger<AppDbContext> _logger;
+
     public DbSet<CollectionEntity> Collections { get; set; }
 
     public DbSet<TrackedPackageEntity> TrackedPackages { get; set; }
 
     public DbSet<PackageSnapshotEntity> PackageSnapshots { get; set; }
 
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options)
+    public AppDbContext(DbContextOptions<AppDbContext> options, ILogger<AppDbContext> logger)
+        : base(options)
     {
+        _logger = logger;
     }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) =>
@@ -21,20 +26,20 @@ internal sealed class AppDbContext : DbContext
                     .ApplyConfiguration(new TrackedPackageConfiguration())
                     .ApplyConfiguration(new PackageSnapshotConfiguration());
 
-    internal void ApplyMigrations(IAnsiConsole console)
+    internal void ApplyMigrations()
     {
         try
         {
             if (Database.GetPendingMigrations().Any())
             {
-                console.WriteLine("Checking for pending migrations...");
+                _logger.LogInformation("Performing database changes...");
                 Database.Migrate();
-                console.WriteLine("Database is up to date.");
+                _logger.LogInformation("Database ready.");
             }
         }
         catch (Exception ex)
         {
-            console.WriteLine($"Migration failed: {ex.Message}");
+            _logger.LogError($"Migration failed: {ex.Message}");
             throw;
         }
     }
