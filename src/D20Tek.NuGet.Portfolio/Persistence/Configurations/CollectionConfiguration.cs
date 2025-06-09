@@ -2,7 +2,7 @@
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
-namespace HabitTracker.Api.Persistence.Configurations;
+namespace D20Tek.NuGet.Portfolio.Persistence.Configurations;
 
 internal class CollectionConfiguration : IEntityTypeConfiguration<CollectionEntity>
 {
