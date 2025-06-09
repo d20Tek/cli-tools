@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="D20Tek.Spectre.Console.Extensions" Version="1.50.1.2" />
+    <PackageReference Include="D20Tek.Spectre.Console.Extensions" Version="1.50.1.3" />
     <PackageReference Include="TextCopy" Version="6.2.1" />
   </ItemGroup>
 
