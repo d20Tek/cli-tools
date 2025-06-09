@@ -1,5 +1,4 @@
 ﻿global using D20Tek.Functional;
-global using D20Tek.NuGet.Portfolio.Common;
 global using D20Tek.Spectre.Console.Extensions;
 global using Spectre.Console;
 global using Spectre.Console.Cli;
@@ -24,4 +23,6 @@ internal static class Globals
     public const string AppGetStartedMsg = "[green]Running interactive mode.[/] Type 'exit' to quit or '--help' to see available commands.";
 
     public const string AppPrompt = "nu-port>";
+
+    public const string AppExitMessage = "Bye!";
 }

@@ -1,4 +1,6 @@
-﻿namespace D20Tek.NuGet.Portfolio.Configuration;
+﻿using D20Tek.NuGet.Portfolio.Features;
+
+namespace D20Tek.NuGet.Portfolio.Configuration;
 
 internal static class CommandsConfiguration
 {

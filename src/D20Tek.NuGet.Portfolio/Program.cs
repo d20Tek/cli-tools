@@ -1,4 +1,6 @@
-﻿namespace D20Tek.NuGet.Portfolio;
+﻿using D20Tek.NuGet.Portfolio.Features;
+
+namespace D20Tek.NuGet.Portfolio;
 
 public sealed class Program
 {
