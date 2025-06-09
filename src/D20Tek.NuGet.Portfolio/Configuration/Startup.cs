@@ -1,6 +1,4 @@
-﻿using D20Tek.NuGet.Portfolio.Configuration;
-
-namespace D20Tek.NuGet.Portfolio;
+﻿namespace D20Tek.NuGet.Portfolio.Configuration;
 
 internal sealed class Startup : StartupBase
 {

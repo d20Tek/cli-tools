@@ -1,4 +1,5 @@
 ﻿using D20Tek.NuGet.Portfolio.Features;
+using D20Tek.NuGet.Portfolio.Features.Collections;
 
 namespace D20Tek.NuGet.Portfolio.Configuration;
 
@@ -14,6 +15,19 @@ internal static class CommandsConfiguration
         config.AddCommand<InteractiveCommand>("start")
               .WithDescription("Starts an interactive prompt for managing your NuGet Portfolio.")
               .WithExample(["start"]);
+
+        return config.ConfigureCollections();
+    }
+
+    public static IConfigurator ConfigureCollections(this IConfigurator config)
+    {
+        config.AddBranch("collection", bc =>
+                {
+                    bc.AddCommand<AddCollectionCommand>("add")
+                      .WithDescription("Adds a new package collection that can be used for organization and tracking.")
+                      .WithExample(["collection", "add", "--name", "New Collection"]);
+                })
+              .WithAlias("coll");
 
         return config;
     }

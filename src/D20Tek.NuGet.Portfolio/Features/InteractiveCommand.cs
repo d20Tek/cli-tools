@@ -2,7 +2,7 @@
 
 namespace D20Tek.NuGet.Portfolio.Features;
 
-internal class InteractiveCommand : InteractiveCommandBase
+internal sealed class InteractiveCommand : InteractiveCommandBase
 {
     public InteractiveCommand(ICommandApp app, IAnsiConsole console) : base(app, console) { }
 
