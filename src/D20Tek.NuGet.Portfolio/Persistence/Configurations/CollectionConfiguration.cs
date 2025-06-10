@@ -15,7 +15,7 @@ internal class CollectionConfiguration : IEntityTypeConfiguration<CollectionEnti
 
         builder.Property(c => c.Name)
                .IsRequired()
-               .HasMaxLength(32);
+               .HasMaxLength(64);
 
         builder.HasMany(c => c.TrackedPackages)
                .WithOne(tp => tp.Collection)

@@ -16,10 +16,7 @@ public sealed class CollectionEntity
         Name = name;
     }
 
-    public static Result<CollectionEntity> Create(string name)
-    {
-        return Result<CollectionEntity>.Success(new CollectionEntity(0, name));
-    }
+    public static CollectionEntity Create(string name) => new(0, name);
 
     public void Rename(string name)
     {
