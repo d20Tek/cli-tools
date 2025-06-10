@@ -1,4 +1,5 @@
 ﻿global using D20Tek.Functional;
+global using D20Tek.Functional.Async;
 global using D20Tek.Spectre.Console.Extensions;
 global using Spectre.Console;
 global using Spectre.Console.Cli;

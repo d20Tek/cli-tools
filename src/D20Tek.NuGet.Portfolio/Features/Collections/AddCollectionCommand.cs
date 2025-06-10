@@ -1,5 +1,5 @@
-﻿using D20Tek.Functional.Async;
-using D20Tek.NuGet.Portfolio.Common;
+﻿using D20Tek.NuGet.Portfolio.Common;
+using D20Tek.NuGet.Portfolio.Common.Controls;
 using D20Tek.NuGet.Portfolio.Domain;
 using D20Tek.NuGet.Portfolio.Persistence;
 
@@ -24,11 +24,9 @@ internal sealed class AddCollectionCommand : AsyncCommand<AddCollectionCommand.R
     {
         _console.CommandHeader().Render("Add new collection");
         return await request.Pipe(GetRequestInput)
-                            .Pipe(r => CollectionEntity.Create(r.Name))
-                            .Map(SaveEntity)
-                            .MatchAsync(
-                                s => { _console.MarkupLine($"[green]Success![/] Created a new collection: '{request.Name}'"); return Task.FromResult(Globals.S_OK); },
-                                e => { _console.MarkupLine($"[red]Error:[/] {e.First().Message}"); return Task.FromResult(Globals.E_FAIL); });
+                            .Pipe(r => Task.FromResult(CollectionEntity.Create(r.Name)))
+                            .BindAsync(SaveEntity)
+                            .RenderAsync(_console, s => $"Created a new collection: '{s.Name}' [Id: {s.Id}].");
     }
 
     private Request GetRequestInput(Request request)
