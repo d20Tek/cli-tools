@@ -20,4 +20,8 @@
     <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.5" />
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="D20Tek.Tools.UnitTests" />
+  </ItemGroup>
+
 </Project>

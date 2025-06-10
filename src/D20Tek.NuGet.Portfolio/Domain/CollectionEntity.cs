@@ -21,14 +21,15 @@ public sealed class CollectionEntity
     public static Result<CollectionEntity> Create(string name) =>
         Validate(name).Map(() => new CollectionEntity(0, name));
 
+    public Result<CollectionEntity> Rename(string name) =>
+        Validate(name).Map(() =>
+        {
+            Name = name;
+            return this;
+        });
+
     private static ValidationErrors Validate(string name) =>
         ValidationErrors.Create()
                         .AddIfError(() => string.IsNullOrEmpty(name), Errors.CollectionNameRequired)
                         .AddIfError(() => name.Length > NameMaxLength, Errors.CollectionNameMaxLength);
-
-    public void Rename(string name)
-    {
-        ArgumentNullException.ThrowIfNullOrEmpty(name);
-        Name = name;
-    }
 }

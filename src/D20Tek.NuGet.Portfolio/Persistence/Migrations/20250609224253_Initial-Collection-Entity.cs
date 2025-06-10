@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics.CodeAnalysis;
 using Microsoft.EntityFrameworkCore.Migrations;
 
 #nullable disable
@@ -6,6 +7,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace D20Tek.NuGet.Portfolio.Persistence.Migrations
 {
     /// <inheritdoc />
+    [ExcludeFromCodeCoverage]
     public partial class InitialCollectionEntity : Migration
     {
         /// <inheritdoc />

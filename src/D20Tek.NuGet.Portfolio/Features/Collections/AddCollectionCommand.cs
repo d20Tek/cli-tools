@@ -31,7 +31,7 @@ internal sealed class AddCollectionCommand : AsyncCommand<AddCollectionCommand.R
 
     private Request GetRequestInput(Request request)
     {
-        request.Name = _console.AskIfDefault<string>(request.Name, "Enter the new collection's name:");
+        request.Name = _console.AskIfDefault(request.Name, "Enter the new collection's name:");
         return request;
     }
 
