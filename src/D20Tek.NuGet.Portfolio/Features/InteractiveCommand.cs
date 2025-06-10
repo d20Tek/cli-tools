@@ -13,8 +13,7 @@ internal sealed class InteractiveCommand : InteractiveCommandBase
     }
 
     protected override void ShowWelcomeMessage(IAnsiConsole console) =>
-        console.ToIdentity().Iter(_ => _dbContext.ApplyMigrations())
-                            .Iter(c => c.Clear())
+        console.ToIdentity().Iter(c => c.Clear())
                             .Iter(c => c.Write(new FigletText(Globals.AppTitle).Centered().Color(Color.Green)))
                             .Iter(c => c.MarkupLine(Globals.AppInitializeSuccessMsg))
                             .Iter(c => c.MarkupLine(Globals.AppGetStartedMsg));
