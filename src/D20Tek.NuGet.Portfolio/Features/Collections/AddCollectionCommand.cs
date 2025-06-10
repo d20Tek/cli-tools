@@ -24,8 +24,8 @@ internal sealed class AddCollectionCommand : AsyncCommand<AddCollectionCommand.R
     {
         _console.CommandHeader().Render("Add new collection");
         return await request.Pipe(GetRequestInput)
-                            .Pipe(Validate)
-                            .Map(CreateEntity)
+                            .Pipe(r => CollectionEntity.Create(r.Name))
+                            .Map(SaveEntity)
                             .MatchAsync(
                                 s => { _console.MarkupLine($"[green]Success![/] Created a new collection: '{request.Name}'"); return Task.FromResult(Globals.S_OK); },
                                 e => { _console.MarkupLine($"[red]Error:[/] {e.First().Message}"); return Task.FromResult(Globals.E_FAIL); });
@@ -33,33 +33,15 @@ internal sealed class AddCollectionCommand : AsyncCommand<AddCollectionCommand.R
 
     private Request GetRequestInput(Request request)
     {
-        if (string.IsNullOrEmpty(request.Name))
-        {
-            _console.WriteLine("Enter the new collection's name:");
-            request.Name = _console.Ask<string>(Globals.AppPrompt);
-        }
-
+        request.Name = _console.AskIfDefault<string>(request.Name, "Enter the new collection's name:");
         return request;
     }
 
-    private Result<Request> Validate(Request request) =>
-        ValidationErrors.Create()
-                        .AddIfError(() => string.IsNullOrEmpty(request.Name), Error.Validation("Collection.Name.Required", "The collection name is required."))
-                        .AddIfError(() => request.Name.Length > 64, Error.Validation("Collection.Name.MaxLength", "The collection name must be 64 characters or less."))
-                        .Map(() => request);
-
-    private async Task<Result<CollectionEntity>> CreateEntity(Request request)
-    {
-        try
+    private async Task<Result<CollectionEntity>> SaveEntity(CollectionEntity entity) =>
+        await TryAsync.RunAsync(async () =>
         {
-            var entity = CollectionEntity.Create(request.Name);
             var result = _dbContext.Collections.Add(entity);
             await _dbContext.SaveChangesAsync();
             return Result<CollectionEntity>.Success(result.Entity);
-        }
-        catch (Exception ex)
-        {
-            return Result<CollectionEntity>.Failure(ex);
-        }
-    }
+        });
 }

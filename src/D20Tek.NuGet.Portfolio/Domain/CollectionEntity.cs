@@ -2,7 +2,9 @@
 
 public sealed class CollectionEntity
 {
-    public int Id { get; }
+    public const int NameMaxLength = 64;
+
+    public int Id { get; private set; }
 
     public string Name { get; private set; }
 
@@ -16,7 +18,13 @@ public sealed class CollectionEntity
         Name = name;
     }
 
-    public static CollectionEntity Create(string name) => new(0, name);
+    public static Result<CollectionEntity> Create(string name) =>
+        Validate(name).Map(() => new CollectionEntity(0, name));
+
+    private static ValidationErrors Validate(string name) =>
+        ValidationErrors.Create()
+                        .AddIfError(() => string.IsNullOrEmpty(name), Errors.CollectionNameRequired)
+                        .AddIfError(() => name.Length > NameMaxLength, Errors.CollectionNameMaxLength);
 
     public void Rename(string name)
     {
