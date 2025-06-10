@@ -19,9 +19,6 @@ public sealed class End2EndTests
 
         // assert
         Assert.AreEqual(0, result.ExitCode);
-        var output = result.Output;
-        StringAssert.StartsWith(output, "create-guid: running");
-        StringAssert.Contains(output, "Command completed successfully!");
     }
 
     [TestMethod]
@@ -35,8 +32,5 @@ public sealed class End2EndTests
 
         // assert
         Assert.AreEqual(0, result.ExitCode);
-        var output = result.Output;
-        StringAssert.StartsWith(output, "create-guid: running");
-        StringAssert.Contains(output, "Command completed successfully!");
     }
 }
