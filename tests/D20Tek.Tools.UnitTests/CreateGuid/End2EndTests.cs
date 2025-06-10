@@ -14,12 +14,14 @@ public sealed class End2EndTests
         // arrange
 
         // act
+        await Task.Delay(100);
         var result = await CommandAppE2ERunner.RunAsync(Program.Main, []);
 
         // assert
         Assert.AreEqual(0, result.ExitCode);
-        StringAssert.StartsWith(result.Output, "create-guid: running");
-        StringAssert.Contains(result.Output, "Command completed successfully!");
+        var output = result.Output;
+        StringAssert.StartsWith(output, "create-guid: running");
+        StringAssert.Contains(output, "Command completed successfully!");
     }
 
     [TestMethod]
@@ -33,7 +35,8 @@ public sealed class End2EndTests
 
         // assert
         Assert.AreEqual(0, result.ExitCode);
-        StringAssert.StartsWith(result.Output, "create-guid: running");
-        StringAssert.Contains(result.Output, "Command completed successfully!");
+        var output = result.Output;
+        StringAssert.StartsWith(output, "create-guid: running");
+        StringAssert.Contains(output, "Command completed successfully!");
     }
 }
