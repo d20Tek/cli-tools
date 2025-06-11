@@ -14,7 +14,6 @@ public sealed class End2EndTests
         // arrange
 
         // act
-        await Task.Delay(100);
         var result = await CommandAppE2ERunner.RunAsync(Program.Main, []);
 
         // assert

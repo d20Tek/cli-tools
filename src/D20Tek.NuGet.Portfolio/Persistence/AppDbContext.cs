@@ -35,12 +35,27 @@ internal sealed class AppDbContext : DbContext
                 _logger.LogInformation("Performing database changes...");
                 Database.Migrate();
                 _logger.LogInformation("Database ready.");
+                _logger.LogInformation("Seeding intial data.");
+                SeedRequiredData();
             }
         }
         catch (Exception ex)
         {
             _logger.LogError($"Migration failed: {ex.Message}");
             throw;
+        }
+    }
+
+    private void SeedRequiredData()
+    {
+        if (Collections.Any() is false)
+        {
+            CollectionEntity.Create("Default")
+                            .Iter(c =>
+                            {
+                                Collections.Add(c);
+                                SaveChanges();
+                            });
         }
     }
 }
