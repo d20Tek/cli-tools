@@ -35,9 +35,6 @@ internal static class ResultPresenter
         return Globals.E_FAIL;
     }
 
-    private static int RenderError(IAnsiConsole console, Error error)
-    {
+    private static void RenderError(IAnsiConsole console, Error error) =>
         console.MarkupLine($"[red]Error[/]: {Markup.Escape(error.Message)}");
-        return Globals.E_FAIL;
-    }
 }

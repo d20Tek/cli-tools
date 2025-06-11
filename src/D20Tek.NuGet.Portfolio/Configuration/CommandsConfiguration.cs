@@ -23,6 +23,10 @@ internal static class CommandsConfiguration
     {
         config.AddBranch("collection", bc =>
                 {
+                    bc.AddCommand<ListCollectionsCommand>("list")
+                      .WithDescription("Lists all of your package collections.")
+                      .WithExample(["collection", "list"]);
+
                     bc.AddCommand<AddCollectionCommand>("add")
                       .WithDescription("Adds a new package collection that can be used for organization and tracking.")
                       .WithExample(["collection", "add", "--name", "New Collection"]);

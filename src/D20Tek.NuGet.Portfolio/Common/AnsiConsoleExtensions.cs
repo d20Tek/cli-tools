@@ -6,10 +6,11 @@ internal static class AnsiConsoleExtensions
 {
     public static CommandHeader CommandHeader(this IAnsiConsole console) => new(console);
 
-    public static T AskIfDefault<T>(this IAnsiConsole console, T value, string label)
-    {
-        if (value.IsDefault() is false) return value;
+    public static T AskIfDefault<T>(this IAnsiConsole console, T value, string label) =>
+        (value.IsDefault() is false) ? value : console.AskWithLabel<T>(label);
 
+    private static T AskWithLabel<T>(this IAnsiConsole console, string label)
+    {
         console.WriteLine(label);
         return console.Ask<T>(Globals.AppPrompt);
     }
