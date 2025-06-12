@@ -31,7 +31,7 @@ public class ListCollectionsCommandTests
     public async Task ExecuteAsync_WithDefaultCollection_ShouldPrintDefaultCollection()
     {
         // arrange
-        var db = InitializeDatabase([CollectionEntity.Create("Default").GetValue()]);
+        var db = InMemoryDbContext.InitializeDatabase([CollectionEntity.Create("Default").GetValue()]);
         var context = CommandAppContextFactory.CreateWithMemoryDb(db);
 
         // act
@@ -49,7 +49,7 @@ public class ListCollectionsCommandTests
     public async Task ExecuteAsync_WithMultipleCollections_ShouldPrintsAllCollections()
     {
         // arrange
-        var db = InitializeDatabase(
+        var db = InMemoryDbContext.InitializeDatabase(
             [
                 CollectionEntity.Create("Test-Collection-1").GetValue(),
                 CollectionEntity.Create("Test-Collection-2").GetValue(),
@@ -69,9 +69,4 @@ public class ListCollectionsCommandTests
         StringAssert.Contains(result.Output, "Test-Collection-3");
         StringAssert.Contains(result.Output, "3 collections retrieved.");
     }
-
-    private AppDbContext InitializeDatabase(CollectionEntity[] entities) =>
-        InMemoryDbContext.Create().ToIdentity()
-                         .Iter(db => entities.ForEach(e => db.Collections.Add(e)))
-                         .Iter(db => db.SaveChanges());
 }

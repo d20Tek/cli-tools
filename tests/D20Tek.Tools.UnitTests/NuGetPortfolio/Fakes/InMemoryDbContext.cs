@@ -1,4 +1,6 @@
-﻿using D20Tek.NuGet.Portfolio.Persistence;
+﻿using D20Tek.Functional;
+using D20Tek.NuGet.Portfolio.Domain;
+using D20Tek.NuGet.Portfolio.Persistence;
 using Microsoft.Data.Sqlite;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging.Abstractions;
@@ -24,4 +26,9 @@ internal static class InMemoryDbContext
         context.Database.EnsureCreated();
         return context;
     }
+
+    public static AppDbContext InitializeDatabase(CollectionEntity[] entities) =>
+        InMemoryDbContext.Create().ToIdentity()
+                         .Iter(db => entities.ForEach(e => db.Collections.Add(e)))
+                         .Iter(db => db.SaveChanges());
 }
