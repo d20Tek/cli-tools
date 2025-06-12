@@ -1,7 +1,5 @@
-﻿using D20Tek.Functional;
-using D20Tek.NuGet.Portfolio;
+﻿using D20Tek.NuGet.Portfolio;
 using D20Tek.NuGet.Portfolio.Domain;
-using D20Tek.NuGet.Portfolio.Persistence;
 using D20Tek.Tools.UnitTests.NuGetPortfolio.Fakes;
 
 namespace D20Tek.Tools.UnitTests.NuGetPortfolio.Features.Collections;

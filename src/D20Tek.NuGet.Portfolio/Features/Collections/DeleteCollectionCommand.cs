@@ -20,12 +20,12 @@ internal sealed class DeleteCollectionCommand : AsyncCommand<DeleteCollectionCom
     public DeleteCollectionCommand(IAnsiConsole console, AppDbContext dbContext) =>
         (_console, _dbContext) = (console, dbContext);
 
-    public override Task<int> ExecuteAsync(CommandContext context, CollectionId id)
+    public override async Task<int> ExecuteAsync(CommandContext context, CollectionId id)
     {
         _console.CommandHeader().Render("Delete collection");
-        return id.Pipe(i => EnsureIdInput(i))
-                 .Pipe(i => DeleteEntity(i))
-                 .RenderAsync(_console, s => $"Collection deleted: '{s.Name}' [Id: {s.Id}].");
+        return await id.Pipe(i => EnsureIdInput(i))
+                       .Pipe(i => DeleteEntity(i))
+                       .RenderAsync(_console, s => $"Collection deleted: '{s.Name}' [Id: {s.Id}].");
     }
 
     private CollectionId EnsureIdInput(Identity<CollectionId> id) =>

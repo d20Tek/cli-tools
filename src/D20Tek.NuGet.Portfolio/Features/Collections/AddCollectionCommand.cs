@@ -7,18 +7,18 @@ namespace D20Tek.NuGet.Portfolio.Features.Collections;
 
 internal sealed class AddCollectionCommand : AsyncCommand<AddCollectionCommand.Request>
 {
-    private readonly IAnsiConsole _console;
-    private readonly AppDbContext _dbContext;
-
-    public AddCollectionCommand(IAnsiConsole console, AppDbContext dbContext) =>
-        (_console, _dbContext) = (console, dbContext);
-
-    internal class Request : CommandSettings
+    internal sealed class Request : CommandSettings
     {
         [CommandOption("-n|--name")]
         [Description("The collection's name property.")]
         public string Name { get; set; } = "";
     }
+
+    private readonly IAnsiConsole _console;
+    private readonly AppDbContext _dbContext;
+
+    public AddCollectionCommand(IAnsiConsole console, AppDbContext dbContext) =>
+        (_console, _dbContext) = (console, dbContext);
 
     public override async Task<int> ExecuteAsync(CommandContext context, Request request)
     {

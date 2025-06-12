@@ -22,7 +22,7 @@ internal sealed class ListCollectionsCommand : AsyncCommand
     private async Task<Result<CollectionEntity[]>> GetCollections() =>
         await TryAsync.RunAsync(async () =>
         {
-            var colls = await _dbContext.Collections.ToArrayAsync();
+            var colls = await _dbContext.Collections.AsNoTracking().ToArrayAsync();
             return Result<CollectionEntity[]>.Success(colls);
         });
 
