@@ -16,10 +16,8 @@ internal sealed class AppDbContext : DbContext
     public DbSet<PackageSnapshotEntity> PackageSnapshots { get; set; }
 
     public AppDbContext(DbContextOptions<AppDbContext> options, ILogger<AppDbContext> logger)
-        : base(options)
-    {
+        : base(options) => 
         _logger = logger;
-    }
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) =>
         modelBuilder.ApplyConfiguration(new CollectionConfiguration())

@@ -10,16 +10,12 @@ internal sealed class AppContextFactory : IDesignTimeDbContextFactory<AppDbConte
     private readonly string _connection;
 
     [ExcludeFromCodeCoverage]
-    public AppContextFactory(string? connection = null)
-    {
+    public AppContextFactory(string? connection = null) => 
         _connection = connection ?? "Data Source=nu-port.db";
-    }
 
-    public AppDbContext CreateDbContext(string[] args)
-    {
-        var optionsBuilder = new DbContextOptionsBuilder<AppDbContext>();
-        optionsBuilder.UseSqlite(_connection);
-
-        return new AppDbContext(optionsBuilder.Options, new NullLogger<AppDbContext>());
-    }
+    public AppDbContext CreateDbContext(string[] args) =>
+        new(new DbContextOptionsBuilder<AppDbContext>()
+                .UseSqlite(_connection)
+                .Options,
+            new NullLogger<AppDbContext>());
 }

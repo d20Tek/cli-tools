@@ -29,11 +29,8 @@ internal sealed class AddCollectionCommand : AsyncCommand<AddCollectionCommand.R
                             .RenderAsync(_console, s => $"Created a new collection: '{s.Name}' [Id: {s.Id}].");
     }
 
-    private Request GetRequestInput(Request request)
-    {
-        request.Name = _console.AskIfDefault(request.Name, "Enter the new collection's name:");
-        return request;
-    }
+    private Request GetRequestInput(Request request) =>
+        request.ToIdentity().Iter(r => r.Name = _console.AskIfDefault(r.Name, "Enter the new collection's name:"));
 
     private async Task<Result<CollectionEntity>> SaveEntity(CollectionEntity entity) =>
         await TryAsync.RunAsync(async () =>

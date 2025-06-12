@@ -12,6 +12,7 @@ public sealed class End2EndTests
     public async Task Run_WithDefaultArgs()
     {
         // arrange
+        await Task.Delay(100);
 
         // act
         var result = await CommandAppE2ERunner.RunAsync(Program.Main, []);
