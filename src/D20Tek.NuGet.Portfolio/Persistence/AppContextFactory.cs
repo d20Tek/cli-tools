@@ -9,9 +9,9 @@ internal sealed class AppContextFactory : IDesignTimeDbContextFactory<AppDbConte
 {
     private readonly string _connection;
 
-    [ExcludeFromCodeCoverage]
     public AppContextFactory(string connection) => _connection = connection;
 
+    [ExcludeFromCodeCoverage]
     public AppContextFactory() => _connection = "Data Source=nu-port.db";
 
     public AppDbContext CreateDbContext(string[] args) =>
