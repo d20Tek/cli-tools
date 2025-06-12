@@ -30,6 +30,11 @@ internal static class CommandsConfiguration
                     bc.AddCommand<AddCollectionCommand>("add")
                       .WithDescription("Adds a new package collection that can be used for organization and tracking.")
                       .WithExample(["collection", "add", "--name", "New Collection"]);
+
+                    bc.AddCommand<DeleteCollectionCommand>("delete")
+                      .WithAlias("del")
+                      .WithDescription("Deletes a package collection by its id.")
+                      .WithExample(["collection", "delete", "--id", "123"]);
                 })
               .WithAlias("coll");
 
