@@ -35,13 +35,13 @@ internal sealed class EditCollectionCommand : AsyncCommand<EditCollectionCommand
     }
 
     private Request GetRequestInput(Request request) =>
-        request.ToIdentity().Iter(r => r.Id = _console.AskIfDefault(r.Id, "Id of collection to edit:"))
-                            .Iter(r => r.Name = _console.AskIfDefault(r.Name, "Updated collection's name:"));
+        request.ToIdentity().Iter(r => r.Name = _console.AskIfDefault(r.Name, "Updated collection's name:"));
 
     private Result<CollectionEntity> GetEntity(int id) =>
-        _dbContext.Collections.FirstOrDefault(c => c.Id == id)?
-            .Pipe(Result<CollectionEntity>.Success)
-                ?? Result<CollectionEntity>.Failure(Errors.EntityNotFound(nameof(CollectionEntity), id));
+        _console.AskIfDefault(id, "Id of collection to edit:")
+                .Pipe(i => _dbContext.Collections.FirstOrDefault(c => c.Id == i)?
+                           .Pipe(Result<CollectionEntity>.Success)
+                               ?? Result<CollectionEntity>.Failure(Errors.EntityNotFound(nameof(CollectionEntity), i)));
 
     private async Task<Result<CollectionEntity>> UpdateEntity(CollectionEntity entity) =>
         await TryAsync.RunAsync(async () =>

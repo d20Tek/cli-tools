@@ -46,8 +46,8 @@ public class EditCollectionCommandTests
     {
         // arrange
         var context = CommandAppContextFactory.CreateWithMemoryDb(CreateDatabaseWithCollections());
-        context.Console.TestInput.PushTextWithEnter("2");
         context.Console.TestInput.PushTextWithEnter("Interactive collection");
+        context.Console.TestInput.PushTextWithEnter("2");
 
         // act
         var result = await context.RunAsync(["collection", "edit"]);
