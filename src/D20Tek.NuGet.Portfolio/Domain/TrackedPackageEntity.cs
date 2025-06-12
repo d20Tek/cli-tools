@@ -2,15 +2,34 @@
 
 public sealed class TrackedPackageEntity
 {
-    public int Id { get; set; }
+    public int Id { get; private set; }
 
-    public string PackageId { get; set; } = string.Empty;
+    public string PackageId { get; private set; } = string.Empty;
 
-    public DateTime DateAdded { get; set; }
+    public DateOnly DateAdded { get; private set; }
 
-    public int CollectionId { get; set; }
+    public int CollectionId { get; private set; }
 
-    public CollectionEntity Collection { get; set; } = null!;
+    // EF navigation property (required by EF)
+    public CollectionEntity Collection { get; private set; } = null!;
 
-    public List<PackageSnapshotEntity> Snapshots { get; set; } = new();
+    // Navigation collection property (must have setter or be initialized)
+    public List<PackageSnapshotEntity> Snapshots { get; private set; } = [];
+
+    private TrackedPackageEntity()
+    {
+    }
+
+    private TrackedPackageEntity(string packageId, DateOnly dateAdded, int collectionId)
+    {
+        ArgumentNullException.ThrowIfNullOrEmpty(packageId, nameof(packageId));
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(collectionId, nameof(collectionId));
+
+        PackageId = packageId;
+        DateAdded = dateAdded;
+        CollectionId = collectionId;
+    }
+
+    public static TrackedPackageEntity Create(string packageId, int collectionId) =>
+        new(packageId, DateOnly.FromDateTime(DateTimeOffset.Now.LocalDateTime), collectionId);
 }
