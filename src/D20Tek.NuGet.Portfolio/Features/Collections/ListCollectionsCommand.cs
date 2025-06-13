@@ -1,6 +1,4 @@
-﻿using D20Tek.NuGet.Portfolio.Common;
-using D20Tek.NuGet.Portfolio.Common.Controls;
-using D20Tek.NuGet.Portfolio.Domain;
+﻿using D20Tek.NuGet.Portfolio.Domain;
 using D20Tek.NuGet.Portfolio.Persistence;
 using Microsoft.EntityFrameworkCore;
 

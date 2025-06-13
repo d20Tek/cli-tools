@@ -2,6 +2,8 @@
 
 public sealed class TrackedPackageEntity
 {
+    public const int PackageIdMaxLength = 256;
+
     public int Id { get; private set; }
 
     public string PackageId { get; private set; } = string.Empty;
@@ -30,6 +32,18 @@ public sealed class TrackedPackageEntity
         CollectionId = collectionId;
     }
 
-    public static TrackedPackageEntity Create(string packageId, int collectionId) =>
-        new(packageId, DateOnly.FromDateTime(DateTimeOffset.Now.LocalDateTime), collectionId);
+    public static Result<TrackedPackageEntity> Create(string packageId, int collectionId) =>
+        Validate(packageId, collectionId)
+            .Map(() => new TrackedPackageEntity(
+                                packageId,
+                                DateOnly.FromDateTime(DateTimeOffset.Now.LocalDateTime),
+                                collectionId));
+
+    private static ValidationErrors Validate(string packageId, int collectionId) =>
+    ValidationErrors.Create()
+                    .AddIfError(() => string.IsNullOrEmpty(packageId), Errors.PackageIdRequired)
+                    .AddIfError(() => packageId.Length > PackageIdMaxLength, Errors.PackageIdMaxLength)
+                    .AddIfError(() => collectionId <= 0, Errors.CollectionIdRequired);
+                    
+
 }
