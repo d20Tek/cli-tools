@@ -2,9 +2,9 @@
 
 namespace D20Tek.NuGet.Portfolio.Configuration;
 
-internal static class CollectionCommandConfiguration
+internal class CollectionCommandConfiguration : ICommandConfiguration
 {
-    public static IConfigurator ConfigureCommands(IConfigurator config)
+    public void Configure(IConfigurator config)
     {
         config.AddBranch("collection", bc =>
         {
@@ -31,9 +31,7 @@ internal static class CollectionCommandConfiguration
               .WithDescription("Deletes a package collection by its id.")
               .WithExample(["collection", "delete", "--id", "123"]);
         })
-              .WithAlias("coll")
-              .WithAlias("c");
-
-        return config;
+        .WithAlias("coll")
+        .WithAlias("c");
     }
 }

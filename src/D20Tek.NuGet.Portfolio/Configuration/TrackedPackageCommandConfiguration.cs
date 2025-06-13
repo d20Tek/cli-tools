@@ -2,9 +2,9 @@
 
 namespace D20Tek.NuGet.Portfolio.Configuration;
 
-internal static class TrackedPackageCommandConfiguration
+internal class TrackedPackageCommandConfiguration : ICommandConfiguration
 {
-    public static IConfigurator ConfigureCommands(IConfigurator config)
+    public void Configure(IConfigurator config)
     {
         config.AddBranch("package", bc =>
         {
@@ -33,7 +33,5 @@ internal static class TrackedPackageCommandConfiguration
         })
         .WithAlias("pack")
         .WithAlias("p");
-
-        return config;
     }
 }
