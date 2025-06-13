@@ -27,15 +27,15 @@ internal sealed class EditCollectionCommand : AsyncCommand<EditCollectionCommand
     public override async Task<int> ExecuteAsync(CommandContext context, Request request)
     {
         _console.CommandHeader().Render("Edit collection");
-        return await request.Pipe(GetRequestInput)
-                            .Pipe(r => GetEntity(r.Id)
-                                .Bind(entity => entity.Rename(r.Name))
-                                .BindAsync(e => UpdateEntity(e)))
-                            .RenderAsync(_console, s => $"Updated collection: '{s.Name}' [Id: {s.Id}].");
+        return await GetEntity(request.Id)
+            .Bind(entity => GetRequestInput(request, entity).Pipe(input => entity.Rename(input.Name)))
+            .BindAsync(UpdateEntity)
+            .RenderAsync(_console, s => $"Updated collection: '{s.Name}' [Id: {s.Id}].");
     }
 
-    private Request GetRequestInput(Request request) =>
-        request.ToIdentity().Iter(r => r.Name = _console.AskIfDefault(r.Name, "Updated collection's name:"));
+    private Request GetRequestInput(Request request, CollectionEntity prevEntity) =>
+        request.ToIdentity()
+               .Iter(r => r.Name = _console.PromptIfDefault(r.Name, "Updated collection's name:", prevEntity.Name));
 
     private Result<CollectionEntity> GetEntity(int id) =>
         _console.AskIfDefault(id, "Id of collection to edit:")
@@ -49,5 +49,4 @@ internal sealed class EditCollectionCommand : AsyncCommand<EditCollectionCommand
             await _dbContext.SaveChangesAsync();
             return Result<CollectionEntity>.Success(entity);
         });
-
 }

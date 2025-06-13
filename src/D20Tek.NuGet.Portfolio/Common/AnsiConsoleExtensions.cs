@@ -14,6 +14,16 @@ internal static class AnsiConsoleExtensions
                .Iter(c => c.WriteLine(label))
                .Map(c => c.Ask<T>(Globals.AppPrompt));
 
+    public static T PromptIfDefault<T>(this IAnsiConsole console, T value, string label, T previousValue)
+        where T : notnull =>
+        (value.IsDefault() is false) ? value : console.PromptWithLabel<T>(label, previousValue);
+
+    private static T PromptWithLabel<T>(this IAnsiConsole console, string label, T prev) where T : notnull =>
+        console.ToIdentity()
+               .Iter(c => c.MarkupLine($"{label} [green]({prev})[/]"))
+               .Map(c => c.Prompt(
+                   new TextPrompt<T>(Globals.AppPrompt).DefaultValue(prev).HideDefaultValue()));
+
     private static bool IsDefault<T>(this T value) =>
         value switch
         {
