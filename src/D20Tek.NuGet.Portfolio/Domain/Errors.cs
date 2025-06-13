@@ -3,7 +3,7 @@
 internal static class Errors
 {
     public static Error EntityNotFound(string entityType, int id) =>
-        Error.NotFound($"{entityType}.NotFound", $"The entity with id={id} was not found.");
+        Error.NotFound($"{entityType}.NotFound", $"The {entityType} with id={id} was not found.");
 
     public static readonly Error CollectionNameRequired =
         Error.Validation("Collection.Name.Required", "The collection name is required.");
