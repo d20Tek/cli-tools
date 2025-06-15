@@ -84,5 +84,4 @@ public class EditCollectionCommandTests
                 CollectionEntity.Create("Test-Collection-2").GetValue(),
                 CollectionEntity.Create("Test-Collection-3").GetValue()
             ]);
-
 }
