@@ -1,9 +1,9 @@
 ﻿using D20Tek.Functional;
+using D20Tek.NuGet.Portfolio.Configuration;
 using D20Tek.NuGet.Portfolio.Persistence;
+using D20Tek.Spectre.Console.Extensions;
 using D20Tek.Spectre.Console.Extensions.Injection;
 using D20Tek.Spectre.Console.Extensions.Testing;
-using D20Tek.NuGet.Portfolio.Common;
-using D20Tek.NuGet.Portfolio.Configuration;
 using Spectre.Console.Cli;
 
 namespace D20Tek.Tools.UnitTests.NuGetPortfolio.Fakes;
