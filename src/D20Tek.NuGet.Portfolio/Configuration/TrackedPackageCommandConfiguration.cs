@@ -8,10 +8,10 @@ internal class TrackedPackageCommandConfiguration : ICommandConfiguration
     {
         config.AddBranch("package", bc =>
         {
-            //bc.AddCommand<ListTrackedPackagesCommand>("list")
-            //  .WithAlias("ls")
-            //  .WithDescription("Lists all of your tracked packages.")
-            //  .WithExample(["package", "list"]);
+            bc.AddCommand<ListTrackedPackagesCommand>("list")
+              .WithAlias("ls")
+              .WithDescription("Lists all of your tracked packages.")
+              .WithExample(["package", "list"]);
 
             bc.AddCommand<AddTrackedPackageCommand>("add")
               .WithAlias("a")
