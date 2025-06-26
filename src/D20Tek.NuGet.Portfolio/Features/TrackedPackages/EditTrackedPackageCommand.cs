@@ -31,8 +31,7 @@ internal class EditTrackedPackageCommand : AsyncCommand<EditTrackedPackageComman
         _console.CommandHeader().Render("Edit collection");
         return await GetEntity(request.Id)
             .Bind(entity => GetRequestInput(request, entity)
-                                .Pipe(input => GetCollection(input.CollectionId)
-                                .Bind(_ => entity.Update(input.PackageId, input.CollectionId))))
+                                .Pipe(input => entity.Update(input.PackageId, input.CollectionId)))
             .BindAsync(UpdateEntity)
             .RenderAsync(_console, s => $"Updated collection: '{s.PackageId}' [Id: {s.Id}].");
     }
@@ -48,15 +47,17 @@ internal class EditTrackedPackageCommand : AsyncCommand<EditTrackedPackageComman
                            .Pipe(Result<TrackedPackageEntity>.Success)
                                ?? Result<TrackedPackageEntity>.Failure(Errors.EntityNotFound(nameof(TrackedPackageEntity), i)));
 
-    private Result<CollectionEntity> GetCollection(int id) =>
-        _dbContext.Collections.FirstOrDefault(c => c.Id == id)?
-            .Pipe(Result<CollectionEntity>.Success)
-                ?? Result<CollectionEntity>.Failure(Errors.EntityNotFound(nameof(CollectionEntity), id));
-
     private async Task<Result<TrackedPackageEntity>> UpdateEntity(TrackedPackageEntity entity) =>
         await TryAsync.RunAsync(async () =>
         {
-            await _dbContext.SaveChangesAsync();
-            return Result<TrackedPackageEntity>.Success(entity);
+            var coll = _dbContext.Collections.FirstOrDefault(x => x.Id == entity.CollectionId).ToOption();
+            return await coll.MatchAsync(
+                async (c) =>
+                {
+                    await _dbContext.SaveChangesAsync();
+                    return Result<TrackedPackageEntity>.Success(entity);
+                },
+                () => Task.FromResult(Result<TrackedPackageEntity>.Failure(
+                           Errors.EntityNotFound(nameof(CollectionEntity), entity.CollectionId))));
         });
 }
