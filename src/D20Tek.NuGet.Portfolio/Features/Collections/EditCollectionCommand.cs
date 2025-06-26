@@ -33,7 +33,7 @@ internal sealed class EditCollectionCommand : AsyncCommand<EditCollectionCommand
 
     private Request GetRequestInput(Request request, CollectionEntity prevEntity) =>
         request.ToIdentity()
-               .Iter(r => r.Name = _console.PromptIfDefault(r.Name, "Updated collection's name:", prevEntity.Name));
+               .Iter(r => r.Name = _console.PromptIfDefault(r.Name, "Update collection's name:", prevEntity.Name));
 
     private Result<CollectionEntity> GetEntity(int id) =>
         _console.AskIfDefault(id, "Id of collection to edit:")

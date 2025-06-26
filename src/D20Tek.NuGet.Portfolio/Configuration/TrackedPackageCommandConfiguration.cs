@@ -19,11 +19,11 @@ internal class TrackedPackageCommandConfiguration : ICommandConfiguration
               .WithDescription("Adds a new package that we are tracking.")
               .WithExample(["package", "add", "--package-id", "Test.Package.Id", "--collection-id", "1"]);
 
-            //bc.AddCommand<EditTrackedPackageCommand>("edit")
-            //  .WithAlias("ed")
-            //  .WithAlias("e")
-            //  .WithDescription("Edits an existing tracked package.")
-            //  .WithExample(["package", "edit", "--id", "123", "--package-id", "Test.Package.Id", "--collection-id", "1"]);
+            bc.AddCommand<EditTrackedPackageCommand>("edit")
+              .WithAlias("ed")
+              .WithAlias("e")
+              .WithDescription("Edits an existing tracked package.")
+              .WithExample(["package", "edit", "--id", "123", "--package-id", "Test.Package.Id", "--collection-id", "1"]);
 
             bc.AddCommand<DeleteTrackedPackageCommand>("delete")
               .WithAlias("del")

@@ -39,11 +39,17 @@ public sealed class TrackedPackageEntity
                                 DateOnly.FromDateTime(DateTimeOffset.Now.LocalDateTime),
                                 collectionId));
 
+    public Result<TrackedPackageEntity> Update(string packageId, int collectionId) =>
+        Validate(packageId, collectionId).Map(() =>
+        {
+            PackageId = packageId;
+            CollectionId = collectionId;
+            return this;
+        });
+
     private static ValidationErrors Validate(string packageId, int collectionId) =>
     ValidationErrors.Create()
                     .AddIfError(() => string.IsNullOrEmpty(packageId), Errors.PackageIdRequired)
                     .AddIfError(() => packageId.Length > PackageIdMaxLength, Errors.PackageIdMaxLength)
                     .AddIfError(() => collectionId <= 0, Errors.CollectionIdRequired);
-                    
-
 }
