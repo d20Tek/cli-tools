@@ -24,7 +24,7 @@ public class DeleteTrackedPackageCommandTests
     }
 
     [TestMethod]
-    public async Task ExecuteAsync_WithCollectionId_ShouldRemoveEntity()
+    public async Task ExecuteAsync_WithPackageId_ShouldRemoveEntity()
     {
         // arrange
         var db = InMemoryDbContext.InitializeDatabase(

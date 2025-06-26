@@ -42,7 +42,7 @@ public class EditCollectionCommandTests
     }
 
     [TestMethod]
-    public async Task ExecuteAsync_WithEmptyProperties_CreatesCollectionEntity()
+    public async Task ExecuteAsync_WithEmptyProperties_UpdatesCollectionEntity()
     {
         // arrange
         var context = CommandAppContextFactory.CreateWithMemoryDb(CreateDatabaseWithCollections());
