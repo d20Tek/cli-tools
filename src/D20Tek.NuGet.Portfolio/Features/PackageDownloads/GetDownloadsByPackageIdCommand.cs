@@ -14,12 +14,12 @@ internal class GetDownloadsByPackageIdCommand : AsyncCommand<GetDownloadsByPacka
 
     private readonly IAnsiConsole _console;
     private readonly AppDbContext _dbContext;
-    private readonly INuGetRegistrationClient _client;
+    private readonly INuGetSearchClient _client;
 
     public GetDownloadsByPackageIdCommand(
         IAnsiConsole console,
         AppDbContext dbContext,
-        INuGetRegistrationClient client) =>
+        INuGetSearchClient client) =>
         (_console, _dbContext, _client) = (console, dbContext, client);
 
     public override async Task<int> ExecuteAsync(CommandContext context, PackageId id)

@@ -47,7 +47,7 @@ public class NuGetRegistrationClientTests
             BaseAddress = new Uri("https://api-v2v3search-0.nuget.org/")
         };
         var cache = new MemoryCache(new MemoryCacheOptions());
-        var client = new NuGetRegistrationClient(http, cache);
+        var client = new NuGetSearchClient(http, cache);
 
         // act
         var result = await client.GetTotalDownloadsAsync(testPackageId);
@@ -68,7 +68,7 @@ public class NuGetRegistrationClientTests
             BaseAddress = new Uri("https://api-v2v3search-0.nuget.org/")
         };
         var cache = new MemoryCache(new MemoryCacheOptions());
-        var client = new NuGetRegistrationClient(http, cache);
+        var client = new NuGetSearchClient(http, cache);
 
         // act
         var result = await client.GetTotalDownloadsAsync(testPackageId);
@@ -101,7 +101,7 @@ public class NuGetRegistrationClientTests
             BaseAddress = new Uri("https://api-v2v3search-0.nuget.org/")
         };
         var cache = new MemoryCache(new MemoryCacheOptions());
-        var client = new NuGetRegistrationClient(http, cache);
+        var client = new NuGetSearchClient(http, cache);
 
         // act
         var result = await client.GetTotalDownloadsAsync(testPackageId);

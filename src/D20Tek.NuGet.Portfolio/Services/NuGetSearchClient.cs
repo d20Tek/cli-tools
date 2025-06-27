@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace D20Tek.NuGet.Portfolio.Services;
 
-internal class NuGetRegistrationClient : INuGetRegistrationClient
+internal class NuGetSearchClient : INuGetSearchClient
 {
     private const string _dataNode = "data";
     private const string _downloadsProperty = "totalDownloads";
@@ -16,7 +16,7 @@ internal class NuGetRegistrationClient : INuGetRegistrationClient
     private readonly HttpClient _httpClient;
     private readonly IMemoryCache _cache;
 
-    public NuGetRegistrationClient(HttpClient httpClient, IMemoryCache cache) =>
+    public NuGetSearchClient(HttpClient httpClient, IMemoryCache cache) =>
         (_httpClient, _cache) = (httpClient, cache);
 
     public async Task<Result<int>> GetTotalDownloadsAsync(string packageId) =>

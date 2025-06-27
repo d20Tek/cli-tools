@@ -22,7 +22,7 @@ public class AppServiceCollectionTests
         // assert
         Assert.IsNotNull(services.FirstOrDefault(s => s.ServiceType == typeof(AppDbContext)));
         Assert.IsNotNull(services.FirstOrDefault(s => s.ServiceType == typeof(ILoggerFactory)));
-        Assert.IsNotNull(services.FirstOrDefault(s => s.ServiceType == typeof(INuGetRegistrationClient)));
-        Assert.IsNotNull(provider.GetService<INuGetRegistrationClient>());
+        Assert.IsNotNull(services.FirstOrDefault(s => s.ServiceType == typeof(INuGetSearchClient)));
+        Assert.IsNotNull(provider.GetService<INuGetSearchClient>());
     }
 }
