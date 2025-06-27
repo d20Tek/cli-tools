@@ -13,9 +13,9 @@ internal class NuGetRegistrationClient : INuGetRegistrationClient
     private static string GetBaseUrl(string packageId) => $"{packageId.ToLowerInvariant()}/index.json";
     private static string GetCacheKey(string packageId) => $"NuGet.Package.{packageId.ToLowerInvariant()}";
     private readonly HttpClient _httpClient;
-    private readonly MemoryCache _cache;
+    private readonly IMemoryCache _cache;
 
-    public NuGetRegistrationClient(HttpClient httpClient, MemoryCache cache) =>
+    public NuGetRegistrationClient(HttpClient httpClient, IMemoryCache cache) =>
         (_httpClient, _cache) = (httpClient, cache);
 
     public async Task<Result<int>> GetTotalDownloadsAsync(string packageId) =>
