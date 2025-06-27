@@ -1,4 +1,5 @@
 ﻿using D20Tek.NuGet.Portfolio.Persistence;
+using D20Tek.NuGet.Portfolio.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 
@@ -15,7 +16,8 @@ internal static class AppServiceCollection
                                {
                                    config.AddConsole();
                                    config.SetMinimumLevel(LogLevel.Information);
-                               });
+                               })
+                               .AddServiceClients();
 
     private static IServiceCollection ApplyMigrations(this IServiceCollection services)
     {
@@ -27,4 +29,13 @@ internal static class AppServiceCollection
 
         return services;
     }
+
+    private static IServiceCollection AddServiceClients(this IServiceCollection services) =>
+        services.ToIdentity()
+                .Iter(s => s.AddHttpClient<INuGetRegistrationClient, NuGetRegistrationClient>(client =>
+                {
+                    client.BaseAddress = new Uri("https://api.nuget.org/v3/registration5-gz-semver2/");
+                    client.DefaultRequestHeaders.UserAgent.ParseAdd("NuGet.Portfolio/1.0");
+                }))
+                .Get();
 }
