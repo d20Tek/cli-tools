@@ -3,7 +3,7 @@ using D20Tek.NuGet.Portfolio.Common;
 using D20Tek.NuGet.Portfolio.Domain;
 using D20Tek.Tools.UnitTests.NuGetPortfolio.Fakes;
 
-namespace D20Tek.Tools.UnitTests.NuGetPortfolio.Features;
+namespace D20Tek.Tools.UnitTests.NuGetPortfolio.Features.PackageDownloads;
 
 [TestClass]
 public class GetDownloadsByPackageIdCommandTests
@@ -34,6 +34,7 @@ public class GetDownloadsByPackageIdCommandTests
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.S_OK, result.ExitCode);
         StringAssert.Contains(result.Output, "Success:");
+        StringAssert.Contains(result.Output, "Test.Package.3");
         StringAssert.Contains(result.Output, "42 downloads");
     }
 
@@ -76,6 +77,7 @@ public class GetDownloadsByPackageIdCommandTests
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.E_FAIL, result.ExitCode);
         StringAssert.Contains(result.Output, "Error:");
+        StringAssert.Contains(result.Output, "Test.Package.1");
         StringAssert.Contains(result.Output, "not found");
     }
 }

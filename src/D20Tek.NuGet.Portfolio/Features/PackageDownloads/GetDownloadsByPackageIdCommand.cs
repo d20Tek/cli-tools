@@ -27,8 +27,8 @@ internal class GetDownloadsByPackageIdCommand : AsyncCommand<GetDownloadsByPacka
         _console.CommandHeader().Render("Get current package downloads");
         return await id.Pipe(i => EnsureIdInput(i))
                        .Pipe(i => GetTrackedPackage(i))
-                       .BindAsync(p => _client.GetTotalDownloadsAsync(p.PackageId))
-                       .RenderAsync(_console, s => $"Package - '{id.Value}': {s} downloads.");
+                       .BindAsync(p => RetrieveDownloadSnapshot(p))
+                       .RenderAsync(_console, s => $"Package - '{s.TrackedPackage.PackageId}': {s.Downloads} downloads.");
     }
 
     private PackageId EnsureIdInput(Identity<PackageId> id) =>
@@ -38,4 +38,10 @@ internal class GetDownloadsByPackageIdCommand : AsyncCommand<GetDownloadsByPacka
         _dbContext.TrackedPackages.FirstOrDefault(p => p.Id == id.Value)?
             .Pipe(Result<TrackedPackageEntity>.Success)
                 ?? Result<TrackedPackageEntity>.Failure(Errors.EntityNotFound(nameof(TrackedPackageEntity), id.Value));
+
+    private async Task<Result<PackageSnapshotEntity>> RetrieveDownloadSnapshot(TrackedPackageEntity package)
+    {
+        var downloads = await _client.GetTotalDownloadsAsync(package.PackageId);
+        return downloads.Map(d => PackageSnapshotEntity.Create(d, package));
+    }
 }
