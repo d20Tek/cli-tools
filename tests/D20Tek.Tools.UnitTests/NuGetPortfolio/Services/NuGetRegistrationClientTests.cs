@@ -15,26 +15,36 @@ public class NuGetRegistrationClientTests
         string testPackageId = "TestPackage";
         string jsonResponse = """
         {
-            "items": [
+          "@context": {
+            "@vocab": "http://schema.nuget.org/schema#",
+            "@base": "https://api.nuget.org/v3/registration5-semver1/"
+          },
+          "totalHits": 1,
+          "data": [
+            {
+              "@id": "https://api.nuget.org/v3/registration5-semver1/create-guid/index.json",
+              "@type": "Package",
+              "registration": "https://api.nuget.org/v3/registration5-semver1/create-guid/index.json",
+              "id": "create-guid",
+              "title": "Create Guid",
+              "totalDownloads": 600,
+              "verified": false,
+              "packageTypes": [
                 {
-                    "items": [
-                        { "catalogEntry": { "downloads": 100 } },
-                        { "catalogEntry": { "downloads": 200 } }
-                    ]
-                },
-                {
-                    "items": [
-                        { "catalogEntry": { "downloads": 300 } }
-                    ]
+                  "name": "DotnetTool"
                 }
-            ]
+              ],
+              "versions": [],
+              "vulnerabilities": []
+            }
+          ]
         }
         """;
 
         var handler = new FakeHttpMessageHandler(jsonResponse);
         var http = new HttpClient(handler)
         {
-            BaseAddress = new Uri("https://api.nuget.org/v3/registration5-gz-semver2/")
+            BaseAddress = new Uri("https://api-v2v3search-0.nuget.org/")
         };
         var cache = new MemoryCache(new MemoryCacheOptions());
         var client = new NuGetRegistrationClient(http, cache);
@@ -55,7 +65,7 @@ public class NuGetRegistrationClientTests
         var handler = new ErrorHttpMessageHandler();
         var http = new HttpClient(handler)
         {
-            BaseAddress = new Uri("https://api.nuget.org/v3/registration5-gz-semver2/")
+            BaseAddress = new Uri("https://api-v2v3search-0.nuget.org/")
         };
         var cache = new MemoryCache(new MemoryCacheOptions());
         var client = new NuGetRegistrationClient(http, cache);
@@ -67,5 +77,39 @@ public class NuGetRegistrationClientTests
         Assert.IsTrue(result.IsFailure);
         var error = result.GetErrors().FirstOrDefault();
         Assert.AreEqual("General.Exception", error.Code);
+    }
+
+    [TestMethod]
+    public async Task GetTotalDownloadsAsync_WithMissingPackageId_ReturnsFailure()
+    {
+        // arrange
+        string testPackageId = "TestPackage";
+        string jsonResponse = """
+        {
+          "@context": {
+            "@vocab": "http://schema.nuget.org/schema#",
+            "@base": "https://api.nuget.org/v3/registration5-semver1/"
+          },
+          "totalHits": 0,
+          "data": []
+        }
+        """;
+
+        var handler = new FakeHttpMessageHandler(jsonResponse);
+        var http = new HttpClient(handler)
+        {
+            BaseAddress = new Uri("https://api-v2v3search-0.nuget.org/")
+        };
+        var cache = new MemoryCache(new MemoryCacheOptions());
+        var client = new NuGetRegistrationClient(http, cache);
+
+        // act
+        var result = await client.GetTotalDownloadsAsync(testPackageId);
+
+        // assert
+        Assert.IsTrue(result.IsFailure);
+        var error = result.GetErrors().FirstOrDefault();
+        Assert.AreEqual("General.Exception", error.Code);
+        StringAssert.Contains(error.Message, "'TestPackage' was not found");
     }
 }

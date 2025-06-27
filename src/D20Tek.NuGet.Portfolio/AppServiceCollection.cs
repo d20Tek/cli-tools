@@ -33,9 +33,9 @@ internal static class AppServiceCollection
     private static IServiceCollection AddServiceClients(this IServiceCollection services) =>
         services.ToIdentity()
                 .Iter(s => s.AddHttpClient<INuGetRegistrationClient, NuGetRegistrationClient>(client =>
-                {
-                    client.BaseAddress = new Uri("https://api.nuget.org/v3/registration5-gz-semver2/");
-                    client.DefaultRequestHeaders.UserAgent.ParseAdd("NuGet.Portfolio/1.0");
-                }))
+                    {
+                        client.BaseAddress = new Uri("https://api-v2v3search-0.nuget.org/");
+                        client.DefaultRequestHeaders.UserAgent.ParseAdd("NuGet.Portfolio/1.0");
+                    }))
                 .Get();
 }
