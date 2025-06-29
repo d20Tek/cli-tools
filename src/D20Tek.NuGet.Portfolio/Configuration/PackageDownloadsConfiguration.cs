@@ -12,6 +12,11 @@ internal class PackageDownloadsConfiguration : ICommandConfiguration
               .WithAlias("pid")
               .WithDescription("Gets the current download count for the specified package id.")
               .WithExample(["get-current", "for-id", "--id", "5"]);
+
+            bc.AddCommand<GetDownloadsAllPackagesCommand>("for-all")
+              .WithAlias("all")
+              .WithDescription("Gets the current download count for all tracked packages.")
+              .WithExample(["get-current", "for-all"]);
         })
         .WithAlias("get-curr")
         .WithAlias("curr")

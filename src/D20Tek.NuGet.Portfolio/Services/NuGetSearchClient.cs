@@ -8,16 +8,15 @@ internal class NuGetSearchClient : INuGetSearchClient
 {
     private const string _dataNode = "data";
     private const string _downloadsProperty = "totalDownloads";
+    private static readonly IMemoryCache _cache = new MemoryCache(new MemoryCacheOptions());
 
     private static string GetBaseUrl(string packageId) => $"query?q=packageid:{packageId}&prerelease=true";
     private static string GetCacheKey(string packageId) => $"NuGet.Package.{packageId.ToLowerInvariant()}";
     private static string PackageNotFound(string packageId) => $"Package with id '{packageId}' was not found.";
 
     private readonly HttpClient _httpClient;
-    private readonly IMemoryCache _cache;
 
-    public NuGetSearchClient(HttpClient httpClient, IMemoryCache cache) =>
-        (_httpClient, _cache) = (httpClient, cache);
+    public NuGetSearchClient(HttpClient httpClient, IMemoryCache cache) => _httpClient = httpClient;
 
     public async Task<Result<int>> GetTotalDownloadsAsync(string packageId) =>
         await TryAsync.RunAsync<int>(async () =>
