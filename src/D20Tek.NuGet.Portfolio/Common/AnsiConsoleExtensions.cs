@@ -1,6 +1,4 @@
-﻿using D20Tek.NuGet.Portfolio.Common.Controls;
-
-namespace D20Tek.NuGet.Portfolio.Common;
+﻿namespace D20Tek.NuGet.Portfolio.Common;
 
 internal static class AnsiConsoleExtensions
 {

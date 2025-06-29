@@ -4,6 +4,7 @@ namespace D20Tek.NuGet.Portfolio.Features.PackageDownloads;
 
 internal class DownloadsTableBuilder
 {
+    private static readonly int[] _columnWidths = [5, 50, 25];
     private readonly Table _table;
 
     private DownloadsTableBuilder() =>
@@ -15,7 +16,7 @@ internal class DownloadsTableBuilder
         _table.AddColumns(
                 new TableColumn("Id").Centered().Width(5),
                 new TableColumn("Package Id").Width(50),
-                new TableColumn("Downloads").Width(25))
+                new TableColumn("Downloads").RightAligned().Width(25))
               .Pipe(_ => this);
 
     public DownloadsTableBuilder WithRows(PackageSnapshotEntity[] snapshots) =>
@@ -31,7 +32,7 @@ internal class DownloadsTableBuilder
 
     public DownloadsTableBuilder WithTotals(PackageSnapshotEntity[] snapshots) =>
         snapshots.ToIdentity()
-                 .Iter(_ => _table.AddEmptyRow())
+                 .Iter(_ => _table.AddSeparatorRow(_columnWidths))
                  .Iter(s => _table.AddRow("[grey]-[/]", "[grey]Total[/]", $"[grey]{s.Sum(x => x.Downloads)}[/]"))
                  .Pipe(_ => this);
 
