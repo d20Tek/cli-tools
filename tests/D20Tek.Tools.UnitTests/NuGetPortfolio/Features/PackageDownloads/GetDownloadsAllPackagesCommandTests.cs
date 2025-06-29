@@ -36,6 +36,7 @@ public class GetDownloadsAllPackagesCommandTests
         StringAssert.Contains(result.Output, "Test.Package.2");
         StringAssert.Contains(result.Output, "Test.Package.3");
         StringAssert.Contains(result.Output, "42");
+        StringAssert.Contains(result.Output, "126");
         StringAssert.Contains(result.Output, "for 3 tracked packages");
     }
 

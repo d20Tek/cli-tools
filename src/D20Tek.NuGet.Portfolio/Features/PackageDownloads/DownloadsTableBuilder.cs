@@ -29,5 +29,11 @@ internal class DownloadsTableBuilder
                                             p.Downloads.ToString()))))
                    .Pipe(_ => this);
 
+    public DownloadsTableBuilder WithTotals(PackageSnapshotEntity[] snapshots) =>
+        snapshots.ToIdentity()
+                 .Iter(_ => _table.AddEmptyRow())
+                 .Iter(s => _table.AddRow("[grey]-[/]", "[grey]Total[/]", $"[grey]{s.Sum(x => x.Downloads)}[/]"))
+                 .Pipe(_ => this);
+
     public Table Build() => _table;
 }

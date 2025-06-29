@@ -44,6 +44,7 @@ internal class GetDownloadsAllPackagesCommand : AsyncCommand
                 .Iter(c => c.Write(DownloadsTableBuilder.Create()
                                                         .WithHeader()
                                                         .WithRows(snapshots)
+                                                        .WithTotals(snapshots)
                                                         .Build()))
                 .Map(_ => Task.CompletedTask);
 }
