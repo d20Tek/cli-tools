@@ -24,5 +24,5 @@ public sealed class PackageSnapshotEntity
     }
 
     public static PackageSnapshotEntity Create(int downloads, TrackedPackageEntity trackedPackage) =>
-        new(0, DateTime.Now, downloads, trackedPackage);
+        new(0, DateTime.Now.Date, downloads, trackedPackage);
 }

@@ -29,4 +29,10 @@ internal static class AnsiConsoleExtensions
             null => true,
             _ => EqualityComparer<T>.Default.Equals(value, default!)
         };
+
+    public static void RenderTableWithTitle(this IAnsiConsole console, string title, Table table) =>
+        console.ToIdentity()
+               .Iter(c => c.WriteLine())
+               .Iter(c => c.CommandHeader().Render(title))
+               .Iter(c => c.Write(table));
 }
