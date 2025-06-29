@@ -15,13 +15,11 @@ internal class GetDownloadsAllPackagesCommand : AsyncCommand
         INuGetSearchClient client) =>
         (_console, _dbContext, _client) = (console, dbContext, client);
 
-    public override async Task<int> ExecuteAsync(CommandContext context)
-    {
-        _console.CommandHeader().Render("Get all package downloads");
-        return await GetTrackedPackages()
-                        .Pipe(p => RetrieveDownloadSnapshots(p))
-                        .RenderAsync(_console, s => $"Retrieved downloads for '{s.Length} tracked packages.");
-    }
+    public override async Task<int> ExecuteAsync(CommandContext context) =>
+        await GetTrackedPackages()
+                .Pipe(p => RetrieveDownloadSnapshots(p))
+                .IterAsync(s => RenderDownloadSnapshots(s))
+                .RenderAsync(_console, s => $"Retrieved downloads for {s.Length} tracked packages.");
 
     public TrackedPackageEntity[] GetTrackedPackages() => [.. _dbContext.TrackedPackages];
 
@@ -38,4 +36,14 @@ internal class GetDownloadsAllPackagesCommand : AsyncCommand
 
         return result.ToArray();
     }
+
+    private Task RenderDownloadSnapshots(PackageSnapshotEntity[] snapshots) =>
+        _console.ToIdentity()
+                .Iter(c => c.WriteLine())
+                .Iter(c => c.CommandHeader().Render("All package downloads"))
+                .Iter(c => c.Write(DownloadsTableBuilder.Create()
+                                                        .WithHeader()
+                                                        .WithRows(snapshots)
+                                                        .Build()))
+                .Map(_ => Task.CompletedTask);
 }
