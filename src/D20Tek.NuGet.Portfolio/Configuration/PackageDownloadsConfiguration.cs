@@ -1,5 +1,4 @@
-﻿using D20Tek.NuGet.Portfolio.Features;
-using D20Tek.NuGet.Portfolio.Features.PackageDownloads;
+﻿using D20Tek.NuGet.Portfolio.Features.PackageDownloads;
 
 namespace D20Tek.NuGet.Portfolio.Configuration;
 

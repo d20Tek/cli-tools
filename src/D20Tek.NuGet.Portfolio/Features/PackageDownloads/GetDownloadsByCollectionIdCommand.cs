@@ -2,7 +2,7 @@
 using D20Tek.NuGet.Portfolio.Features.PackageDownloads;
 using D20Tek.NuGet.Portfolio.Persistence;
 
-namespace D20Tek.NuGet.Portfolio.Features;
+namespace D20Tek.NuGet.Portfolio.Features.PackageDownloads;
 
 internal class GetDownloadsByCollectionIdCommand : AsyncCommand<GetDownloadsByCollectionIdCommand.CollectionId>
 {
