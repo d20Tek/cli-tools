@@ -27,18 +27,13 @@ internal class GetDownloadsByPackageIdCommand : AsyncCommand<GetDownloadsByPacka
     {
         _console.CommandHeader().Render("Get current package downloads");
         return await id.Pipe(i => EnsureIdInput(i))
-                       .Pipe(i => GetTrackedPackage(i))
+                       .Pipe(i => _dbContext.TrackedPackages.GetEntityById(i.Value))
                        .BindAsync(p => RetrieveDownloadSnapshot(p))
                        .RenderAsync(_console, s => $"Package - '{s.TrackedPackage.PackageId}': {s.Downloads} downloads.");
     }
 
     private PackageId EnsureIdInput(Identity<PackageId> id) =>
         id.Iter(r => r.Value = _console.AskIfDefault(r.Value, "Enter the tracked package id:"));
-
-    private Result<TrackedPackageEntity> GetTrackedPackage(PackageId id) =>
-        _dbContext.TrackedPackages.FirstOrDefault(p => p.Id == id.Value)?
-            .Pipe(Result<TrackedPackageEntity>.Success)
-                ?? Result<TrackedPackageEntity>.Failure(Errors.EntityNotFound(nameof(TrackedPackageEntity), id.Value));
 
     private async Task<Result<PackageSnapshotEntity>> RetrieveDownloadSnapshot(TrackedPackageEntity package)
     {

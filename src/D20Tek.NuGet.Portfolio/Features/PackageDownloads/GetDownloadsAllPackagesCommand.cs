@@ -1,5 +1,4 @@
 ﻿using D20Tek.NuGet.Portfolio.Abstractions;
-using D20Tek.NuGet.Portfolio.Domain;
 using D20Tek.NuGet.Portfolio.Persistence;
 
 namespace D20Tek.NuGet.Portfolio.Features.PackageDownloads;
@@ -17,10 +16,8 @@ internal class GetDownloadsAllPackagesCommand : AsyncCommand
         (_console, _dbContext, _client) = (console, dbContext, client);
 
     public override async Task<int> ExecuteAsync(CommandContext context) =>
-        await GetTrackedPackages()
+        await _dbContext.GetAllTrackedPackages()
                 .Pipe(p => _client.RetrieveDownloadSnapshots(p))
                 .IterAsync(s => _console.RenderDownloadSnapshots(s))
                 .RenderAsync(_console, s => $"Retrieved downloads for {s.Length} tracked packages.");
-
-    public TrackedPackageEntity[] GetTrackedPackages() => [.. _dbContext.TrackedPackages];
 }

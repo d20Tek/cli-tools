@@ -1,6 +1,6 @@
 ﻿namespace D20Tek.NuGet.Portfolio.Domain;
 
-public sealed class PackageSnapshotEntity
+public sealed class PackageSnapshotEntity : IEntity
 {
     public int Id { get; private set; }
 

@@ -1,5 +1,4 @@
 ﻿using D20Tek.NuGet.Portfolio.Abstractions;
-using D20Tek.NuGet.Portfolio.Domain;
 using D20Tek.NuGet.Portfolio.Features.PackageDownloads;
 using D20Tek.NuGet.Portfolio.Persistence;
 
@@ -28,8 +27,8 @@ internal class GetDownloadsByCollectionIdCommand : AsyncCommand<GetDownloadsByCo
     {
         _console.CommandHeader().Render("Get collection package downloads");
         return await id.Pipe(i => EnsureIdInput(i))
-                       .Pipe(i => EnsureCollectionExists(i)
-                           .Map(_ => GetTrackedPackages(i)))
+                       .Pipe(i => _dbContext.Collections.GetEntityById(i.Value)
+                           .Map(_ => _dbContext.GetTrackPackagesByCollectionId(i.Value)))
                        .BindAsync(p => _client.RetrieveDownloadSnapshots(p))
                        .IterAsync(s => _console.RenderDownloadSnapshots(s))
                        .RenderAsync(_console, s => $"Retrieved downloads for {s.Length} tracked packages.");
@@ -37,12 +36,4 @@ internal class GetDownloadsByCollectionIdCommand : AsyncCommand<GetDownloadsByCo
 
     private CollectionId EnsureIdInput(Identity<CollectionId> id) =>
         id.Iter(r => r.Value = _console.AskIfDefault(r.Value, "Enter the collection id:"));
-
-    private Result<CollectionEntity> EnsureCollectionExists(CollectionId id) =>
-        _dbContext.Collections.FirstOrDefault(c => c.Id == id.Value)?
-            .Pipe(Result<CollectionEntity>.Success)
-                ?? Result<CollectionEntity>.Failure(Errors.EntityNotFound(nameof(CollectionEntity), id.Value));
-
-    public TrackedPackageEntity[] GetTrackedPackages(CollectionId id) =>
-        [.. _dbContext.TrackedPackages.Where(x => x.CollectionId == id.Value)];
 }
