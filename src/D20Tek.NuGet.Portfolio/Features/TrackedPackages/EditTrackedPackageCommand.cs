@@ -32,7 +32,7 @@ internal class EditTrackedPackageCommand : AsyncCommand<EditTrackedPackageComman
         return await GetEntity(request.Id)
             .Bind(entity => GetRequestInput(request, entity)
                                 .Pipe(input => entity.Update(input.PackageId, input.CollectionId)))
-            .BindAsync(UpdateEntity)
+            .BindAsync(EditEntity)
             .RenderAsync(_console, s => $"Updated collection: '{s.PackageId}' [Id: {s.Id}].");
     }
 
@@ -43,21 +43,9 @@ internal class EditTrackedPackageCommand : AsyncCommand<EditTrackedPackageComman
 
     private Result<TrackedPackageEntity> GetEntity(int id) =>
         _console.AskIfDefault(id, "Id of tracked package to edit:")
-                .Pipe(i => _dbContext.TrackedPackages.FirstOrDefault(c => c.Id == i)?
-                           .Pipe(Result<TrackedPackageEntity>.Success)
-                               ?? Result<TrackedPackageEntity>.Failure(Errors.EntityNotFound(nameof(TrackedPackageEntity), i)));
+                .Pipe(i => _dbContext.TrackedPackages.GetEntityById(i));
 
-    private async Task<Result<TrackedPackageEntity>> UpdateEntity(TrackedPackageEntity entity) =>
-        await TryAsync.RunAsync(async () =>
-        {
-            var coll = _dbContext.Collections.FirstOrDefault(x => x.Id == entity.CollectionId).ToOption();
-            return await coll.MatchAsync(
-                async (c) =>
-                {
-                    await _dbContext.SaveChangesAsync();
-                    return Result<TrackedPackageEntity>.Success(entity);
-                },
-                () => Task.FromResult(Result<TrackedPackageEntity>.Failure(
-                           Errors.EntityNotFound(nameof(CollectionEntity), entity.CollectionId))));
-        });
+    private async Task<Result<TrackedPackageEntity>> EditEntity(TrackedPackageEntity entity) =>
+        await _dbContext.Collections.GetEntityById(entity.CollectionId)
+                                    .BindAsync(coll => _dbContext.TrackedPackages.UpdateEntity(entity, _dbContext));
 }

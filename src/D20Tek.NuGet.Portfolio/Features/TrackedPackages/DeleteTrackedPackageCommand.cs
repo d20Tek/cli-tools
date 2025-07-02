@@ -1,5 +1,4 @@
-﻿using D20Tek.NuGet.Portfolio.Domain;
-using D20Tek.NuGet.Portfolio.Persistence;
+﻿using D20Tek.NuGet.Portfolio.Persistence;
 
 namespace D20Tek.NuGet.Portfolio.Features.TrackedPackages;
 
@@ -22,24 +21,10 @@ internal class DeleteTrackedPackageCommand : AsyncCommand<DeleteTrackedPackageCo
     {
         _console.CommandHeader().Render("Delete tracked package");
         return await id.Pipe(i => EnsureIdInput(i))
-                       .Pipe(i => DeleteEntity(i))
+                       .Pipe(i => _dbContext.TrackedPackages.DeleteEntityById(i.Value, _dbContext))
                        .RenderAsync(_console, s => $"Tracked package deleted: '{s.PackageId}' [Id: {s.Id}].");
     }
 
     private PackageId EnsureIdInput(Identity<PackageId> id) =>
         id.Iter(r => r.Value = _console.AskIfDefault(r.Value, "Enter the tracked package id:"));
-
-    private async Task<Result<TrackedPackageEntity>> DeleteEntity(PackageId id) =>
-        await TryAsync.RunAsync(() =>
-            GetEntity(id).BindAsync(async entity =>
-            {
-                _dbContext.TrackedPackages.Remove(entity);
-                await _dbContext.SaveChangesAsync();
-                return Result<TrackedPackageEntity>.Success(entity);
-            }));
-
-    private Result<TrackedPackageEntity> GetEntity(PackageId id) =>
-        _dbContext.TrackedPackages.FirstOrDefault(p => p.Id == id.Value)?
-            .Pipe(Result<TrackedPackageEntity>.Success)
-                ?? Result<TrackedPackageEntity>.Failure(Errors.EntityNotFound(nameof(TrackedPackageEntity), id.Value));
 }

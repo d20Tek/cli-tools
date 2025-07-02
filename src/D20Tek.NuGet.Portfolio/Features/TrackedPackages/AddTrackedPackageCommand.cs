@@ -36,17 +36,6 @@ internal sealed class AddTrackedPackageCommand : AsyncCommand<AddTrackedPackageC
                .Iter(r => r.CollectionId = _console.AskIfDefault(r.CollectionId, "Add to collection with id:"));
 
     private async Task<Result<TrackedPackageEntity>> SaveEntity(TrackedPackageEntity entity) =>
-        await TryAsync.RunAsync(async () =>
-        {
-            var coll = _dbContext.Collections.FirstOrDefault(x => x.Id == entity.CollectionId).ToOption();
-            return await coll.MatchAsync(
-                async (c) =>
-                {
-                    var result = _dbContext.TrackedPackages.Add(entity);
-                    await _dbContext.SaveChangesAsync();
-                    return Result<TrackedPackageEntity>.Success(result.Entity);
-                },
-                () => Task.FromResult(Result<TrackedPackageEntity>.Failure(
-                           Errors.EntityNotFound(nameof(CollectionEntity), entity.CollectionId))));
-        });
+        await _dbContext.Collections.GetEntityById(entity.CollectionId)
+                                    .BindAsync(coll => _dbContext.TrackedPackages.CreateEntity(entity, _dbContext));
 }
