@@ -2,7 +2,10 @@
 
 internal static class ResultPresenter
 {
-    public static async Task<int> RenderAsync<T>(this Task<Result<T>> result, IAnsiConsole console, Func<T, string> successMessage)
+    public static async Task<int> RenderAsync<T>(
+        this Task<Result<T>> result,
+        IAnsiConsole console,
+        Func<T, string> successMessage)
         where T : notnull =>
         await result.MatchAsync(
             s => Task.FromResult(RenderSuccess(console, successMessage(s))),

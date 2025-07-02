@@ -9,8 +9,7 @@ internal class CommandHeader
     public CommandHeader(IAnsiConsole console) => _console = console;
 
     public void Render(string title, string color = _defaultColor, int rightPad = _paddingRight) =>
-        _console.Write(
-            new Padder(
-                new Rule(title).RuleStyle(color).LeftJustified(),
-                new Padding(0, 0, rightPad, 0)));
+        _console.Write(new Padder(
+                        new Rule(title).RuleStyle(color).LeftJustified(),
+                        new Padding(0, 0, rightPad, 0)));
 }
