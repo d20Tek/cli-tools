@@ -23,18 +23,10 @@ internal sealed class AddCollectionCommand : AsyncCommand<AddCollectionCommand.R
         _console.CommandHeader().Render("Add new collection");
         return await request.Pipe(GetRequestInput)
                             .Pipe(r => Task.FromResult(CollectionEntity.Create(r.Name)))
-                            .BindAsync(SaveEntity)
+                            .BindAsync(entity => _dbContext.Collections.CreateEntity(entity, _dbContext))
                             .RenderAsync(_console, s => $"Created a new collection: '{s.Name}' [Id: {s.Id}].");
     }
 
     private Request GetRequestInput(Request request) =>
         request.ToIdentity().Iter(r => r.Name = _console.AskIfDefault(r.Name, "Enter the new collection's name:"));
-
-    private async Task<Result<CollectionEntity>> SaveEntity(CollectionEntity entity) =>
-        await TryAsync.RunAsync(async () =>
-        {
-            var result = _dbContext.Collections.Add(entity);
-            await _dbContext.SaveChangesAsync();
-            return Result<CollectionEntity>.Success(result.Entity);
-        });
 }
