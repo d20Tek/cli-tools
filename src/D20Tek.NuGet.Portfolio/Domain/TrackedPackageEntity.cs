@@ -1,6 +1,6 @@
 ﻿namespace D20Tek.NuGet.Portfolio.Domain;
 
-public sealed class TrackedPackageEntity
+public sealed class TrackedPackageEntity : IEntity
 {
     public const int PackageIdMaxLength = 256;
 

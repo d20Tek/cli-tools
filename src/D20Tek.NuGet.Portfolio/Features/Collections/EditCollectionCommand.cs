@@ -27,7 +27,7 @@ internal sealed class EditCollectionCommand : AsyncCommand<EditCollectionCommand
         _console.CommandHeader().Render("Edit collection");
         return await GetEntity(request.Id)
             .Bind(entity => GetRequestInput(request, entity).Pipe(input => entity.Rename(input.Name)))
-            .BindAsync(UpdateEntity)
+            .BindAsync(entity => _dbContext.Collections.UpdateEntity(entity, _dbContext))
             .RenderAsync(_console, s => $"Updated collection: '{s.Name}' [Id: {s.Id}].");
     }
 
@@ -38,11 +38,4 @@ internal sealed class EditCollectionCommand : AsyncCommand<EditCollectionCommand
     private Result<CollectionEntity> GetEntity(int id) =>
         _console.AskIfDefault(id, "Id of collection to edit:")
                 .Pipe(i => _dbContext.Collections.GetEntityById(i));
-
-    private async Task<Result<CollectionEntity>> UpdateEntity(CollectionEntity entity) =>
-        await TryAsync.RunAsync(async () =>
-        {
-            await _dbContext.SaveChangesAsync();
-            return Result<CollectionEntity>.Success(entity);
-        });
 }

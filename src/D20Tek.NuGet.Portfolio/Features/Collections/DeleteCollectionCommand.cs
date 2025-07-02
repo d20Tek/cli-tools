@@ -1,5 +1,4 @@
-﻿using D20Tek.NuGet.Portfolio.Domain;
-using D20Tek.NuGet.Portfolio.Persistence;
+﻿using D20Tek.NuGet.Portfolio.Persistence;
 
 namespace D20Tek.NuGet.Portfolio.Features.Collections;
 
@@ -22,16 +21,10 @@ internal sealed class DeleteCollectionCommand : AsyncCommand<DeleteCollectionCom
     {
         _console.CommandHeader().Render("Delete collection");
         return await id.Pipe(i => EnsureIdInput(i))
-                       .Pipe(i => DeleteEntityById(i))
+                       .Pipe(i => _dbContext.Collections.DeleteEntityById(i.Value, _dbContext))
                        .RenderAsync(_console, s => $"Collection deleted: '{s.Name}' [Id: {s.Id}].");
     }
 
     private CollectionId EnsureIdInput(Identity<CollectionId> id) =>
         id.Iter(r => r.Value = _console.AskIfDefault(r.Value, "Enter the collection id:"));
-
-    private async Task<Result<CollectionEntity>> DeleteEntityById(CollectionId id) =>
-        await TryAsync.RunAsync(() =>
-            _dbContext.Collections.GetEntityById(id.Value)
-                                  .BindAsync(entity =>
-                                        _dbContext.Collections.DeleteEntity(entity, _dbContext)));
 }
