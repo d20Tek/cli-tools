@@ -1,5 +1,5 @@
 ﻿using D20Tek.NuGet.Portfolio;
-using D20Tek.NuGet.Portfolio.Common;
+using D20Tek.NuGet.Portfolio.Abstractions;
 using D20Tek.NuGet.Portfolio.Domain;
 using D20Tek.Tools.UnitTests.NuGetPortfolio.Fakes;
 

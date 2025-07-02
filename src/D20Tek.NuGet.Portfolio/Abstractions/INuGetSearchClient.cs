@@ -1,4 +1,4 @@
-﻿namespace D20Tek.NuGet.Portfolio.Common;
+﻿namespace D20Tek.NuGet.Portfolio.Abstractions;
 
 public interface INuGetSearchClient
 {

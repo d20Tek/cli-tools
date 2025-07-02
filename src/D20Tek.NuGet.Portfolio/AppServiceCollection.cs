@@ -1,4 +1,5 @@
-﻿using D20Tek.NuGet.Portfolio.Persistence;
+﻿using D20Tek.NuGet.Portfolio.Abstractions;
+using D20Tek.NuGet.Portfolio.Persistence;
 using D20Tek.NuGet.Portfolio.Services;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
