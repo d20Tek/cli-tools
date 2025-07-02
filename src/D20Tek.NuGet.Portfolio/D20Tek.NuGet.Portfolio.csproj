@@ -10,7 +10,7 @@
 
   <ItemGroup>
     <PackageReference Include="D20Tek.Functional" Version="0.9.15" />
-    <PackageReference Include="D20Tek.Spectre.Console.Extensions" Version="1.50.1.4" />
+    <PackageReference Include="D20Tek.Spectre.Console.Extensions" Version="1.50.1.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore" Version="9.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Sqlite" Version="9.0.6" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="9.0.6">
