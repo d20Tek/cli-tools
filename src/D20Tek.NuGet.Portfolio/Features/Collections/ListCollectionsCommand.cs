@@ -26,11 +26,11 @@ internal sealed class ListCollectionsCommand : AsyncCommand
 
     private Task RenderCollections(CollectionEntity[] collections) =>
         _console.ToIdentity()
-                .Iter(c => c.WriteLine())
-                .Iter(c => c.CommandHeader().Render("List of Collections"))
-                .Iter(c => c.Write(CollectionTableBuilder.Create()
-                                                         .WithHeader()
-                                                         .WithRows(collections)
-                                                         .Build()))
+                .Iter(c => c.RenderTableWithTitle(
+                   "List of collections",
+                   CollectionTableBuilder.Create()
+                                         .WithHeader()
+                                         .WithRows(collections)
+                                         .Build()))
                 .Map(_ => Task.CompletedTask);
 }

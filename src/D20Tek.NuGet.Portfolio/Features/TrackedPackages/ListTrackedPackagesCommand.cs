@@ -1,4 +1,5 @@
 ﻿using D20Tek.NuGet.Portfolio.Domain;
+using D20Tek.NuGet.Portfolio.Features.Collections;
 using D20Tek.NuGet.Portfolio.Persistence;
 using Microsoft.EntityFrameworkCore;
 
@@ -28,11 +29,11 @@ internal sealed class ListTrackedPackagesCommand : AsyncCommand
 
     private Task RenderTrackedPackages(TrackedPackageEntity[] packages) =>
         _console.ToIdentity()
-                .Iter(c => c.WriteLine())
-                .Iter(c => c.CommandHeader().Render("List of Packages Tracked"))
-                .Iter(c => c.Write(PackageTableBuilder.Create()
-                                                      .WithHeader()
-                                                      .WithRows(packages)
-                                                      .Build()))
+                .Iter(c => c.RenderTableWithTitle(
+                   "List of Packages Tracked",
+                   PackageTableBuilder.Create()
+                                      .WithHeader()
+                                      .WithRows(packages)
+                                      .Build()))
                 .Map(_ => Task.CompletedTask);
 }
