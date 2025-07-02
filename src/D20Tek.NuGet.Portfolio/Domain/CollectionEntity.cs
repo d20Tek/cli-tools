@@ -1,6 +1,6 @@
 ﻿namespace D20Tek.NuGet.Portfolio.Domain;
 
-public sealed class CollectionEntity
+public sealed class CollectionEntity : IEntity
 {
     public const int NameMaxLength = 64;
 

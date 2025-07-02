@@ -22,24 +22,16 @@ internal sealed class DeleteCollectionCommand : AsyncCommand<DeleteCollectionCom
     {
         _console.CommandHeader().Render("Delete collection");
         return await id.Pipe(i => EnsureIdInput(i))
-                       .Pipe(i => DeleteEntity(i))
+                       .Pipe(i => DeleteEntityById(i))
                        .RenderAsync(_console, s => $"Collection deleted: '{s.Name}' [Id: {s.Id}].");
     }
 
     private CollectionId EnsureIdInput(Identity<CollectionId> id) =>
         id.Iter(r => r.Value = _console.AskIfDefault(r.Value, "Enter the collection id:"));
 
-    private async Task<Result<CollectionEntity>> DeleteEntity(CollectionId id) =>
+    private async Task<Result<CollectionEntity>> DeleteEntityById(CollectionId id) =>
         await TryAsync.RunAsync(() =>
-            GetEntity(id).BindAsync(async entity =>
-            {
-                _dbContext.Collections.Remove(entity);
-                await _dbContext.SaveChangesAsync();
-                return Result<CollectionEntity>.Success(entity);
-            }));
-
-    private Result<CollectionEntity> GetEntity(CollectionId id) =>
-        _dbContext.Collections.FirstOrDefault(c => c.Id == id.Value)?
-            .Pipe(Result<CollectionEntity>.Success)
-                ?? Result<CollectionEntity>.Failure(Errors.EntityNotFound(nameof(CollectionEntity), id.Value));
+            _dbContext.Collections.GetEntityById(id.Value)
+                                  .BindAsync(entity =>
+                                        _dbContext.Collections.DeleteEntity(entity, _dbContext)));
 }
