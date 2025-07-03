@@ -10,8 +10,11 @@ internal static class AppDbQueries
             .Pipe(Result<T>.Success)
                 ?? Result<T>.Failure(Errors.EntityNotFound(typeof(T).Name, id));
 
+    public static CollectionEntity[] GetAllCollections(this AppDbContext context) =>
+        [.. context.Collections.AsNoTracking()];
+
     public static TrackedPackageEntity[] GetAllTrackedPackages(this AppDbContext context) =>
-        [.. context.TrackedPackages.AsNoTracking()];
+        [.. context.TrackedPackages.AsNoTracking().Include(x => x.Collection)];
 
     public static TrackedPackageEntity[] GetTrackPackagesByCollectionId(this AppDbContext context, int collectionId) =>
         [.. context.TrackedPackages.AsNoTracking().Where(x => x.CollectionId == collectionId)];

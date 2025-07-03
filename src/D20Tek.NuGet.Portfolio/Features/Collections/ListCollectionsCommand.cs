@@ -1,10 +1,9 @@
 ﻿using D20Tek.NuGet.Portfolio.Domain;
 using D20Tek.NuGet.Portfolio.Persistence;
-using Microsoft.EntityFrameworkCore;
 
 namespace D20Tek.NuGet.Portfolio.Features.Collections;
 
-internal sealed class ListCollectionsCommand : AsyncCommand
+internal sealed class ListCollectionsCommand : Command
 {
     private readonly IAnsiConsole _console;
     private readonly AppDbContext _dbContext;
@@ -12,25 +11,24 @@ internal sealed class ListCollectionsCommand : AsyncCommand
     public ListCollectionsCommand(IAnsiConsole console, AppDbContext dbContext) =>
         (_console, _dbContext) = (console, dbContext);
 
-    public override Task<int> ExecuteAsync(CommandContext context) =>
+    public override int Execute(CommandContext context) =>
         GetCollections()
-            .IterAsync(RenderCollections)
-            .RenderAsync(_console, s => $"{s.Length} collections retrieved.");
+            .Iter(RenderCollections)
+            .Render(_console, s => $"{s.Length} collections retrieved.");
 
-    private async Task<Result<CollectionEntity[]>> GetCollections() =>
-        await TryAsync.RunAsync(async () =>
+    private Result<CollectionEntity[]> GetCollections() =>
+        Try.Run(() =>
         {
-            var colls = await _dbContext.Collections.AsNoTracking().ToArrayAsync();
+            var colls = _dbContext.GetAllCollections();
             return Result<CollectionEntity[]>.Success(colls);
         });
 
-    private Task RenderCollections(CollectionEntity[] collections) =>
+    private void RenderCollections(CollectionEntity[] collections) =>
         _console.ToIdentity()
                 .Iter(c => c.RenderTableWithTitle(
                    "List of collections",
                    CollectionTableBuilder.Create()
                                          .WithHeader()
                                          .WithRows(collections)
-                                         .Build()))
-                .Map(_ => Task.CompletedTask);
+                                         .Build()));
 }
