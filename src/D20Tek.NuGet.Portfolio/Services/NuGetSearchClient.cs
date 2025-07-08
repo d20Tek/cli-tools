@@ -19,17 +19,17 @@ internal class NuGetSearchClient : INuGetSearchClient
 
     public NuGetSearchClient(HttpClient httpClient, IMemoryCache cache) => _httpClient = httpClient;
 
-    public async Task<Result<int>> GetTotalDownloadsAsync(string packageId) =>
-        await TryAsync.RunAsync<int>(async () =>
+    public async Task<Result<long>> GetTotalDownloadsAsync(string packageId) =>
+        await TryAsync.RunAsync<long>(async () =>
             await _cache.GetOrCreateAsync(GetCacheKey(packageId), async _ => 
                 await GetServiceRequest(packageId).Pipe(json => CalculateTotalDownloads(json, packageId))));
 
     private Task<JsonElement> GetServiceRequest(string packageId) =>
         _httpClient.GetFromJsonAsync<JsonElement>(GetBaseUrl(packageId));
 
-    public async Task<int> CalculateTotalDownloads(Task<JsonElement> jsonTask, string packageId) =>
+    public async Task<long> CalculateTotalDownloads(Task<JsonElement> jsonTask, string packageId) =>
         (await jsonTask).GetProperty(_dataNode)
                         .Pipe(data => data.GetArrayLength() > 0
-                                          ? data[0].GetProperty(_downloadsProperty).GetInt32()
+                                          ? data[0].GetProperty(_downloadsProperty).GetInt64()
                                           : throw new InvalidOperationException(PackageNotFound(packageId)));
 }

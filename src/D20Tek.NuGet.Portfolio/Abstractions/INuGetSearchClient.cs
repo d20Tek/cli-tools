@@ -2,5 +2,5 @@
 
 public interface INuGetSearchClient
 {
-    Task<Result<int>> GetTotalDownloadsAsync(string packageId);
+    Task<Result<long>> GetTotalDownloadsAsync(string packageId);
 }

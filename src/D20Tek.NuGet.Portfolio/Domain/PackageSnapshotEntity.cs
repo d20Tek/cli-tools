@@ -6,7 +6,7 @@ public sealed class PackageSnapshotEntity : IEntity
 
     public DateTime SnapshotDate { get; private set; }
     
-    public int Downloads { get; private set; }
+    public long Downloads { get; private set; }
 
     public int TrackedPackageId { get; private set; }
     
@@ -14,7 +14,7 @@ public sealed class PackageSnapshotEntity : IEntity
 
     private PackageSnapshotEntity() { }
 
-    private PackageSnapshotEntity(int id, DateTime snapshotDate, int downloads, TrackedPackageEntity trackedPackage)
+    private PackageSnapshotEntity(int id, DateTime snapshotDate, long downloads, TrackedPackageEntity trackedPackage)
     {
         Id = id;
         SnapshotDate = snapshotDate;
@@ -23,6 +23,6 @@ public sealed class PackageSnapshotEntity : IEntity
         TrackedPackageId = trackedPackage.Id;
     }
 
-    public static PackageSnapshotEntity Create(int downloads, TrackedPackageEntity trackedPackage) =>
+    public static PackageSnapshotEntity Create(long downloads, TrackedPackageEntity trackedPackage) =>
         new(0, DateTime.Now.Date, downloads, trackedPackage);
 }

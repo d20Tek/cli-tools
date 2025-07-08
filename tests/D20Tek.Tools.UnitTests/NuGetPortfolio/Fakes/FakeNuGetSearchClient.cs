@@ -9,13 +9,13 @@ internal class FakeNuGetSearchClient : INuGetSearchClient
 
     public FakeNuGetSearchClient(int downloadCount) => _downloadCount = downloadCount;
 
-    public Task<Result<int>> GetTotalDownloadsAsync(string packageId) => 
-        Task.FromResult(Result<int>.Success(_downloadCount));
+    public Task<Result<long>> GetTotalDownloadsAsync(string packageId) => 
+        Task.FromResult<Result<long>>(_downloadCount);
 }
 
 internal class ErrorNuGetSearchClient : INuGetSearchClient
 {
-    public Task<Result<int>> GetTotalDownloadsAsync(string packageId) =>
+    public Task<Result<long>> GetTotalDownloadsAsync(string packageId) =>
         Task.FromResult(
-            Result<int>.Failure(Error.NotFound("Package.NotFound", $"Package with id={packageId} not found.")));
+            Result<long>.Failure(Error.NotFound("Package.NotFound", $"Package with id={packageId} not found.")));
 }
