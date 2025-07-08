@@ -17,7 +17,7 @@ internal class NuGetSearchClient : INuGetSearchClient
 
     private readonly HttpClient _httpClient;
 
-    public NuGetSearchClient(HttpClient httpClient, IMemoryCache cache) => _httpClient = httpClient;
+    public NuGetSearchClient(HttpClient httpClient) => _httpClient = httpClient;
 
     public async Task<Result<long>> GetTotalDownloadsAsync(string packageId) =>
         await TryAsync.RunAsync<long>(async () =>

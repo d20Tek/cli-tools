@@ -5,7 +5,7 @@ using Microsoft.Extensions.Caching.Memory;
 namespace D20Tek.Tools.UnitTests.NuGetPortfolio.Services;
 
 [TestClass]
-public class NuGetRegistrationClientTests
+public class NuGetSearchClientTests
 {
 
     [TestMethod]
@@ -46,8 +46,7 @@ public class NuGetRegistrationClientTests
         {
             BaseAddress = new Uri("https://api-v2v3search-0.nuget.org/")
         };
-        var cache = new MemoryCache(new MemoryCacheOptions());
-        var client = new NuGetSearchClient(http, cache);
+        var client = new NuGetSearchClient(http);
 
         // act
         var result = await client.GetTotalDownloadsAsync(testPackageId);
@@ -67,8 +66,7 @@ public class NuGetRegistrationClientTests
         {
             BaseAddress = new Uri("https://api-v2v3search-0.nuget.org/")
         };
-        var cache = new MemoryCache(new MemoryCacheOptions());
-        var client = new NuGetSearchClient(http, cache);
+        var client = new NuGetSearchClient(http);
 
         // act
         var result = await client.GetTotalDownloadsAsync(testPackageId);
@@ -100,8 +98,7 @@ public class NuGetRegistrationClientTests
         {
             BaseAddress = new Uri("https://api-v2v3search-0.nuget.org/")
         };
-        var cache = new MemoryCache(new MemoryCacheOptions());
-        var client = new NuGetSearchClient(http, cache);
+        var client = new NuGetSearchClient(http);
 
         // act
         var result = await client.GetTotalDownloadsAsync(testPackageId);
