@@ -59,7 +59,7 @@ public class NuGetScrapingClientTests
     public async Task GetTotalDownloadsAsync_MissingVersionHistory_ReturnsError()
     {
         // arrange
-        string testPackageId = "TestPackage";
+        string testPackageId = "TestPackage2";
         string htmlResponse = """
         <html>
           <body>
@@ -96,7 +96,7 @@ public class NuGetScrapingClientTests
     public async Task GetTotalDownloadsAsync_InvalidDownloadFormat_ReturnsError()
     {
         // arrange
-        string testPackageId = "TestPackage";
+        string testPackageId = "TestPackage3";
         string htmlResponse = """
         <html>
           <body>
@@ -133,7 +133,7 @@ public class NuGetScrapingClientTests
     public async Task GetTotalDownloadsAsync_NoDownloadData_ReturnsError()
     {
         // arrange
-        string testPackageId = "TestPackage";
+        string testPackageId = "TestPackage4";
         string htmlResponse = """
         <html>
           <body>
@@ -173,7 +173,7 @@ public class NuGetScrapingClientTests
     public async Task GetTotalDownloadsAsync_NoMissingCells_ReturnsError()
     {
         // arrange
-        string testPackageId = "TestPackage";
+        string testPackageId = "TestPackage5";
         string htmlResponse = """
         <html>
           <body>
