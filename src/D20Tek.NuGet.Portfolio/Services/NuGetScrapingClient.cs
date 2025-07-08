@@ -23,8 +23,12 @@ internal class NuGetScrapingClient : INuGetSearchClient
 
     public async Task<Result<long>> GetTotalDownloadsAsync(string packageId) =>
         await TryAsync.RunAsync<long>(async () =>
-            await _cache.GetOrCreateAsync(GetCacheKey(packageId), async _ =>
-                (await GetVersionHistoryRows(packageId)).Pipe(rows => CalculateTotalDownloads(rows, packageId))));
+            await _cache.GetOrCreateAsync(GetCacheKey(packageId), async entity =>
+            {
+                entity.SlidingExpiration = TimeSpan.FromHours(2);
+                return (await GetVersionHistoryRows(packageId))
+                    .Pipe(rows => CalculateTotalDownloads(rows, packageId));
+            }));
 
     private async Task<HtmlNodeCollection> GetVersionHistoryRows(string packageId) =>
         (await LoadHtml(GetDownloadUrl(packageId)))
