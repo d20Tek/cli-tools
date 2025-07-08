@@ -9,7 +9,11 @@ internal class NuGetScrapingClient : INuGetSearchClient
 {
     private const string _versionHistoryPath = "//div[@id='version-history']//table//tbody//tr";
     private const string _cellPath = "td";
-    private static string GetDownloadUrl(string packageId) => $"https://www.nuget.org/packages/{packageId}";
+    private const string _digitRegex = @"[^\d]";
+    private const string _versionHistoryError = "Could not find the expected version-history table";
+    private static string _downloadsNotFound(string packageId) =>
+        $"No downloads were found for this package id: {packageId}.";
+    private static string GetDownloadUrl(string packageId) => $"packages/{packageId}";
     private static string GetCacheKey(string packageId) => $"NuGet.Package.{packageId.ToLowerInvariant()}";
 
     private static readonly IMemoryCache _cache = new MemoryCache(new MemoryCacheOptions());
@@ -26,7 +30,7 @@ internal class NuGetScrapingClient : INuGetSearchClient
         (await LoadHtml(GetDownloadUrl(packageId)))
             .Pipe(doc => doc.DocumentNode.SelectNodes(_versionHistoryPath))
             .Pipe(rows => (rows == null || rows.Count == 0) ?
-                          throw new InvalidOperationException("Could not find the expected version-history table") :
+                          throw new InvalidOperationException(_versionHistoryError) :
                           rows);
 
     private async Task<HtmlDocument> LoadHtml(string url) =>
@@ -36,7 +40,7 @@ internal class NuGetScrapingClient : INuGetSearchClient
     private long CalculateTotalDownloads(HtmlNodeCollection rows, string packageId) =>
         GetTotalFromRows(rows).Pipe(total => total > 0
                                            ? total
-                                           : throw new InvalidOperationException($"No downloads were found for this package id: {packageId}."));
+                                           : throw new InvalidOperationException(_downloadsNotFound(packageId)));
     private long GetTotalFromRows(HtmlNodeCollection rows) =>
         rows.Select(row => row.SelectNodes(_cellPath))
             .Where(cells => cells is not null && cells.Count >= 2)
@@ -44,6 +48,6 @@ internal class NuGetScrapingClient : INuGetSearchClient
             .Sum();
 
     private static long ParseCell(HtmlNode node) =>
-        Regex.Replace(node.InnerText.Trim(), @"[^\d]", "")
+        Regex.Replace(node.InnerText.Trim(), _digitRegex, string.Empty)
              .Pipe(text => long.Parse(text));
 }

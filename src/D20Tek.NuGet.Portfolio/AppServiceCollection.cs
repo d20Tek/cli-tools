@@ -35,7 +35,7 @@ internal static class AppServiceCollection
         services.ToIdentity()
                 .Iter(s => s.AddHttpClient<INuGetSearchClient, NuGetScrapingClient>(client =>
                     {
-                        client.BaseAddress = new Uri("https://api-v2v3search-0.nuget.org/");
+                        client.BaseAddress = new Uri("https://www.nuget.org/");
                         client.DefaultRequestHeaders.UserAgent.ParseAdd("NuGet.Portfolio/1.0");
                     }))
                 .Get();
