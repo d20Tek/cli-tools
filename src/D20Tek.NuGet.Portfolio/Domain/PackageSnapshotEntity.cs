@@ -25,4 +25,10 @@ public sealed class PackageSnapshotEntity : IEntity
 
     public static PackageSnapshotEntity Create(long downloads, TrackedPackageEntity trackedPackage) =>
         new(0, DateTime.Now.Date, downloads, trackedPackage);
+
+    public PackageSnapshotEntity ChangeDownloads(long downloads)
+    {
+        Downloads = downloads;
+        return this;
+    }
 }
