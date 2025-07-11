@@ -16,6 +16,8 @@ public sealed class PackageSnapshotEntity : IEntity
 
     private PackageSnapshotEntity(int id, DateOnly snapshotDate, long downloads, TrackedPackageEntity trackedPackage)
     {
+        ArgumentOutOfRangeException.ThrowIfNegativeOrZero(downloads, nameof(downloads));
+
         Id = id;
         SnapshotDate = snapshotDate;
         Downloads = downloads;
