@@ -20,6 +20,6 @@ internal sealed class PackageSnapshotConfiguration : IEntityTypeConfiguration<Pa
         builder.HasOne(ps => ps.TrackedPackage)
                .WithMany(tp => tp.Snapshots)
                .HasForeignKey(ps => ps.TrackedPackageId)
-               .OnDelete(DeleteBehavior.Cascade);
+               .OnDelete(DeleteBehavior.NoAction);
     }
 }

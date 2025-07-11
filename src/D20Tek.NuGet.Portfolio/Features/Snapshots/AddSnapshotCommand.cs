@@ -27,7 +27,7 @@ internal sealed class AddSnapshotCommand : AsyncCommand<AddSnapshotCommand.Colle
         _console.CommandHeader().Render("Add snapshot package downloads");
         return await id.Pipe(i => EnsureIdInput(i))
                        .Pipe(i => _dbContext.Collections.GetEntityById(i.Value)
-                           .Map(_ => _dbContext.GetTrackPackagesByCollectionId(i.Value)))
+                           .Map(_ => _dbContext.GetTrackPackagesByCollectionIdAsTracking(i.Value)))
                        .BindAsync(p => _client.RetrieveDownloadSnapshots(p))
                        .IterAsync(s => _console.RenderDownloadSnapshots(s))
                        .BindAsync(s => Upsert(s))
@@ -43,12 +43,11 @@ internal sealed class AddSnapshotCommand : AsyncCommand<AddSnapshotCommand.Colle
         {
             foreach (var snapshot in snapshots)
             {
-                //(await _dbContext.PackageSnapshots.SingleOrDefaultAsync(x => x.SnapshotDate == snapshot.SnapshotDate))
-                //                 .ToOption()
-                //                 .Match(
-                //                    s => s.ChangeDownloads(snapshot.Downloads),
-                //                    () => _dbContext.PackageSnapshots.Add(snapshot).Entity);
-                _dbContext.PackageSnapshots.Add(snapshot);
+                (await _dbContext.PackageSnapshots.FirstOrDefaultAsync(x => x.SnapshotDate == snapshot.SnapshotDate))
+                                 .ToOption()
+                                 .Match(
+                                    s => s.ChangeDownloads(snapshot.Downloads),
+                                    () => _dbContext.PackageSnapshots.Add(snapshot).Entity);
             }
 
             await _dbContext.SaveChangesAsync();

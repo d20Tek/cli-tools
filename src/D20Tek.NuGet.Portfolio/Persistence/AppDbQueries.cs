@@ -19,4 +19,6 @@ internal static class AppDbQueries
     public static TrackedPackageEntity[] GetTrackPackagesByCollectionId(this AppDbContext context, int collectionId) =>
         [.. context.TrackedPackages.AsNoTracking().Where(x => x.CollectionId == collectionId)];
 
+    public static TrackedPackageEntity[] GetTrackPackagesByCollectionIdAsTracking(this AppDbContext context, int collectionId) =>
+        [.. context.TrackedPackages.Where(x => x.CollectionId == collectionId)];
 }
