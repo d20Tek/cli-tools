@@ -43,11 +43,12 @@ internal sealed class AddSnapshotCommand : AsyncCommand<AddSnapshotCommand.Colle
         {
             foreach (var snapshot in snapshots)
             {
-                (await _dbContext.PackageSnapshots.SingleOrDefaultAsync(x => x.SnapshotDate == snapshot.SnapshotDate))
-                                 .ToOption()
-                                 .Match(
-                                    s => s.ChangeDownloads(snapshot.Downloads),
-                                    () => _dbContext.PackageSnapshots.Add(snapshot).Entity);
+                //(await _dbContext.PackageSnapshots.SingleOrDefaultAsync(x => x.SnapshotDate == snapshot.SnapshotDate))
+                //                 .ToOption()
+                //                 .Match(
+                //                    s => s.ChangeDownloads(snapshot.Downloads),
+                //                    () => _dbContext.PackageSnapshots.Add(snapshot).Entity);
+                _dbContext.PackageSnapshots.Add(snapshot);
             }
 
             await _dbContext.SaveChangesAsync();

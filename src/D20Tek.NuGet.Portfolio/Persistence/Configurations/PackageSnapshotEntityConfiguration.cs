@@ -16,5 +16,10 @@ internal sealed class PackageSnapshotConfiguration : IEntityTypeConfiguration<Pa
         builder.Property(ps => ps.SnapshotDate).IsRequired();
         
         builder.Property(ps => ps.Downloads).IsRequired();
+
+        builder.HasOne(ps => ps.TrackedPackage)
+               .WithMany(tp => tp.Snapshots)
+               .HasForeignKey(ps => ps.TrackedPackageId)
+               .OnDelete(DeleteBehavior.Cascade);
     }
 }
