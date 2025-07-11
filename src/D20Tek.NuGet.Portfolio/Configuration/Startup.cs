@@ -6,7 +6,8 @@ internal sealed class Startup : StartupBase
         config.ApplyConfiguration(new AppConfiguration())
               .ApplyConfiguration(new CollectionCommandConfiguration())
               .ApplyConfiguration(new TrackedPackageCommandConfiguration())
-              .ApplyConfiguration(new PackageDownloadsConfiguration());
+              .ApplyConfiguration(new PackageDownloadsConfiguration())
+              .ApplyConfiguration(new SnapshotsCommandConfiguration());
 
     public override void ConfigureServices(ITypeRegistrar registrar)
     {

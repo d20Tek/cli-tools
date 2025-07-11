@@ -29,6 +29,7 @@ public sealed class PackageSnapshotEntity : IEntity
     public PackageSnapshotEntity ChangeDownloads(long downloads)
     {
         Downloads = downloads;
+        TrackedPackage = null!;
         return this;
     }
 }

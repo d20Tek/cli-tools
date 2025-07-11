@@ -30,7 +30,7 @@ internal sealed class AddSnapshotCommand : AsyncCommand<AddSnapshotCommand.Colle
                            .Map(_ => _dbContext.GetTrackPackagesByCollectionId(i.Value)))
                        .BindAsync(p => _client.RetrieveDownloadSnapshots(p))
                        .IterAsync(s => _console.RenderDownloadSnapshots(s))
-                       .MapAsync(s => Upsert(s))
+                       .BindAsync(s => Upsert(s))
                        .RenderAsync(_console, s => $"Snapshot downloads saved for {s.Length} tracked packages.");
     }
 
@@ -39,16 +39,23 @@ internal sealed class AddSnapshotCommand : AsyncCommand<AddSnapshotCommand.Colle
 
     private async Task<Result<PackageSnapshotEntity[]>> Upsert(PackageSnapshotEntity[] snapshots)
     {
-        foreach(var snapshot in snapshots)
+        try
         {
-            (await _dbContext.PackageSnapshots.SingleOrDefaultAsync(x => x.SnapshotDate == snapshot.SnapshotDate))
-                             .ToOption()
-                             .Match(
-                                s => s.ChangeDownloads(snapshot.Downloads),
-                                () => _dbContext.PackageSnapshots.Add(snapshot).Entity);
-        }
+            foreach (var snapshot in snapshots)
+            {
+                (await _dbContext.PackageSnapshots.SingleOrDefaultAsync(x => x.SnapshotDate == snapshot.SnapshotDate))
+                                 .ToOption()
+                                 .Match(
+                                    s => s.ChangeDownloads(snapshot.Downloads),
+                                    () => _dbContext.PackageSnapshots.Add(snapshot).Entity);
+            }
 
-        await _dbContext.SaveChangesAsync();
-        return snapshots;
+            await _dbContext.SaveChangesAsync();
+            return snapshots;
+        }
+        catch (Exception ex)
+        {
+            return Result<PackageSnapshotEntity[]>.Failure(ex);
+        }
     }
 }
