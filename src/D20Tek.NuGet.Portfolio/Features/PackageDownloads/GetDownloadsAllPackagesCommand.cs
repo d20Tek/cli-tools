@@ -3,7 +3,7 @@ using D20Tek.NuGet.Portfolio.Persistence;
 
 namespace D20Tek.NuGet.Portfolio.Features.PackageDownloads;
 
-internal class GetDownloadsAllPackagesCommand : AsyncCommand
+internal sealed class GetDownloadsAllPackagesCommand : AsyncCommand
 {
     private readonly IAnsiConsole _console;
     private readonly AppDbContext _dbContext;

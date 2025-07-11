@@ -3,7 +3,7 @@ using D20Tek.Spectre.Console.Extensions.Controls;
 
 namespace D20Tek.NuGet.Portfolio.Features.PackageDownloads;
 
-internal class DownloadsTableBuilder
+internal sealed class DownloadsTableBuilder
 {
     private static readonly int[] _columnWidths = [5, 50, 25];
     private readonly Table _table;

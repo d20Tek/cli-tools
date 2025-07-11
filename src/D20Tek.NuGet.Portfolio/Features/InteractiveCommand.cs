@@ -4,9 +4,7 @@ namespace D20Tek.NuGet.Portfolio.Features;
 
 internal sealed class InteractiveCommand : InteractiveCommandBase
 {
-    public InteractiveCommand(ICommandApp app, IAnsiConsole console) : base(app, console)
-    {
-    }
+    public InteractiveCommand(ICommandApp app, IAnsiConsole console) : base(app, console) { }
 
     protected override void ShowWelcomeMessage(IAnsiConsole console) =>
         console.ToIdentity().Iter(c => c.Clear())

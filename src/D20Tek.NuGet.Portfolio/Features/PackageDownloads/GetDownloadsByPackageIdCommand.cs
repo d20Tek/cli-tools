@@ -4,7 +4,7 @@ using D20Tek.NuGet.Portfolio.Persistence;
 
 namespace D20Tek.NuGet.Portfolio.Features.PackageDownloads;
 
-internal class GetDownloadsByPackageIdCommand : AsyncCommand<GetDownloadsByPackageIdCommand.PackageId>
+internal sealed class GetDownloadsByPackageIdCommand : AsyncCommand<GetDownloadsByPackageIdCommand.PackageId>
 {
     public sealed class PackageId : CommandSettings
     {

@@ -2,7 +2,7 @@
 
 namespace D20Tek.NuGet.Portfolio.Features.Collections;
 
-internal class CollectionTableBuilder
+internal sealed class CollectionTableBuilder
 {
     private readonly Table _table;
 

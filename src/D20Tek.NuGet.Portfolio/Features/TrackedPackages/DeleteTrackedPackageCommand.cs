@@ -2,7 +2,7 @@
 
 namespace D20Tek.NuGet.Portfolio.Features.TrackedPackages;
 
-internal class DeleteTrackedPackageCommand : AsyncCommand<DeleteTrackedPackageCommand.PackageId>
+internal sealed class DeleteTrackedPackageCommand : AsyncCommand<DeleteTrackedPackageCommand.PackageId>
 {
     public sealed class PackageId : CommandSettings
     {

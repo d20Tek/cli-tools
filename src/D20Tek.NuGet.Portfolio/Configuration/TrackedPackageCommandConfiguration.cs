@@ -2,7 +2,7 @@
 
 namespace D20Tek.NuGet.Portfolio.Configuration;
 
-internal class TrackedPackageCommandConfiguration : ICommandConfiguration
+internal sealed class TrackedPackageCommandConfiguration : ICommandConfiguration
 {
     public void Configure(IConfigurator config)
     {

@@ -2,7 +2,7 @@
 
 namespace D20Tek.NuGet.Portfolio.Configuration;
 
-internal class CollectionCommandConfiguration : ICommandConfiguration
+internal sealed class CollectionCommandConfiguration : ICommandConfiguration
 {
     public void Configure(IConfigurator config)
     {

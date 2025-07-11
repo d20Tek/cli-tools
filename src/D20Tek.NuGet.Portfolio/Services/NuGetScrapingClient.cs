@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace D20Tek.NuGet.Portfolio.Services;
 
-internal class NuGetScrapingClient : INuGetSearchClient
+internal sealed class NuGetScrapingClient : INuGetSearchClient
 {
     private const string _versionHistoryPath = "//div[@id='version-history']//table//tbody//tr";
     private const string _cellPath = "td";

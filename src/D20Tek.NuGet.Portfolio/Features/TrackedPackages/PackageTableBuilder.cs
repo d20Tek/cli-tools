@@ -2,7 +2,7 @@
 
 namespace D20Tek.NuGet.Portfolio.Features.TrackedPackages;
 
-internal class PackageTableBuilder
+internal sealed class PackageTableBuilder
 {
     private readonly Table _table;
 

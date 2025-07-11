@@ -2,7 +2,7 @@
 
 namespace D20Tek.NuGet.Portfolio.Configuration;
 
-internal class PackageDownloadsConfiguration : ICommandConfiguration
+internal sealed class PackageDownloadsConfiguration : ICommandConfiguration
 {
     public void Configure(IConfigurator config)
     {

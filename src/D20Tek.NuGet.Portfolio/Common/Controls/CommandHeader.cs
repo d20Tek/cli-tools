@@ -1,6 +1,6 @@
 ﻿namespace D20Tek.NuGet.Portfolio.Common.Controls;
 
-internal class CommandHeader
+internal sealed class CommandHeader
 {
     private const string _defaultColor = "grey";
     private const int _paddingRight = 70;
