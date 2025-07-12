@@ -1,7 +1,7 @@
 ﻿using D20Tek.NuGet.Portfolio.Domain;
 using D20Tek.Spectre.Console.Extensions.Controls;
 
-namespace D20Tek.NuGet.Portfolio.Features.PackageDownloads;
+namespace D20Tek.NuGet.Portfolio.Features.Helpers;
 
 internal sealed class DownloadsTableBuilder
 {
