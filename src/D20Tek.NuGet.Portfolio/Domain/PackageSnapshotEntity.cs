@@ -1,4 +1,6 @@
-﻿namespace D20Tek.NuGet.Portfolio.Domain;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace D20Tek.NuGet.Portfolio.Domain;
 
 public sealed class PackageSnapshotEntity : IEntity
 {
@@ -12,6 +14,7 @@ public sealed class PackageSnapshotEntity : IEntity
     
     public TrackedPackageEntity TrackedPackage { get; private set; } = null!;
 
+    [ExcludeFromCodeCoverage]
     private PackageSnapshotEntity() { }
 
     private PackageSnapshotEntity(int id, DateOnly snapshotDate, long downloads, TrackedPackageEntity trackedPackage)
