@@ -20,5 +20,6 @@ internal static class CommandAppContextFactory
         config.ApplyConfiguration(new AppConfiguration())
               .ApplyConfiguration(new CollectionCommandConfiguration())
               .ApplyConfiguration(new TrackedPackageCommandConfiguration())
-              .ApplyConfiguration(new PackageDownloadsConfiguration());
+              .ApplyConfiguration(new PackageDownloadsConfiguration())
+              .ApplyConfiguration(new SnapshotsCommandConfiguration());
 }

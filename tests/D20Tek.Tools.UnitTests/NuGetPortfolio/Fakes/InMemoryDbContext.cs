@@ -37,4 +37,14 @@ internal static class InMemoryDbContext
                          .Iter(db => db.Collections.AddRange(entities))
                          .Iter(db => db.TrackedPackages.AddRange(packages))
                          .Iter(db => db.SaveChanges());
+
+    public static AppDbContext InitializeDatabase(
+        CollectionEntity[] entities,
+        TrackedPackageEntity[] packages,
+        PackageSnapshotEntity[] snapshots) =>
+        InMemoryDbContext.Create().ToIdentity()
+                         .Iter(db => db.Collections.AddRange(entities))
+                         .Iter(db => db.TrackedPackages.AddRange(packages))
+                         .Iter(db => db.PackageSnapshots.AddRange(snapshots))
+                         .Iter(db => db.SaveChanges());
 }
