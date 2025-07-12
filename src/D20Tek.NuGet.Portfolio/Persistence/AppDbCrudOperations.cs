@@ -33,4 +33,22 @@ internal static class AppDbCrudOperations
                    await context.SaveChangesAsync();
                    return Result<T>.Success(entity);
                }));
+
+    public static async Task<Result<PackageSnapshotEntity[]>> UpsertSnapshots(
+        this AppDbContext context,
+        PackageSnapshotEntity[] snapshots) =>
+        await TryAsync.RunAsync(async () =>
+        {
+            snapshots.ForEach(snapshot =>
+                context.GetSnapshotByDate(snapshot.SnapshotDate)
+                       .Match(
+                            s => s.ChangeDownloads(snapshot.Downloads),
+                            () => context.PackageSnapshots.Add(snapshot).Entity));
+
+            await context.SaveChangesAsync();
+            return Result<PackageSnapshotEntity[]>.Success(snapshots);
+        });
+
+    private static Option<PackageSnapshotEntity> GetSnapshotByDate(this AppDbContext context, DateOnly snapshotDate) =>
+        context.PackageSnapshots.FirstOrDefault(x => x.SnapshotDate == snapshotDate).ToOption();
 }
