@@ -14,7 +14,7 @@ internal sealed class SnapshotsCommandConfiguration : ICommandConfiguration
               .WithDescription("Saves the download snapshot today for the specified collection id.")
               .WithExample(["snapshot", "add", "--collection-id", "1"]);
 
-            bc.AddCommand<DeleteSnapshotCommand>("delete")
+            bc.AddCommand<DeleteSnapshotsCommand>("delete")
               .WithAlias("del")
               .WithAlias("d")
               .WithDescription("Deletes a download snapshot for a collection for a specified date.")
