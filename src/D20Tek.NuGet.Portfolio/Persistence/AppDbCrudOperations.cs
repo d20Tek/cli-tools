@@ -55,7 +55,7 @@ internal static class AppDbCrudOperations
     public static async Task<Result<int>> DeleteSnapshotsByDate(this AppDbContext context, int collectionId, DateOnly snapshotDate) =>
         await TryAsync.RunAsync(() =>
             context.GetTrackPackagesByCollectionId(collectionId)
-                   .SelectMany(x => context.PackageSnapshots.Where(y => y.TrackedPackageId == x.Id)).ToIdentity()
+                   .SelectMany(x => context.PackageSnapshots.Where(y => y.TrackedPackageId == x.Id && y.SnapshotDate == snapshotDate)).ToIdentity()
                    .Iter(snapshots => snapshots.ForEach(s => context.PackageSnapshots.Remove(s)))
                    .Pipe(async _ =>
                    {
