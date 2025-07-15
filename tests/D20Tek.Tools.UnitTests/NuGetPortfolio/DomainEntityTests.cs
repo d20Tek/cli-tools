@@ -1,5 +1,4 @@
 ﻿using D20Tek.NuGet.Portfolio.Domain;
-using System.Diagnostics;
 
 namespace D20Tek.Tools.UnitTests.NuGetPortfolio;
 

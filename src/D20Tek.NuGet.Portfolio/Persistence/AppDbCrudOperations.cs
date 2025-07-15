@@ -51,4 +51,15 @@ internal static class AppDbCrudOperations
 
     private static Option<PackageSnapshotEntity> GetSnapshotByDate(this AppDbContext context, DateOnly snapshotDate) =>
         context.PackageSnapshots.FirstOrDefault(x => x.SnapshotDate == snapshotDate).ToOption();
+
+    public static async Task<Result<int>> DeleteSnapshotsByDate(this AppDbContext context, int collectionId, DateOnly snapshotDate) =>
+        await TryAsync.RunAsync(() =>
+            context.GetTrackPackagesByCollectionId(collectionId)
+                   .SelectMany(x => context.PackageSnapshots.Where(y => y.TrackedPackageId == x.Id)).ToIdentity()
+                   .Iter(snapshots => snapshots.ForEach(s => context.PackageSnapshots.Remove(s)))
+                   .Pipe(async _ =>
+                   {
+                       var changes = await context.SaveChangesAsync();
+                       return Result<int>.Success(changes);
+                   }));
 }
