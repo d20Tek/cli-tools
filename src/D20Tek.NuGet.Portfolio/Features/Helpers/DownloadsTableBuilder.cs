@@ -23,7 +23,7 @@ internal sealed class DownloadsTableBuilder
     public DownloadsTableBuilder WithRows(PackageSnapshotEntity[] snapshots) =>
         (snapshots.Length == 0).ToIdentity()
                    .Iter(x => x.IfTrueOrElse(
-                            () => _table.AddRow("", "No packages exist... please add some."),
+                            () => _table.AddRow("", "No package downloads exist..."),
                             () => snapshots.ForEach(
                                     p => _table.AddRow(
                                             p.TrackedPackageId.ToString(),

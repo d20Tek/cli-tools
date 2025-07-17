@@ -4,15 +4,8 @@ using D20Tek.NuGet.Portfolio.Persistence;
 
 namespace D20Tek.NuGet.Portfolio.Features.Snapshots;
 
-internal sealed class AddSnapshotCommand : AsyncCommand<AddSnapshotCommand.CollectionId>
+internal sealed class AddSnapshotCommand : AsyncCommand<CollectionId>
 {
-    public sealed class CollectionId : CommandSettings
-    {
-        [CommandOption("-c|--collection-id")]
-        [Description("The numeric id of the collection to get download snapshots for.")]
-        public int Value { get; set; }
-    }
-
     private readonly IAnsiConsole _console;
     private readonly AppDbContext _dbContext;
     private readonly INuGetSearchClient _client;

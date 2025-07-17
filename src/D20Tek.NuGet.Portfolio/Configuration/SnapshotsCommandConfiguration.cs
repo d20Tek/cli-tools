@@ -19,6 +19,11 @@ internal sealed class SnapshotsCommandConfiguration : ICommandConfiguration
               .WithAlias("d")
               .WithDescription("Deletes a download snapshot for a collection for a specified date.")
               .WithExample(["snapshot", "delete", "--collection-id", "1", "--date", "7/4/2025"]);
+
+            bc.AddCommand<ListTodayByCollectionCommand>("today")
+              .WithAlias("t")
+              .WithDescription("Lists the package snapshots for all packages in a collection today.")
+              .WithExample(["snapshot", "today", "--collection-id", "1"]);
         })
         .WithAlias("snap")
         .WithAlias("s");
