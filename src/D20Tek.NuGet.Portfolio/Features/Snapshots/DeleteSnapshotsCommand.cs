@@ -35,5 +35,5 @@ internal class DeleteSnapshotsCommand : AsyncCommand<DeleteSnapshotsCommand.Sett
                 .Iter(r => r.Date = _console.PromptIfDefault(
                     r.Date,
                     "Enter snapshot date to delete:",
-                    DateOnly.FromDateTime(DateTime.Now)));
+                    DateOnlyExtensions.Today()));
 }

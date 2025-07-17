@@ -17,7 +17,7 @@ internal class ListTodayByCollectionCommand : Command<CollectionId>
         _console.CommandHeader().Render("Packages snapshots");
         return id.Pipe(i => EnsureIdInput(i))
                  .Pipe(i => _dbContext.Collections.GetEntityById(i.Value)
-                     .Bind(_ => _dbContext.GetSnapshotsForCollection(i.Value, DateOnly.FromDateTime(DateTime.Today))))
+                     .Bind(_ => _dbContext.GetSnapshotsForCollection(i.Value, DateOnlyExtensions.Today())))
                  .Iter(s => RenderSnapshotsForDate(s))
                  .Render(_console, s => $"Retrieved package snapshots for {s.Length} tracked packages.");
     }
