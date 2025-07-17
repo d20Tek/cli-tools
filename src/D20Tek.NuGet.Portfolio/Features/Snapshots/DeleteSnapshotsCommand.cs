@@ -32,5 +32,8 @@ internal class DeleteSnapshotsCommand : AsyncCommand<DeleteSnapshotsCommand.Sett
 
     private Settings EnsureIdInput(Identity<Settings> settings) =>
         settings.Iter(r => r.CollectionId = _console.AskIfDefault(r.CollectionId, "Enter the collection id:"))
-                .Iter(r => r.Date = _console.AskIfDefault(r.Date, "Enter snapshot date to delete:"));
+                .Iter(r => r.Date = _console.PromptIfDefault(
+                    r.Date,
+                    "Enter snapshot date to delete:",
+                    DateOnly.FromDateTime(DateTime.Now)));
 }
