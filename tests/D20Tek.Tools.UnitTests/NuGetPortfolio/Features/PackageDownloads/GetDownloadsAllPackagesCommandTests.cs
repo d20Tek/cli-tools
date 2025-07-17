@@ -54,7 +54,7 @@ public class GetDownloadsAllPackagesCommandTests
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.S_OK, result.ExitCode);
         StringAssert.Contains(result.Output, "Success:");
-        StringAssert.Contains(result.Output, "No packages exist");
+        StringAssert.Contains(result.Output, "No package downloads exist");
         StringAssert.Contains(result.Output, "for 0 tracked packages");
     }
 
