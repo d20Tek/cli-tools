@@ -17,7 +17,7 @@ internal sealed class ListWeekByCollectionCommand : Command<CollectionId>
         _console.CommandHeader().Render("Packages snapshots");
         return id.Pipe(i => EnsureIdInput(i))
                  .Pipe(i => _dbContext.Collections.GetEntityById(i.Value)
-                     .Bind(_ => _dbContext.GetSnapshotsForCollection(i.Value, DateRange.FromWeek())))
+                     .Bind(_ => _dbContext.GetSnapshotsForCollection(i.Value, DateRange.ForWeekEnding())))
                  .Iter(s => RenderSnapshotsForWeek(s))
                  .Render(_console, s => $"Retrieved package snapshots for the last week.");
     }
