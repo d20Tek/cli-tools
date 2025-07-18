@@ -1,6 +1,5 @@
 ﻿using D20Tek.NuGet.Portfolio.Domain;
 using Microsoft.EntityFrameworkCore;
-using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace D20Tek.NuGet.Portfolio.Persistence;
 
