@@ -24,6 +24,11 @@ internal sealed class SnapshotsCommandConfiguration : ICommandConfiguration
               .WithAlias("t")
               .WithDescription("Lists the package snapshots for all packages in a collection today.")
               .WithExample(["snapshot", "today", "--collection-id", "1"]);
+
+            bc.AddCommand<ListWeekByCollectionCommand>("week")
+              .WithAlias("w")
+              .WithDescription("Lists the package snapshots for all packages in a collection for the last week.")
+              .WithExample(["snapshot", "week", "--collection-id", "1"]);
         })
         .WithAlias("snap")
         .WithAlias("s");

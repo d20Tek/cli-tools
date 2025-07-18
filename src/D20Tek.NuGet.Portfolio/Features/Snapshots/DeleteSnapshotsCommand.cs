@@ -2,7 +2,7 @@
 
 namespace D20Tek.NuGet.Portfolio.Features.Snapshots;
 
-internal class DeleteSnapshotsCommand : AsyncCommand<DeleteSnapshotsCommand.Settings>
+internal sealed class DeleteSnapshotsCommand : AsyncCommand<DeleteSnapshotsCommand.Settings>
 {
     public sealed class Settings : CommandSettings
     {

@@ -1,5 +1,6 @@
 ﻿using D20Tek.NuGet.Portfolio.Domain;
 using Microsoft.EntityFrameworkCore;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace D20Tek.NuGet.Portfolio.Persistence;
 
@@ -47,6 +48,18 @@ internal static class AppDbSnapshotOperations
             context.GetTrackPackagesByCollectionId(collectionId)
                    .SelectMany(x => context.PackageSnapshots
                                            .Where(y => y.TrackedPackageId == x.Id && y.SnapshotDate == snapshotDate)
+                                           .Include(i => i.TrackedPackage))
+                   .ToArray());
+
+    public static Result<PackageSnapshotEntity[]> GetSnapshotsForCollection(
+        this AppDbContext context,
+        int collectionId,
+        DateRange dateRange) =>
+        Try.Run<PackageSnapshotEntity[]>(() =>
+            context.GetTrackPackagesByCollectionId(collectionId)
+                   .SelectMany(x => context.PackageSnapshots
+                                           .Where(y => y.TrackedPackageId == x.Id && 
+                                                      (y.SnapshotDate >= dateRange.Start && y.SnapshotDate <= dateRange.End))
                                            .Include(i => i.TrackedPackage))
                    .ToArray());
 }

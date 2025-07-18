@@ -4,12 +4,12 @@ using D20Tek.NuGet.Portfolio.Persistence;
 
 namespace D20Tek.NuGet.Portfolio.Features.Snapshots;
 
-internal sealed class ListTodayByCollectionCommand : Command<CollectionId>
+internal sealed class ListWeekByCollectionCommand : Command<CollectionId>
 {
     private readonly IAnsiConsole _console;
     private readonly AppDbContext _dbContext;
 
-    public ListTodayByCollectionCommand(IAnsiConsole console, AppDbContext dbContext) =>
+    public ListWeekByCollectionCommand(IAnsiConsole console, AppDbContext dbContext) =>
         (_console, _dbContext) = (console, dbContext);
 
     public override int Execute(CommandContext context, CollectionId id)
@@ -17,17 +17,17 @@ internal sealed class ListTodayByCollectionCommand : Command<CollectionId>
         _console.CommandHeader().Render("Packages snapshots");
         return id.Pipe(i => EnsureIdInput(i))
                  .Pipe(i => _dbContext.Collections.GetEntityById(i.Value)
-                     .Bind(_ => _dbContext.GetSnapshotsForCollection(i.Value, DateOnlyExtensions.Today())))
-                 .Iter(s => RenderSnapshotsForDate(s))
-                 .Render(_console, s => $"Retrieved package snapshots for {s.Length} tracked packages.");
+                     .Bind(_ => _dbContext.GetSnapshotsForCollection(i.Value, DateRange.FromWeek())))
+                 .Iter(s => RenderSnapshotsForWeek(s))
+                 .Render(_console, s => $"Retrieved package snapshots for the last week.");
     }
 
     private CollectionId EnsureIdInput(Identity<CollectionId> id) =>
         id.Iter(r => r.Value = _console.AskIfDefault(r.Value, "Enter the collection id:"));
 
-    public void RenderSnapshotsForDate(PackageSnapshotEntity[] snapshots) =>
+    public void RenderSnapshotsForWeek(PackageSnapshotEntity[] snapshots) =>
         _console.RenderTableWithTitle(
-            "Package downloads (today)",
+            "Package downloads (week)",
             DownloadsTableBuilder.Create()
                                  .WithHeader()
                                  .WithRows(snapshots)
