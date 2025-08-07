@@ -21,8 +21,8 @@ internal static class AppDbSnapshotOperations
             return Result<PackageSnapshotEntity[]>.Success(snapshots);
         });
 
-    private static Option<PackageSnapshotEntity> GetSnapshotByDate(this AppDbContext context, DateOnly snapshotDate) =>
-        context.PackageSnapshots.FirstOrDefault(x => x.SnapshotDate == snapshotDate).ToOption();
+    private static Optional<PackageSnapshotEntity> GetSnapshotByDate(this AppDbContext context, DateOnly snapshotDate) =>
+        context.PackageSnapshots.FirstOrDefault(x => x.SnapshotDate == snapshotDate).ToOptional();
 
     public static async Task<Result<int>> DeleteSnapshotsByDate(
         this AppDbContext context,
