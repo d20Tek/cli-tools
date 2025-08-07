@@ -1,9 +1,11 @@
 ﻿using D20Tek.NuGet.Portfolio.Domain;
 using D20Tek.NuGet.Portfolio.Features.Helpers;
 using D20Tek.NuGet.Portfolio.Persistence;
+using System.Diagnostics.CodeAnalysis;
 
 namespace D20Tek.NuGet.Portfolio.Features.Snapshots;
 
+[ExcludeFromCodeCoverage]
 internal sealed class ListWeekByCollectionCommand : Command<CollectionId>
 {
     private readonly IAnsiConsole _console;

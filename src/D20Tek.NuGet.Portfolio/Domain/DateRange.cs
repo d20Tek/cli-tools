@@ -1,5 +1,8 @@
-﻿namespace D20Tek.NuGet.Portfolio.Domain;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace D20Tek.NuGet.Portfolio.Domain;
+
+[ExcludeFromCodeCoverage]
 public sealed record DateRange(DateOnly Start, DateOnly End)
 {
     public bool IsWithin(DateOnly date) => date >= Start && date <= End;

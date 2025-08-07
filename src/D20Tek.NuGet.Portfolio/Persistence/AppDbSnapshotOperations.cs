@@ -1,5 +1,6 @@
 ﻿using D20Tek.NuGet.Portfolio.Domain;
 using Microsoft.EntityFrameworkCore;
+using System.Diagnostics.CodeAnalysis;
 
 namespace D20Tek.NuGet.Portfolio.Persistence;
 
@@ -50,11 +51,12 @@ internal static class AppDbSnapshotOperations
                                            .Include(i => i.TrackedPackage))
                    .ToArray());
 
+    [ExcludeFromCodeCoverage]
     public static Result<PackageSnapshotEntity[]> GetSnapshotsForCollection(
         this AppDbContext context,
         int collectionId,
         DateRange dateRange) =>
-        Try.Run<PackageSnapshotEntity[]>(() =>
+        Try.Run<PackageSnapshotEntity[]>([ExcludeFromCodeCoverage] () =>
             context.GetTrackPackagesByCollectionId(collectionId)
                    .SelectMany(x => context.PackageSnapshots
                                            .Where(y => y.TrackedPackageId == x.Id && 
