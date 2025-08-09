@@ -14,7 +14,7 @@ internal class RunTimerCommand : Command
     {
         _emojiSupported = ConsoleExtensions.SupportsEmoji();
 
-        const int pomodoroMinutes = 25; // change for testing
+        const int pomodoroMinutes = 1; // change for testing
         var totalSeconds = pomodoroMinutes * 60;
         var endTime = DateTime.Now.AddMinutes(pomodoroMinutes);
 
@@ -31,37 +31,11 @@ internal class RunTimerCommand : Command
         {
             while (!_exit)
             {
-                if (!_paused)
-                {
-                    var remaining = endTime - DateTime.Now;
+                var remaining = endTime - DateTime.Now;
+                ctx.UpdateTarget(Render(remaining, totalSeconds, _paused));
 
-                    double progressPercent = 1.0 - (remaining.TotalSeconds / totalSeconds);
-                    string timeLeft = $"{remaining.Minutes:D2}:{remaining.Seconds:D2}";
-
-                    var panel = new Panel(
-                            $"[bold red]{timeLeft}[/]\n\n" +
-                            $"{GetProgressBar(progressPercent, 60)}\n\n" +
-                            "[dim]Commands: (P)ause (Q)uit[/]")
-                        .Border(BoxBorder.Rounded)
-                        .BorderStyle(new Style(Color.Red))
-                        .Header($"{IconTomato()} Pomodoro", Justify.Center)
-                        .Padding(1, 1, 1, 1);
-
-                    ctx.UpdateTarget(panel);
-
-                    if (remaining <= TimeSpan.Zero)
-                        break;
-                }
-                else
-                {
-                    var panel = new Panel($"{IconPause()}  [yellow]Paused[/]\n\n[dim](R)esume  (Q)uit[/]")
-                        .Border(BoxBorder.Rounded)
-                        .BorderStyle(new Style(Color.Yellow))
-                        .Header($"{IconTomato()}  Pomodoro", Justify.Center)
-                        .Padding(1, 1, 31, 1);
-
-                    ctx.UpdateTarget(panel);
-                }
+                if (remaining <= TimeSpan.Zero)
+                    break;
 
                 Thread.Sleep(200);
             }
@@ -92,8 +66,27 @@ internal class RunTimerCommand : Command
                 if (key == ConsoleKey.Q) _exit = true;
             }
 
-            Thread.Sleep(50); // prevent CPU overuse
+            Thread.Sleep(50);
         }
+    }
+
+    private Panel Render(TimeSpan remaining, int totalSeconds, bool paused)
+    {
+        double progressPercent = 1.0 - (remaining.TotalSeconds / totalSeconds);
+        string timeLeft = $"{remaining.Minutes:D2}:{remaining.Seconds:D2}";
+
+        string timeDisplay = paused ? $"[bold yellow]{timeLeft} - {IconPause()}  Paused[/]\n\n" : $"[bold red]{timeLeft}[/]\n\n";
+
+        var panel = new Panel(
+                timeDisplay +
+                $"{GetProgressBar(progressPercent, 60)}\n\n" +
+                "[dim]Commands: (P)ause (R)esume (Q)uit[/]")
+            .Border(BoxBorder.Rounded)
+            .BorderStyle(new Style(paused ? Color.Yellow : Color.Red))
+            .Header($"{IconTomato()} Pomodoro", Justify.Center)
+            .Padding(1, 1, 1, 1);
+
+        return panel;
     }
 
     private string GetProgressBar(double percent, int width)
@@ -103,7 +96,6 @@ internal class RunTimerCommand : Command
         return $"[red]{new string('█', filled)}[/][grey]{new string('░', empty)}[/] {percent * 100:0}%";
     }
 
-    // Emoji / ASCII icon helpers
     private string IconTomato() => _emojiSupported ? ":tomato:" : "[red]*[/]";
 
     private string IconPause() => _emojiSupported ? ":pause_button:" : "[yellow]||[/]";
