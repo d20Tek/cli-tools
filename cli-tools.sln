@@ -13,6 +13,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "D20Tek.Tools.UnitTests", "t
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "D20Tek.NuGet.Portfolio", "src\D20Tek.NuGet.Portfolio\D20Tek.NuGet.Portfolio.csproj", "{E81746E7-CC05-4838-B1C8-2C8D30B300AF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "D20Tek.Tools.DevPomo", "src\D20Tek.Tools.DevPomo\D20Tek.Tools.DevPomo.csproj", "{57E9867A-5EA8-4C44-B6CC-9BFF383A0D93}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -31,6 +33,10 @@ Global
 		{E81746E7-CC05-4838-B1C8-2C8D30B300AF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E81746E7-CC05-4838-B1C8-2C8D30B300AF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E81746E7-CC05-4838-B1C8-2C8D30B300AF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{57E9867A-5EA8-4C44-B6CC-9BFF383A0D93}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{57E9867A-5EA8-4C44-B6CC-9BFF383A0D93}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{57E9867A-5EA8-4C44-B6CC-9BFF383A0D93}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{57E9867A-5EA8-4C44-B6CC-9BFF383A0D93}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -39,6 +45,7 @@ Global
 		{29E8ED6E-3ECE-427C-B40A-04B639A817AE} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 		{F0BD90FB-C599-E3B4-B2BE-CBEF366EA93F} = {B1142D70-596B-44B7-9860-CF8A966A6A5C}
 		{E81746E7-CC05-4838-B1C8-2C8D30B300AF} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
+		{57E9867A-5EA8-4C44-B6CC-9BFF383A0D93} = {02EA681E-C7D8-13C7-8484-4AC65E1B71E8}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {EB08EAA5-3389-4600-A9EA-5FAE71AD7F0E}
