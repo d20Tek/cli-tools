@@ -56,7 +56,7 @@ internal class RunTimerCommand : Command
                         .Border(BoxBorder.Rounded)
                         .BorderStyle(new Style(Color.Yellow))
                         .Header($"{IconTomato()}  Pomodoro", Justify.Center)
-                        .Padding(1, 1, 1, 1);
+                        .Padding(1, 1, 31, 1);
 
                     ctx.UpdateTarget(panel);
                 }
