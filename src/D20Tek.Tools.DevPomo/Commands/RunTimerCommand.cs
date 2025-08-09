@@ -1,4 +1,5 @@
-﻿using Spectre.Console;
+﻿using D20Tek.Tools.DevPomo.Common;
+using Spectre.Console;
 using Spectre.Console.Cli;
 
 namespace D20Tek.Tools.DevPomo.Commands;
@@ -11,7 +12,7 @@ internal class RunTimerCommand : Command
 
     public override int Execute(CommandContext context)
     {
-        _emojiSupported = DetectEmojiSupport();
+        _emojiSupported = ConsoleExtensions.SupportsEmoji();
 
         const int pomodoroMinutes = 25; // change for testing
         var totalSeconds = pomodoroMinutes * 60;
@@ -33,22 +34,23 @@ internal class RunTimerCommand : Command
                 if (!_paused)
                 {
                     var remaining = endTime - DateTime.Now;
-                    if (remaining <= TimeSpan.Zero)
-                        break;
 
                     double progressPercent = 1.0 - (remaining.TotalSeconds / totalSeconds);
                     string timeLeft = $"{remaining.Minutes:D2}:{remaining.Seconds:D2}";
 
                     var panel = new Panel(
-                        $"[bold red]{timeLeft}[/]\n\n" +
-                        $"{GetProgressBar(progressPercent, 60)}\n\n" +
-                        "[dim]Commands: (P)ause (Q)uit[/]")
+                            $"[bold red]{timeLeft}[/]\n\n" +
+                            $"{GetProgressBar(progressPercent, 60)}\n\n" +
+                            "[dim]Commands: (P)ause (Q)uit[/]")
                         .Border(BoxBorder.Rounded)
                         .BorderStyle(new Style(Color.Red))
                         .Header($"{IconTomato()} Pomodoro", Justify.Center)
                         .Padding(1, 1, 1, 1);
 
                     ctx.UpdateTarget(panel);
+
+                    if (remaining <= TimeSpan.Zero)
+                        break;
                 }
                 else
                 {
@@ -107,20 +109,4 @@ internal class RunTimerCommand : Command
     private string IconPause() => _emojiSupported ? ":pause_button:" : "[yellow]||[/]";
 
     private string IconStop() => _emojiSupported ? ":stop_button:" : "[red]STOP[/]";
-
-    // Simple emoji detection
-    private bool DetectEmojiSupport()
-    {
-        // Check if console can render a known emoji character
-        try
-        {
-            Console.OutputEncoding = System.Text.Encoding.UTF8;
-            string test = "🍅";
-            return test.Any(c => char.GetUnicodeCategory(c) != System.Globalization.UnicodeCategory.OtherNotAssigned);
-        }
-        catch
-        {
-            return false;
-        }
-    }
 }
