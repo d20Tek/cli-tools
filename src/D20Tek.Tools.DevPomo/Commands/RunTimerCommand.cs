@@ -82,13 +82,14 @@ internal class RunTimerCommand : Command
     {
         while (!_exit)
         {
-            if (Console.KeyAvailable)
+            if (AnsiConsole.Console.Input.IsKeyAvailable())
             {
-                var key = Console.ReadKey(true).Key;
+                var key = AnsiConsole.Console.Input.ReadKey(true)?.Key;
                 if (key == ConsoleKey.P) _paused = true;
                 if (key == ConsoleKey.R) _paused = false;
                 if (key == ConsoleKey.Q) _exit = true;
             }
+
             Thread.Sleep(50); // prevent CPU overuse
         }
     }
