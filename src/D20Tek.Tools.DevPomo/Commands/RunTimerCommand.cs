@@ -38,11 +38,17 @@ internal class RunTimerCommand : Command
                    {
                         while (!_exit && remainingSeconds > 0)
                         {
-                            remainingSeconds = totalSeconds - (int)_stopwatch.Elapsed.TotalSeconds;
+                            if (!_paused)
+                            {
+                                remainingSeconds = Math.Max(totalSeconds - (int)_stopwatch.Elapsed.TotalSeconds, 0);
+                            }
+
                             ctx.UpdateTarget(TimerPanel.Render(remainingSeconds, totalSeconds, _paused));
 
                             Thread.Sleep(100);
                         }
+
+                        _exit = true;
                    });
 
         if (!_exit)
@@ -55,6 +61,7 @@ internal class RunTimerCommand : Command
             AnsiConsole.MarkupLine($"\n[bold red]{EmojiIcons.Stop}  Pomodoro Stopped Early.[/]");
         }
 
+        inputThread.Join();
         return 0;
     }
 
