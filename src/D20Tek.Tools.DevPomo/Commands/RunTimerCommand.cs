@@ -1,5 +1,4 @@
-﻿using D20Tek.Tools.DevPomo.Common;
-using Spectre.Console;
+﻿using Spectre.Console;
 using Spectre.Console.Cli;
 
 namespace D20Tek.Tools.DevPomo.Commands;
@@ -8,11 +7,10 @@ internal class RunTimerCommand : Command
 {
     private bool _paused = false;
     private bool _exit = false;
-    private bool _emojiSupported;
 
     public override int Execute(CommandContext context)
     {
-        _emojiSupported = ConsoleExtensions.SupportsEmoji();
+        EmojiIcons.Initialize();
 
         const int pomodoroMinutes = 1; // change for testing
         var totalSeconds = pomodoroMinutes * 60;
@@ -23,23 +21,27 @@ internal class RunTimerCommand : Command
         inputThread.Start();
 
         AnsiConsole.Write(new FigletText("dev-pomo").Color(Color.Green));
-        AnsiConsole.MarkupLine($"\n[bold green]{IconTomato()} Pomodoro Timer Started![/] Stay focused...");
+        AnsiConsole.MarkupLine($"\n[bold green]{EmojiIcons.Tomato} Pomodoro Timer Started![/] Stay focused...");
         AnsiConsole.MarkupLine($"Focus for [yellow]{pomodoroMinutes} minutes[/], starting now!");
         AnsiConsole.MarkupLine("[dim](Press [yellow]P[/] to pause, [yellow]R[/] to resume, [yellow]Q[/] to quit)[/]\n");
 
-        AnsiConsole.Live(new Panel("")).Start(ctx =>
-        {
-            while (!_exit)
-            {
-                var remaining = endTime - DateTime.Now;
-                ctx.UpdateTarget(Render(remaining, totalSeconds, _paused));
+        AnsiConsole.Live(new Panel(""))
+                   .AutoClear(false)
+                   .Overflow(VerticalOverflow.Ellipsis)
+                   .Cropping(VerticalOverflowCropping.Top)
+                   .Start(ctx =>
+                    {
+                        while (!_exit)
+                        {
+                            var remaining = endTime - DateTime.Now;
+                            ctx.UpdateTarget(Render(remaining, totalSeconds, _paused));
 
-                if (remaining <= TimeSpan.Zero)
-                    break;
+                            if (remaining <= TimeSpan.Zero)
+                                break;
 
-                Thread.Sleep(200);
-            }
-        });
+                            Thread.Sleep(200);
+                        }
+                    });
 
         if (!_exit)
         {
@@ -48,7 +50,7 @@ internal class RunTimerCommand : Command
         }
         else
         {
-            AnsiConsole.MarkupLine($"\n[bold red]{IconStop()}  Pomodoro Stopped Early.[/]");
+            AnsiConsole.MarkupLine($"\n[bold red]{EmojiIcons.Stop}  Pomodoro Stopped Early.[/]");
         }
 
         return 0;
@@ -75,7 +77,7 @@ internal class RunTimerCommand : Command
         double progressPercent = 1.0 - (remaining.TotalSeconds / totalSeconds);
         string timeLeft = $"{remaining.Minutes:D2}:{remaining.Seconds:D2}";
 
-        string timeDisplay = paused ? $"[bold yellow]{timeLeft} - {IconPause()}  Paused[/]\n\n" : $"[bold red]{timeLeft}[/]\n\n";
+        string timeDisplay = paused ? $"[bold yellow]{timeLeft} - {EmojiIcons.Pause}  Paused[/]\n\n" : $"[bold red]{timeLeft}[/]\n\n";
 
         var panel = new Panel(
                 timeDisplay +
@@ -83,7 +85,7 @@ internal class RunTimerCommand : Command
                 "[dim]Commands: (P)ause (R)esume (Q)uit[/]")
             .Border(BoxBorder.Rounded)
             .BorderStyle(new Style(paused ? Color.Yellow : Color.Red))
-            .Header($"{IconTomato()} Pomodoro", Justify.Center)
+            .Header($"{EmojiIcons.Tomato} Pomodoro", Justify.Center)
             .Padding(1, 1, 1, 1);
 
         return panel;
@@ -95,10 +97,4 @@ internal class RunTimerCommand : Command
         int empty = width - filled;
         return $"[red]{new string('█', filled)}[/][grey]{new string('░', empty)}[/] {percent * 100:0}%";
     }
-
-    private string IconTomato() => _emojiSupported ? ":tomato:" : "[red]*[/]";
-
-    private string IconPause() => _emojiSupported ? ":pause_button:" : "[yellow]||[/]";
-
-    private string IconStop() => _emojiSupported ? ":stop_button:" : "[red]STOP[/]";
 }
