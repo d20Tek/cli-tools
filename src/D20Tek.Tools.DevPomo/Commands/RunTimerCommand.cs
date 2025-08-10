@@ -1,22 +1,16 @@
 ﻿using Spectre.Console;
 using Spectre.Console.Cli;
-using System.Diagnostics;
 
 namespace D20Tek.Tools.DevPomo.Commands;
 
 internal class RunTimerCommand : Command
 {
-    private bool _paused = false;
-    private bool _exit = false;
-    private readonly Stopwatch _stopwatch = new();
+    private readonly TimerState _state = new();
 
     public override int Execute(CommandContext context)
     {
         EmojiIcons.Initialize();
-
-        // Start background input thread
-        var inputThread = new Thread(ReadInput) { IsBackground = true };
-        inputThread.Start();
+        using var inputHandler = TimerInputHandler.Start(_state);
 
         const int pomodoroMinutes = 1; // change for testing
 
@@ -28,30 +22,35 @@ internal class RunTimerCommand : Command
         var totalSeconds = pomodoroMinutes * 60;
         var remainingSeconds = totalSeconds;
 
-        _stopwatch.Start();
+        _state.Stopwatch.Start();
 
-        AnsiConsole.Live(TimerPanel.Render(remainingSeconds, totalSeconds, _paused))
+        AnsiConsole.Live(TimerPanel.Render(remainingSeconds, totalSeconds, _state.Paused))
                    .AutoClear(false)
                    .Overflow(VerticalOverflow.Ellipsis)
                    .Cropping(VerticalOverflowCropping.Top)
                    .Start(ctx =>
                    {
-                        while (!_exit && remainingSeconds > 0)
+                        while (!_state.Exit && remainingSeconds > 0)
                         {
-                            if (!_paused)
+                            if (!_state.Paused)
                             {
-                                remainingSeconds = Math.Max(totalSeconds - (int)_stopwatch.Elapsed.TotalSeconds, 0);
+                                remainingSeconds = Math.Max(totalSeconds - (int)_state.Stopwatch.Elapsed.TotalSeconds, 0);
                             }
 
-                            ctx.UpdateTarget(TimerPanel.Render(remainingSeconds, totalSeconds, _paused));
+                            ctx.UpdateTarget(TimerPanel.Render(remainingSeconds, totalSeconds, _state.Paused));
 
                             Thread.Sleep(100);
                         }
-
-                        _exit = true;
                    });
 
-        if (!_exit)
+        ShowEndMessage(remainingSeconds);
+
+        return 0;
+    }
+
+    private void ShowEndMessage(int remainingSeconds)
+    {
+        if (remainingSeconds <= 0)
         {
             Console.Beep();
             AnsiConsole.MarkupLine($"\n[bold green]Pomodoro Complete! Take a break.[/]");
@@ -59,42 +58,6 @@ internal class RunTimerCommand : Command
         else
         {
             AnsiConsole.MarkupLine($"\n[bold red]{EmojiIcons.Stop}  Pomodoro Stopped Early.[/]");
-        }
-
-        inputThread.Join();
-        return 0;
-    }
-
-    private void ReadInput()
-    {
-        while (!_exit)
-        {
-            if (AnsiConsole.Console.Input.IsKeyAvailable())
-            {
-                var key = AnsiConsole.Console.Input.ReadKey(true)?.Key;
-                switch (key)
-                {
-                    case ConsoleKey.P:
-                        if (!_paused)
-                        {
-                            _paused = true;
-                            _stopwatch.Stop();
-                        }
-                        break;
-                    case ConsoleKey.R:
-                        if (_paused)
-                        {
-                            _paused = false;
-                            _stopwatch.Start();
-                        }
-                        break;
-                    case ConsoleKey.Q:
-                        _exit = true;
-                        break;
-                }
-            }
-
-            Thread.Sleep(50);
         }
     }
 }
