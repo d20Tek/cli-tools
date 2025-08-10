@@ -4,17 +4,15 @@ namespace D20Tek.Tools.DevPomo.Commands;
 
 internal class TimerPanel
 {
-    public string Title { get; private set; }
+    private readonly string _title;
+    private readonly string _foregroundColor;
+    private readonly Color _borderColor;
 
-    public string ProgressColor { get; private set; }
-
-    public Color BorderColor { get; private set; }
-
-    public TimerPanel(string title, string progressColor = "red", Color? borderColor = null)
+    public TimerPanel(string title, string foregroundColor = "red", Color? borderColor = null)
     {
-        Title = title;
-        ProgressColor = progressColor;
-        BorderColor = borderColor ?? Color.Red;
+        _title = title;
+        _foregroundColor = foregroundColor;
+        _borderColor = borderColor ?? Color.Red;
     }
 
     public Panel Render(int remainingSeconds, int totalSeconds, bool paused)
@@ -23,12 +21,12 @@ internal class TimerPanel
         string timeLeft = FormatTime(remainingSeconds);
 
         var panel = new Panel(
-                RenderTime(timeLeft, paused) +
-                $"{RenderProgressBar(progressPercent, 60, ProgressColor)}\n\n" +
+                RenderTime(timeLeft, _foregroundColor, paused) +
+                $"{RenderProgressBar(progressPercent, 60, _foregroundColor)}\n\n" +
                 "[dim]Commands: (P)ause (R)esume (Q)uit[/]")
             .Border(BoxBorder.Rounded)
-            .BorderStyle(new Style(paused ? Color.Yellow : BorderColor))
-            .Header(Title, Justify.Center)
+            .BorderStyle(new Style(paused ? Color.Yellow : _borderColor))
+            .Header(_title, Justify.Center)
             .Padding(1, 1, 1, 1);
 
         return panel;
@@ -37,8 +35,8 @@ internal class TimerPanel
     private static string FormatTime(int remainingSeconds) =>
         $"{(remainingSeconds / 60):D2}:{(remainingSeconds % 60):D2}";
 
-    private static string RenderTime(string timeLeft, bool paused) =>
-        paused ? $"[bold yellow]{timeLeft} - {EmojiIcons.Pause}  Paused[/]\n\n" : $"[bold red]{timeLeft}[/]\n\n";
+    private static string RenderTime(string timeLeft, string color, bool paused) =>
+        paused ? $"[bold yellow]{timeLeft} - {EmojiIcons.Pause}  Paused[/]\n\n" : $"[bold {color}]{timeLeft}[/]\n\n";
 
     private static string RenderProgressBar(
         double percent,

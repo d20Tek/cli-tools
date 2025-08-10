@@ -8,7 +8,7 @@ internal class TimerState
 
     public bool Exit { get; private set; } = false;
 
-    public Stopwatch Stopwatch { get; } = new();
+    private Stopwatch Stopwatch { get; } = new();
 
     public void Pause()
     {
@@ -28,8 +28,9 @@ internal class TimerState
         }
     }
 
-    public void RequestExit()
-    {
-        Exit = true;
-    }
+    public void RequestExit() => Exit = true;
+
+    public void RestartTimer() => Stopwatch.Restart();
+
+    public int GetElapsedTime() => (int)Stopwatch.Elapsed.TotalSeconds;
 }
