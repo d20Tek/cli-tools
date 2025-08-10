@@ -21,10 +21,11 @@ internal class RunTimerCommand : Command
 
         var totalSeconds = pomodoroMinutes * 60;
         var remainingSeconds = totalSeconds;
+        var panel = new TimerPanel($"{EmojiIcons.Tomato} Pomodoro");
 
         _state.Stopwatch.Start();
 
-        AnsiConsole.Live(TimerPanel.Render(remainingSeconds, totalSeconds, _state.Paused))
+        AnsiConsole.Live(panel.Render(remainingSeconds, totalSeconds, _state.Paused))
                    .AutoClear(false)
                    .Overflow(VerticalOverflow.Ellipsis)
                    .Cropping(VerticalOverflowCropping.Top)
@@ -37,7 +38,7 @@ internal class RunTimerCommand : Command
                                 remainingSeconds = Math.Max(totalSeconds - (int)_state.Stopwatch.Elapsed.TotalSeconds, 0);
                             }
 
-                            ctx.UpdateTarget(TimerPanel.Render(remainingSeconds, totalSeconds, _state.Paused));
+                            ctx.UpdateTarget(panel.Render(remainingSeconds, totalSeconds, _state.Paused));
 
                             Thread.Sleep(100);
                         }

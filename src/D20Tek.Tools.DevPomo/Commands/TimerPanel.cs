@@ -2,20 +2,33 @@
 
 namespace D20Tek.Tools.DevPomo.Commands;
 
-internal static class TimerPanel
+internal class TimerPanel
 {
-    public static Panel Render(int remainingSeconds, int totalSeconds, bool paused)
+    public string Title { get; private set; }
+
+    public string ProgressColor { get; private set; }
+
+    public Color BorderColor { get; private set; }
+
+    public TimerPanel(string title, string progressColor = "red", Color? borderColor = null)
+    {
+        Title = title;
+        ProgressColor = progressColor;
+        BorderColor = borderColor ?? Color.Red;
+    }
+
+    public Panel Render(int remainingSeconds, int totalSeconds, bool paused)
     {
         double progressPercent = (double)(totalSeconds - remainingSeconds) / totalSeconds;
         string timeLeft = FormatTime(remainingSeconds);
 
         var panel = new Panel(
                 RenderTime(timeLeft, paused) +
-                $"{RenderProgressBar(progressPercent, 60)}\n\n" +
+                $"{RenderProgressBar(progressPercent, 60, ProgressColor)}\n\n" +
                 "[dim]Commands: (P)ause (R)esume (Q)uit[/]")
             .Border(BoxBorder.Rounded)
-            .BorderStyle(new Style(paused ? Color.Yellow : Color.Red))
-            .Header($"{EmojiIcons.Tomato} Pomodoro", Justify.Center)
+            .BorderStyle(new Style(paused ? Color.Yellow : BorderColor))
+            .Header(Title, Justify.Center)
             .Padding(1, 1, 1, 1);
 
         return panel;
@@ -30,7 +43,7 @@ internal static class TimerPanel
     private static string RenderProgressBar(
         double percent,
         int width,
-        string foregroundColor = "red",
+        string foregroundColor,
         string backgroundColor = "grey")
     {
         int filled = (int)(percent * width);
