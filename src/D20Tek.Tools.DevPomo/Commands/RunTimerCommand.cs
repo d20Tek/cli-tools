@@ -65,9 +65,26 @@ internal class RunTimerCommand : Command
             if (AnsiConsole.Console.Input.IsKeyAvailable())
             {
                 var key = AnsiConsole.Console.Input.ReadKey(true)?.Key;
-                if (key == ConsoleKey.P) _paused = true;
-                if (key == ConsoleKey.R) _paused = false;
-                if (key == ConsoleKey.Q) _exit = true;
+                switch (key)
+                {
+                    case ConsoleKey.P:
+                        if (!_paused)
+                        {
+                            _paused = true;
+                            _stopwatch.Stop();
+                        }
+                        break;
+                    case ConsoleKey.R:
+                        if (_paused)
+                        {
+                            _paused = false;
+                            _stopwatch.Start();
+                        }
+                        break;
+                    case ConsoleKey.Q:
+                        _exit = true;
+                        break;
+                }
             }
 
             Thread.Sleep(50);
