@@ -8,7 +8,7 @@ internal class RunTimerCommand : Command
 {
     private bool _paused = false;
     private bool _exit = false;
-    private Stopwatch _stopwatch = new();
+    private readonly Stopwatch _stopwatch = new();
 
     public override int Execute(CommandContext context)
     {
@@ -30,7 +30,7 @@ internal class RunTimerCommand : Command
 
         _stopwatch.Start();
 
-        AnsiConsole.Live(Render(remainingSeconds, totalSeconds, _paused))
+        AnsiConsole.Live(TimerPanel.Render(remainingSeconds, totalSeconds, _paused))
                    .AutoClear(false)
                    .Overflow(VerticalOverflow.Ellipsis)
                    .Cropping(VerticalOverflowCropping.Top)
@@ -39,7 +39,7 @@ internal class RunTimerCommand : Command
                         while (!_exit && remainingSeconds > 0)
                         {
                             remainingSeconds = totalSeconds - (int)_stopwatch.Elapsed.TotalSeconds;
-                            ctx.UpdateTarget(Render(remainingSeconds, totalSeconds, _paused));
+                            ctx.UpdateTarget(TimerPanel.Render(remainingSeconds, totalSeconds, _paused));
 
                             Thread.Sleep(100);
                         }
@@ -72,40 +72,5 @@ internal class RunTimerCommand : Command
 
             Thread.Sleep(50);
         }
-    }
-
-    private static Panel Render(int remainingSeconds, int totalSeconds, bool paused)
-    {
-        double progressPercent = (double)(totalSeconds - remainingSeconds) / totalSeconds;
-        string timeLeft = FormatTime(remainingSeconds);
-
-        var panel = new Panel(
-                RenderTime(timeLeft, paused) +
-                $"{RenderProgressBar(progressPercent, 60)}\n\n" +
-                "[dim]Commands: (P)ause (R)esume (Q)uit[/]")
-            .Border(BoxBorder.Rounded)
-            .BorderStyle(new Style(paused ? Color.Yellow : Color.Red))
-            .Header($"{EmojiIcons.Tomato} Pomodoro", Justify.Center)
-            .Padding(1, 1, 1, 1);
-
-        return panel;
-    }
-
-    private static string FormatTime(int remainingSeconds) =>
-        $"{(remainingSeconds / 60):D2}:{(remainingSeconds % 60):D2}";
-
-    private static string RenderTime(string timeLeft, bool paused) =>
-        paused ? $"[bold yellow]{timeLeft} - {EmojiIcons.Pause}  Paused[/]\n\n" : $"[bold red]{timeLeft}[/]\n\n";
-
-    private static string RenderProgressBar(
-        double percent,
-        int width,
-        string foregroundColor = "red",
-        string backgroundColor = "grey")
-    {
-        int filled = (int)(percent * width);
-        int empty = width - filled;
-        return $"[{foregroundColor}]{new string('█', filled)}[/][{backgroundColor}]{new string('░', empty)}[/]" +
-               $" {percent * 100:0}%";
     }
 }
