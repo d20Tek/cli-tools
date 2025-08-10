@@ -1,5 +1,6 @@
 ﻿using Spectre.Console;
 using Spectre.Console.Cli;
+using System.Diagnostics;
 
 namespace D20Tek.Tools.DevPomo.Commands;
 
@@ -7,41 +8,42 @@ internal class RunTimerCommand : Command
 {
     private bool _paused = false;
     private bool _exit = false;
+    private Stopwatch _stopwatch = new();
 
     public override int Execute(CommandContext context)
     {
         EmojiIcons.Initialize();
 
-        const int pomodoroMinutes = 1; // change for testing
-        var totalSeconds = pomodoroMinutes * 60;
-        var endTime = DateTime.Now.AddMinutes(pomodoroMinutes);
-
         // Start background input thread
         var inputThread = new Thread(ReadInput) { IsBackground = true };
         inputThread.Start();
+
+        const int pomodoroMinutes = 1; // change for testing
 
         AnsiConsole.Write(new FigletText("dev-pomo").Color(Color.Green));
         AnsiConsole.MarkupLine($"\n[bold green]{EmojiIcons.Tomato} Pomodoro Timer Started![/] Stay focused...");
         AnsiConsole.MarkupLine($"Focus for [yellow]{pomodoroMinutes} minutes[/], starting now!");
         AnsiConsole.MarkupLine("[dim](Press [yellow]P[/] to pause, [yellow]R[/] to resume, [yellow]Q[/] to quit)[/]\n");
 
-        AnsiConsole.Live(new Panel(""))
+        var totalSeconds = pomodoroMinutes * 60;
+        var remainingSeconds = totalSeconds;
+
+        _stopwatch.Start();
+
+        AnsiConsole.Live(Render(remainingSeconds, totalSeconds, _paused))
                    .AutoClear(false)
                    .Overflow(VerticalOverflow.Ellipsis)
                    .Cropping(VerticalOverflowCropping.Top)
                    .Start(ctx =>
-                    {
-                        while (!_exit)
+                   {
+                        while (!_exit && remainingSeconds > 0)
                         {
-                            var remaining = endTime - DateTime.Now;
-                            ctx.UpdateTarget(Render(remaining, totalSeconds, _paused));
+                            remainingSeconds = totalSeconds - (int)_stopwatch.Elapsed.TotalSeconds;
+                            ctx.UpdateTarget(Render(remainingSeconds, totalSeconds, _paused));
 
-                            if (remaining <= TimeSpan.Zero)
-                                break;
-
-                            Thread.Sleep(200);
+                            Thread.Sleep(100);
                         }
-                    });
+                   });
 
         if (!_exit)
         {
@@ -72,16 +74,14 @@ internal class RunTimerCommand : Command
         }
     }
 
-    private Panel Render(TimeSpan remaining, int totalSeconds, bool paused)
+    private static Panel Render(int remainingSeconds, int totalSeconds, bool paused)
     {
-        double progressPercent = 1.0 - (remaining.TotalSeconds / totalSeconds);
-        string timeLeft = $"{remaining.Minutes:D2}:{remaining.Seconds:D2}";
-
-        string timeDisplay = paused ? $"[bold yellow]{timeLeft} - {EmojiIcons.Pause}  Paused[/]\n\n" : $"[bold red]{timeLeft}[/]\n\n";
+        double progressPercent = (double)(totalSeconds - remainingSeconds) / totalSeconds;
+        string timeLeft = FormatTime(remainingSeconds);
 
         var panel = new Panel(
-                timeDisplay +
-                $"{GetProgressBar(progressPercent, 60)}\n\n" +
+                RenderTime(timeLeft, paused) +
+                $"{RenderProgressBar(progressPercent, 60)}\n\n" +
                 "[dim]Commands: (P)ause (R)esume (Q)uit[/]")
             .Border(BoxBorder.Rounded)
             .BorderStyle(new Style(paused ? Color.Yellow : Color.Red))
@@ -91,10 +91,21 @@ internal class RunTimerCommand : Command
         return panel;
     }
 
-    private string GetProgressBar(double percent, int width)
+    private static string FormatTime(int remainingSeconds) =>
+        $"{(remainingSeconds / 60):D2}:{(remainingSeconds % 60):D2}";
+
+    private static string RenderTime(string timeLeft, bool paused) =>
+        paused ? $"[bold yellow]{timeLeft} - {EmojiIcons.Pause}  Paused[/]\n\n" : $"[bold red]{timeLeft}[/]\n\n";
+
+    private static string RenderProgressBar(
+        double percent,
+        int width,
+        string foregroundColor = "red",
+        string backgroundColor = "grey")
     {
         int filled = (int)(percent * width);
         int empty = width - filled;
-        return $"[red]{new string('█', filled)}[/][grey]{new string('░', empty)}[/] {percent * 100:0}%";
+        return $"[{foregroundColor}]{new string('█', filled)}[/][{backgroundColor}]{new string('░', empty)}[/]" +
+               $" {percent * 100:0}%";
     }
 }
