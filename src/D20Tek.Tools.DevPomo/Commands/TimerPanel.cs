@@ -2,7 +2,7 @@
 
 namespace D20Tek.Tools.DevPomo.Commands;
 
-internal class TimerPanel
+internal sealed class TimerPanel
 {
     private readonly string _title;
     private readonly string _foregroundColor;

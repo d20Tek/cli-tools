@@ -4,7 +4,7 @@ using D20Tek.Tools.DevPomo.Common;
 
 namespace D20Tek.Tools.DevPomo.Commands;
 
-internal class RunTimerCommand : Command
+internal sealed class RunTimerCommand : Command
 {
     private const int _minuteMultiplier = 10;
     private readonly TimerState _state = new();

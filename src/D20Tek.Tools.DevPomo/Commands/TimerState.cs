@@ -2,7 +2,7 @@
 
 namespace D20Tek.Tools.DevPomo.Commands;
 
-internal class TimerState
+internal sealed class TimerState
 {
     public bool Paused { get; private set; } = false;
 

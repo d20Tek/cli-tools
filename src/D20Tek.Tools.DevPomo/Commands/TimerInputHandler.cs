@@ -2,7 +2,7 @@
 
 namespace D20Tek.Tools.DevPomo.Commands;
 
-internal class TimerInputHandler : IDisposable
+internal sealed class TimerInputHandler : IDisposable
 {
     private readonly TimerState _state;
     private Thread? _inputThread;
