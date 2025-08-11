@@ -16,11 +16,16 @@ internal sealed class PomodoroEngine
 
     public void Run()
     {
-        RunPomodoroPhase(_state.PomodoroMinutes);
-
-        if (!_state.Exit)
+        for (int i = 0; i < _state.PomodorosToRun; i++)
         {
+            RunPomodoroPhase(_state.PomodoroMinutes);
+            if (_state.Exit) break;
+
             RunBreakPhase(_state.BreakMinutes);
+            if (_state.Exit) break;
+
+            ConfirmRestart();
+            if (_state.Exit) break;
         }
     }
 
@@ -78,5 +83,17 @@ internal sealed class PomodoroEngine
                         Thread.Sleep(100);
                     }
                 });
+    }
+
+    private void ConfirmRestart()
+    {
+        if (!_state.ArePomodorosComplete())
+        {
+            bool restart = _console.Confirm("Are you ready to continue to the next cycle?");
+            if (!restart)
+            {
+                _state.RequestExit();
+            }
+        }
     }
 }
