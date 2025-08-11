@@ -51,6 +51,6 @@ internal sealed class TimerPanel
         int empty = width - filled;
 
         return $"[{foreStyle}]{new string('█', filled)}[/][{backStyle}]{new string('░', empty)}[/]" +
-               $" {percent * 100:0}%";
+               $" {percent * 100,3:0}%";
     }
 }
