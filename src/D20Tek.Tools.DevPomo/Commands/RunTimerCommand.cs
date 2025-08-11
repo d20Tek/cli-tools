@@ -14,7 +14,7 @@ internal class RunTimerCommand : Command
         ConsoleExtensions.SupportsEmoji();
         using var inputHandler = TimerInputHandler.Start(_state);
 
-        AnsiConsole.Write(new FigletText("dev-pomo").Color(Color.Green));
+        AnsiConsole.Console.DisplayAppHeader("dev-pomo");
 
         RunPomodoroPhase(_state.PomodoroMinutes);
 
@@ -29,9 +29,10 @@ internal class RunTimerCommand : Command
 
     private void RunPomodoroPhase(int pomodoroMinutes)
     {
-        AnsiConsole.MarkupLine($"\n[bold green]🍅 Pomodoro Timer Started![/] Stay focused...");
-        AnsiConsole.MarkupLine($"Focus for [yellow]{pomodoroMinutes} minutes[/], starting now!");
-        AnsiConsole.MarkupLine("[dim](Press [yellow]P[/] to pause, [yellow]R[/] to resume, [yellow]Q[/] to quit)[/]\n");
+        AnsiConsole.Console.MarkupLines([ 
+            $"\n[bold green]🍅 Pomodoro Timer Started![/] Stay focused...",
+            $"Focus for [yellow]{pomodoroMinutes} minutes[/], starting now!",
+            "[dim](Press [yellow]P[/] to pause, [yellow]R[/] to resume, [yellow]Q[/] to quit)[/]\n"]);
 
         RunTimerPhase(pomodoroMinutes * _minuteMultiplier, $"🍅 Pomodoro", "red", Color.Red);
 
@@ -39,6 +40,7 @@ internal class RunTimerCommand : Command
         {
             Console.Beep();
             AnsiConsole.MarkupLine($"\n[bold green]✅ Pomodoro Complete! Time for a break.[/]");
+            _state.IncrementPomodoro();
         }
     }
 
@@ -71,7 +73,7 @@ internal class RunTimerCommand : Command
                        {
                            if (!_state.Paused)
                            {
-                               remainingSeconds = Math.Max(totalSeconds - _state.GetElapsedTime(), 0);
+                               remainingSeconds = Math.Max(totalSeconds - _state.GetElapsedSeconds(), 0);
                            }
 
                            ctx.UpdateTarget(panel.Render(remainingSeconds, totalSeconds, _state.Paused));

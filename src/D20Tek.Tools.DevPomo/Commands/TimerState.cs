@@ -12,6 +12,8 @@ internal class TimerState
 
     public int BreakMinutes { get; } = 1;
 
+    public int CompletedPomodoro { get; private set; } = 0;
+
     private Stopwatch Stopwatch { get; } = new();
 
     public void Pause()
@@ -36,5 +38,7 @@ internal class TimerState
 
     public void RestartTimer() => Stopwatch.Restart();
 
-    public int GetElapsedTime() => (int)Stopwatch.Elapsed.TotalSeconds;
+    public int GetElapsedSeconds() => (int)Stopwatch.Elapsed.TotalSeconds;
+
+    public void IncrementPomodoro() => CompletedPomodoro++;
 }
