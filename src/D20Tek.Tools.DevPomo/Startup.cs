@@ -18,6 +18,8 @@ internal sealed class Startup : StartupBase
 
     public override IConfigurator ConfigureCommands(IConfigurator config)
     {
+        Console.OutputEncoding = System.Text.Encoding.UTF8;
+
         config.CaseSensitivity(CaseSensitivity.None);
         config.SetApplicationName("dev-pomo");
         config.ValidateExamples();
