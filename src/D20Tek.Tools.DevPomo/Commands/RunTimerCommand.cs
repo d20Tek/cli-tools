@@ -5,6 +5,7 @@ namespace D20Tek.Tools.DevPomo.Commands;
 
 internal class RunTimerCommand : Command
 {
+    private const int _minuteMultiplier = 10;
     private readonly TimerState _state = new();
 
     public override int Execute(CommandContext context)
@@ -12,16 +13,13 @@ internal class RunTimerCommand : Command
         EmojiIcons.Initialize();
         using var inputHandler = TimerInputHandler.Start(_state);
 
-        const int pomodoroMinutes = 1; // change for testing
-        const int breakMinutes = 1;
-
         AnsiConsole.Write(new FigletText("dev-pomo").Color(Color.Green));
 
-        RunPomodoroPhase(pomodoroMinutes);
+        RunPomodoroPhase(_state.PomodoroMinutes);
 
         if (!_state.Exit)
         {
-            RunBreakPhase(breakMinutes);
+            RunBreakPhase(_state.BreakMinutes);
         }
 
         ShowEarlyExitMessage();
@@ -34,8 +32,7 @@ internal class RunTimerCommand : Command
         AnsiConsole.MarkupLine($"Focus for [yellow]{pomodoroMinutes} minutes[/], starting now!");
         AnsiConsole.MarkupLine("[dim](Press [yellow]P[/] to pause, [yellow]R[/] to resume, [yellow]Q[/] to quit)[/]\n");
 
-        var totalSeconds = pomodoroMinutes * 60;
-        RunTimerPhase(totalSeconds, $"{EmojiIcons.Tomato} Pomodoro");
+        RunTimerPhase(pomodoroMinutes * _minuteMultiplier, $"{EmojiIcons.Tomato} Pomodoro", "red", Color.Red);
 
         if (!_state.Exit)
         {
@@ -47,7 +44,7 @@ internal class RunTimerCommand : Command
     private void RunBreakPhase(int minutes)
     {
         AnsiConsole.MarkupLine($"\n[bold blue]Break Time! Relax and recharge...[/]");
-        RunTimerPhase(minutes * 60, $"{EmojiIcons.Coffee} Break", "blue", Color.Blue);
+        RunTimerPhase(minutes * _minuteMultiplier, $"{EmojiIcons.Coffee} Break", "blue", Color.Blue);
 
         if (!_state.Exit)
         {
@@ -56,10 +53,10 @@ internal class RunTimerCommand : Command
         }
     }
 
-    private void RunTimerPhase(int totalSeconds, string title, string progressColor = "red", Color? borderColor = null)
+    private void RunTimerPhase(int totalSeconds, string title, string foregroundColor, Color borderColor)
     {
         int remainingSeconds = totalSeconds;
-        var panel = new TimerPanel(title, progressColor, borderColor);
+        var panel = new TimerPanel(title, foregroundColor, borderColor);
 
         _state.RestartTimer();
 

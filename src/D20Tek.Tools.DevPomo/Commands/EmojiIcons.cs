@@ -10,7 +10,7 @@ internal static class EmojiIcons
 
     public static string Tomato => _emojiSupported ? ":tomato:" : "[red]*[/]";
 
-    public static string Coffee => _emojiSupported ? ":tada:" : "[blue]-[/]";
+    public static string Coffee => _emojiSupported ? ":coffee:" : "[blue]-[/]";
 
     public static string Pause => _emojiSupported ? ":pause_button:" : "[yellow]||[/]";
 

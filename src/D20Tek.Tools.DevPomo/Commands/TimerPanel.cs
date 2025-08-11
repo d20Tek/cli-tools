@@ -22,7 +22,7 @@ internal class TimerPanel
 
         var panel = new Panel(
                 RenderTime(timeLeft, _foregroundColor, paused) +
-                $"{RenderProgressBar(progressPercent, 60, _foregroundColor)}\n\n" +
+                $"{RenderProgressBar(progressPercent, 60, paused, _foregroundColor)}\n\n" +
                 "[dim]Commands: (P)ause (R)esume (Q)uit[/]")
             .Border(BoxBorder.Rounded)
             .BorderStyle(new Style(paused ? Color.Yellow : _borderColor))
@@ -41,13 +41,16 @@ internal class TimerPanel
     private static string RenderProgressBar(
         double percent,
         int width,
+        bool paused,
         string foregroundColor,
         string backgroundColor = "grey")
     {
+        string foreStyle = paused ? $"{foregroundColor} dim" : foregroundColor;
+        string backStyle = paused ? $"{backgroundColor} dim" : backgroundColor;
         int filled = (int)(percent * width);
         int empty = width - filled;
 
-        return $"[{foregroundColor}]{new string('█', filled)}[/][{backgroundColor}]{new string('░', empty)}[/]" +
+        return $"[{foreStyle}]{new string('█', filled)}[/][{backStyle}]{new string('░', empty)}[/]" +
                $" {percent * 100:0}%";
     }
 }
