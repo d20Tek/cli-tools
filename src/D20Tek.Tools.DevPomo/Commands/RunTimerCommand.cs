@@ -1,5 +1,6 @@
 ﻿using Spectre.Console;
 using Spectre.Console.Cli;
+using D20Tek.Tools.DevPomo.Common;
 
 namespace D20Tek.Tools.DevPomo.Commands;
 
@@ -10,7 +11,7 @@ internal class RunTimerCommand : Command
 
     public override int Execute(CommandContext context)
     {
-        EmojiIcons.Initialize();
+        ConsoleExtensions.SupportsEmoji();
         using var inputHandler = TimerInputHandler.Start(_state);
 
         AnsiConsole.Write(new FigletText("dev-pomo").Color(Color.Green));
@@ -28,28 +29,28 @@ internal class RunTimerCommand : Command
 
     private void RunPomodoroPhase(int pomodoroMinutes)
     {
-        AnsiConsole.MarkupLine($"\n[bold green]{EmojiIcons.Tomato} Pomodoro Timer Started![/] Stay focused...");
+        AnsiConsole.MarkupLine($"\n[bold green]🍅 Pomodoro Timer Started![/] Stay focused...");
         AnsiConsole.MarkupLine($"Focus for [yellow]{pomodoroMinutes} minutes[/], starting now!");
         AnsiConsole.MarkupLine("[dim](Press [yellow]P[/] to pause, [yellow]R[/] to resume, [yellow]Q[/] to quit)[/]\n");
 
-        RunTimerPhase(pomodoroMinutes * _minuteMultiplier, $"{EmojiIcons.Tomato} Pomodoro", "red", Color.Red);
+        RunTimerPhase(pomodoroMinutes * _minuteMultiplier, $"🍅 Pomodoro", "red", Color.Red);
 
         if (!_state.Exit)
         {
             Console.Beep();
-            AnsiConsole.MarkupLine($"\n[bold green]Pomodoro Complete! Time for a break.[/]");
+            AnsiConsole.MarkupLine($"\n[bold green]✅ Pomodoro Complete! Time for a break.[/]");
         }
     }
 
     private void RunBreakPhase(int minutes)
     {
-        AnsiConsole.MarkupLine($"\n[bold blue]Break Time! Relax and recharge...[/]");
-        RunTimerPhase(minutes * _minuteMultiplier, $"{EmojiIcons.Coffee} Break", "blue", Color.Blue);
+        AnsiConsole.MarkupLine($"\n[bold blue]☕ Break Time! Relax and recharge...[/]");
+        RunTimerPhase(minutes * _minuteMultiplier, $"☕ Break", "blue", Color.Blue);
 
         if (!_state.Exit)
         {
             Console.Beep();
-            AnsiConsole.MarkupLine($"\n[bold green]Break is over! Back to work.[/]");
+            AnsiConsole.MarkupLine($"\n[bold green]✅ Break is over! Back to work.[/]");
         }
     }
 
@@ -84,7 +85,7 @@ internal class RunTimerCommand : Command
     {
         if (_state.Exit)
         {
-            AnsiConsole.MarkupLine($"\n[bold red]{EmojiIcons.Stop}  Pomodoro Stopped Early.[/]");
+            AnsiConsole.MarkupLine($"\n[bold red]⏹  Pomodoro Stopped Early.[/]");
         }
     }
 }

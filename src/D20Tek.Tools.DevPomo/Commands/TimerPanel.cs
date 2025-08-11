@@ -36,7 +36,7 @@ internal class TimerPanel
         $"{(remainingSeconds / 60):D2}:{(remainingSeconds % 60):D2}";
 
     private static string RenderTime(string timeLeft, string color, bool paused) =>
-        paused ? $"[bold yellow]{timeLeft} - {EmojiIcons.Pause}  Paused[/]\n\n" : $"[bold {color}]{timeLeft}[/]\n\n";
+        paused ? $"[bold yellow]{timeLeft} - ⏸  Paused[/]\n\n" : $"[bold {color}]{timeLeft}[/]\n\n";
 
     private static string RenderProgressBar(
         double percent,
