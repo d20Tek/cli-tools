@@ -23,7 +23,7 @@ internal sealed class RunTimerCommand : Command
             RunBreakPhase(_state.BreakMinutes);
         }
 
-        ShowEarlyExitMessage();
+        ShowExitMessage();
         return 0;
     }
 
@@ -83,11 +83,19 @@ internal sealed class RunTimerCommand : Command
                    });
     }
 
-    private void ShowEarlyExitMessage()
+    private void ShowExitMessage()
     {
         if (_state.Exit)
         {
             AnsiConsole.MarkupLine($"\n[bold red]⏹  Pomodoro Stopped Early.[/]");
+            AnsiConsole.Console.MarkupLinesConditional(
+                _state.CompletedPomodoro > 0,
+                $"But you completed {_state.CompletedPomodoro} pomodoro(s) before stopping.");
+        }
+        else
+        {
+            AnsiConsole.MarkupLine(
+                $"\n[bold green]Pomodoro run ended! You completed {_state.CompletedPomodoro} pomodoro(s).[/]");
         }
     }
 }
