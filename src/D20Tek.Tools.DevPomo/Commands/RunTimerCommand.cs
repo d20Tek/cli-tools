@@ -16,7 +16,7 @@ internal sealed class RunTimerCommand : Command
     {
         using var inputHandler = TimerInputHandler.Start(_console, _state);
 
-        _console.DisplayAppHeader("dev-pomo");
+        _console.DisplayAppHeader("dev-pomo", Justify.Left);
 
         RunPomodoroPhase(_state.PomodoroMinutes);
 
@@ -40,7 +40,7 @@ internal sealed class RunTimerCommand : Command
 
         if (!_state.Exit)
         {
-            Console.Beep();
+            _console.Beep();
             _console.MarkupLine($"\n[bold green]✅ Pomodoro Complete! Time for a break.[/]");
             _state.IncrementPomodoro();
         }
@@ -53,7 +53,7 @@ internal sealed class RunTimerCommand : Command
 
         if (!_state.Exit)
         {
-            Console.Beep();
+            _console.Beep();
             _console.MarkupLine($"\n[bold green]✅ Break is over! Back to work.[/]");
         }
     }
