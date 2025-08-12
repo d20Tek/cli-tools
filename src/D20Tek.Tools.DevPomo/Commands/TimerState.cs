@@ -13,11 +13,11 @@ internal sealed class TimerState : IState
 
     public bool Exit { get; private set; } = false;
 
-    public int PomodoroMinutes { get; } = 1;
+    public int PomodoroMinutes { get; } = 25;
 
-    public int BreakMinutes { get; } = 1;
+    public int BreakMinutes { get; } = 5;
 
-    public int PomodorosToRun { get; private set;} = 4;
+    public int PomodoroCycles { get; private set;} = 4;
 
     public int CompletedPomodoro { get; private set; } = 0;
 
@@ -64,15 +64,15 @@ internal sealed class TimerState : IState
         return this;
     }
 
-    public TimerState SetPomodorosToRun(int count)
+    public TimerState SetPomodoroCycles(int count)
     {
         ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(count, 0);
         ArgumentOutOfRangeException.ThrowIfGreaterThan(count, 50);
-        PomodorosToRun = count;
+        PomodoroCycles = count;
         return this;
     }
 
-    public bool ArePomodorosComplete() => CompletedPomodoro == PomodorosToRun;
+    public bool ArePomodorosComplete() => CompletedPomodoro == PomodoroCycles;
 
     public TimerState WithBeep(IAnsiConsole console, string message)
     {

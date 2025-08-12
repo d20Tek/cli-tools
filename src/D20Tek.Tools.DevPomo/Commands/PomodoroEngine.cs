@@ -6,13 +6,13 @@ namespace D20Tek.Tools.DevPomo.Commands;
 
 internal static class PomodoroEngine
 {
-    private const int _minuteMultiplier = 10;
+    private const int _minuteMultiplier = 60;
     private static readonly PanelDetails _pomodoroDetails = new("🍅 Pomodoro", "red", Color.Red);
     private static readonly PanelDetails _breakDetails = new("☕ Break", "blue", Color.Blue);
 
     public static TimerState Run(IAnsiConsole console, TimerState state)
     {
-        for (int i = 0; i < state.PomodorosToRun; i++)
+        for (int i = 0; i < state.PomodoroCycles; i++)
         {
             state.Map(s => s.RunIfNotExited(() => RunPomodoroPhase(console, s)))
                  .Map(s => s.RunIfNotExited(() => RunBreakPhase(console, s)))

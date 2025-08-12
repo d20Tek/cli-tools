@@ -10,10 +10,10 @@ internal sealed class RunTimerCommand : Command<RunTimerCommand.Settings>
 {
     internal class Settings : CommandSettings
     {
-        [CommandOption("-c|--count <POMODORO-COUNT>")]
-        [Description("Defines how many iterations of pomodoros to run (defaults to 4).")]
+        [CommandOption("-c|--cycles <POMODORO-CYCLES>")]
+        [Description("Defines how many iterations of pomodoros to run in a session (defaults to 4).")]
         [DefaultValue(4)]
-        public int Count { get; set; }
+        public int Cycles { get; set; }
     }
 
     private readonly IAnsiConsole _console;
@@ -26,7 +26,7 @@ internal sealed class RunTimerCommand : Command<RunTimerCommand.Settings>
         var state = TimerState.Create();
         using var inputHandler = TimerInputHandler.Start(_console, state);
 
-        state.Iter(s => s.SetPomodorosToRun(settings.Count))
+        state.Iter(s => s.SetPomodoroCycles(settings.Cycles))
              .Map(s => PomodoroEngine.Run(_console, s))
              .Iter(s => ShowExitMessage(_console, s));
 
