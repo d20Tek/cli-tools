@@ -12,6 +12,11 @@
     <Company>d20Tek</Company>
     <Description>A terminal based pomodoro timer to help manage focus time for developers.</Description>
     <PackAsTool>True</PackAsTool>
+    <Copyright>Copyright (c) d20Tek.  All rights reserved.</Copyright>
+    <PackageProjectUrl>https://github.com/d20Tek/cli-tools/tree/main/src/D20Tek.Tools.DevPomo</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/d20Tek/cli-tools/tree/main/src/D20Tek.Tools.DevPomo</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>pomodoro; terminal; pomo; timer</PackageTags>
   </PropertyGroup>
 
   <ItemGroup>
