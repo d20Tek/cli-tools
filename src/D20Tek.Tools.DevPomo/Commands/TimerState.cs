@@ -1,8 +1,11 @@
-﻿using System.Diagnostics;
+﻿using D20Tek.Functional;
+using D20Tek.Tools.DevPomo.Common;
+using Spectre.Console;
+using System.Diagnostics;
 
 namespace D20Tek.Tools.DevPomo.Commands;
 
-internal sealed class TimerState
+internal sealed class TimerState : IState
 {
     private readonly Stopwatch _stopwatch = new();
 
@@ -36,13 +39,28 @@ internal sealed class TimerState
         }
     }
 
-    public void RequestExit() => Exit = true;
+    public TimerState RequestExit()
+    {
+        Exit = true;
+        return this;
+    }
 
-    public void RestartTimer() => _stopwatch.Restart();
+    public TimerState RestartTimer()
+    {
+        _stopwatch.Restart();
+        return this;
+    }
 
     public int GetElapsedSeconds() => (int)_stopwatch.Elapsed.TotalSeconds;
 
-    public void IncrementPomodoro() => CompletedPomodoro++;
+    public TimerState IncrementPomodoro()
+    {
+        if (!Exit)
+        {
+            CompletedPomodoro++;
+        }
+        return this;
+    }
 
     public void SetPomodorosToRun(int count)
     {
@@ -52,4 +70,14 @@ internal sealed class TimerState
     }
 
     public bool ArePomodorosComplete() => CompletedPomodoro == PomodorosToRun;
+
+    public TimerState WithBeep(IAnsiConsole console, string message)
+    {
+        if (!Exit)
+        {
+            console.Beep();
+            console.MarkupLine(message);
+        }
+        return this;
+    }
 }

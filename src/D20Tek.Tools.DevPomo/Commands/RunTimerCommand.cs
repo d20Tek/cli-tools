@@ -26,7 +26,7 @@ internal sealed class RunTimerCommand : Command<RunTimerCommand.Settings>
         using var inputHandler = TimerInputHandler.Start(_console, _state);
 
         _state.SetPomodorosToRun(settings.Count);
-        PomodoroEngine.Initialize(_console, _state).Run();
+        PomodoroEngine.Run(_console, _state);
         ShowExitMessage();
 
         return 0;
