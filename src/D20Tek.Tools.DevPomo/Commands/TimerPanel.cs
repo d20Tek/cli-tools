@@ -15,6 +15,9 @@ internal sealed class TimerPanel
         _borderColor = borderColor ?? Color.Red;
     }
 
+    public TimerPanel(PanelDetails details)
+        : this(details.Title, details.ForegroundColor, details.BorderColor) { }
+
     public Panel Render(int remainingSeconds, int totalSeconds, bool paused)
     {
         double progressPercent = (double)(totalSeconds - remainingSeconds) / totalSeconds;
@@ -54,3 +57,5 @@ internal sealed class TimerPanel
                $" {percent * 100,3:0}%";
     }
 }
+
+internal record PanelDetails(string Title, string ForegroundColor, Color BorderColor);

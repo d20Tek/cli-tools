@@ -7,6 +7,8 @@ namespace D20Tek.Tools.DevPomo.Commands;
 internal static class PomodoroEngine
 {
     private const int _minuteMultiplier = 10;
+    private static readonly PanelDetails _pomodoroDetails = new("🍅 Pomodoro", "red", Color.Red);
+    private static readonly PanelDetails _breakDetails = new("☕ Break", "blue", Color.Blue);
 
     public static TimerState Run(IAnsiConsole console, TimerState state)
     {
@@ -30,25 +32,19 @@ internal static class PomodoroEngine
                             $"\n[bold green]🍅 Pomodoro Timer Started![/] Stay focused...",
                             $"Focus for [yellow]{state.PomodoroMinutes} minutes[/], starting now!",
                             "[dim](Press [yellow]P[/] to pause, [yellow]R[/] to resume, [yellow]Q[/] to quit)[/]\n"]))
-             .Map(s => RunTimerPhase(console, s, s.PomodoroMinutes * _minuteMultiplier, $"🍅 Pomodoro", "red", Color.Red)
+             .Map(s => RunTimerPhase(console, s, s.PomodoroMinutes * _minuteMultiplier, _pomodoroDetails)
                            .WithBeep(console, $"\n[bold green]✅ Pomodoro Complete! Time for a break.[/]")
                            .IncrementPomodoro());
 
     private static TimerState RunBreakPhase(IAnsiConsole console, TimerState state) =>
         state.Iter(_ => console.MarkupLine($"\n[bold blue]☕ Break Time! Relax and recharge...[/]"))
-             .Map(s => RunTimerPhase(console, s, s.BreakMinutes * _minuteMultiplier, $"☕ Break", "blue", Color.Blue)
+             .Map(s => RunTimerPhase(console, s, s.BreakMinutes * _minuteMultiplier, _breakDetails)
                            .WithBeep(console, $"\n[bold green]✅ Break is over! Back to work.[/]"));
 
-    private static TimerState RunTimerPhase(
-        IAnsiConsole console,
-        TimerState state,
-        int totalSeconds,
-        string title,
-        string foregroundColor,
-        Color borderColor)
+    private static TimerState RunTimerPhase(IAnsiConsole console, TimerState state, int totalSeconds, PanelDetails details)
     {
-        var panel = new TimerPanel(title, foregroundColor, borderColor);
-        int remainingSeconds = totalSeconds;
+        var panel = new TimerPanel(details);
+        var remainingSeconds = totalSeconds;
         var runningState = state.RestartTimer();
 
         console.Live(panel.Render(remainingSeconds, totalSeconds, runningState.Paused))
