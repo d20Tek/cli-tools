@@ -3,7 +3,7 @@ using D20Tek.Tools.DevPomo.Common;
 using Spectre.Console;
 using System.Diagnostics;
 
-namespace D20Tek.Tools.DevPomo.Commands;
+namespace D20Tek.Tools.DevPomo.Commands.RunTimer;
 
 internal sealed class TimerState : IState
 {

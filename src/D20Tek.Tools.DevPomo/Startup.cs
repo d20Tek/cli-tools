@@ -1,7 +1,7 @@
 ﻿using D20Tek.Spectre.Console.Extensions;
 using D20Tek.Spectre.Console.Extensions.Injection;
 using D20Tek.Spectre.Console.Extensions.Services;
-using D20Tek.Tools.DevPomo.Commands;
+using D20Tek.Tools.DevPomo.Commands.RunTimer;
 using Spectre.Console.Cli;
 
 namespace D20Tek.Tools.DevPomo;

@@ -1,6 +1,6 @@
 ﻿using D20Tek.Spectre.Console.Extensions;
 using D20Tek.Tools.DevPomo;
-using D20Tek.Tools.DevPomo.Commands;
+using D20Tek.Tools.DevPomo.Commands.RunTimer;
 
 return await new CommandAppBuilder().WithDIContainer()
                                     .WithStartup<Startup>()

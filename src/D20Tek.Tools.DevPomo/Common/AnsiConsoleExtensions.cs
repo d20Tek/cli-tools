@@ -1,6 +1,5 @@
 ﻿using D20Tek.Functional;
 using Spectre.Console;
-using System.Text;
 
 namespace D20Tek.Tools.DevPomo.Common;
 

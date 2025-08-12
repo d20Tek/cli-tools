@@ -1,6 +1,6 @@
 ﻿using Spectre.Console;
 
-namespace D20Tek.Tools.DevPomo.Commands;
+namespace D20Tek.Tools.DevPomo.Commands.RunTimer;
 
 internal sealed class TimerPanel
 {
@@ -20,8 +20,8 @@ internal sealed class TimerPanel
 
     public Panel Render(int remainingSeconds, int totalSeconds, bool paused)
     {
-        double progressPercent = (double)(totalSeconds - remainingSeconds) / totalSeconds;
-        string timeLeft = FormatTime(remainingSeconds);
+        var progressPercent = (double)(totalSeconds - remainingSeconds) / totalSeconds;
+        var timeLeft = FormatTime(remainingSeconds);
 
         return new Panel(
                 RenderTime(timeLeft, _foregroundColor, paused) +
@@ -34,7 +34,7 @@ internal sealed class TimerPanel
     }
 
     private static string FormatTime(int remainingSeconds) =>
-        $"{(remainingSeconds / 60):D2}:{(remainingSeconds % 60):D2}";
+        $"{remainingSeconds / 60:D2}:{remainingSeconds % 60:D2}";
 
     private static string RenderTime(string timeLeft, string color, bool paused) =>
         paused ? $"[bold yellow]{timeLeft} - ⏸  Paused[/]\n\n" : $"[bold {color}]{timeLeft}[/]\n\n";
@@ -46,10 +46,10 @@ internal sealed class TimerPanel
         string foregroundColor,
         string backgroundColor = "grey")
     {
-        string foreStyle = paused ? $"{foregroundColor} dim" : foregroundColor;
-        string backStyle = paused ? $"{backgroundColor} dim" : backgroundColor;
-        int filled = (int)(percent * width);
-        int empty = width - filled;
+        var foreStyle = paused ? $"{foregroundColor} dim" : foregroundColor;
+        var backStyle = paused ? $"{backgroundColor} dim" : backgroundColor;
+        var filled = (int)(percent * width);
+        var empty = width - filled;
 
         return $"[{foreStyle}]{new string('█', filled)}[/][{backStyle}]{new string('░', empty)}[/]" +
                $" {percent * 100,3:0}%";

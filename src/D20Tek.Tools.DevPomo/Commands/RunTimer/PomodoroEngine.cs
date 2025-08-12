@@ -2,7 +2,7 @@
 using D20Tek.Tools.DevPomo.Common;
 using Spectre.Console;
 
-namespace D20Tek.Tools.DevPomo.Commands;
+namespace D20Tek.Tools.DevPomo.Commands.RunTimer;
 
 internal static class PomodoroEngine
 {
@@ -12,7 +12,7 @@ internal static class PomodoroEngine
 
     public static TimerState Run(IAnsiConsole console, TimerState state)
     {
-        for (int i = 0; i < state.PomodoroCycles; i++)
+        for (var i = 0; i < state.PomodoroCycles; i++)
         {
             state.Map(s => s.RunIfNotExited(() => RunPomodoroPhase(console, s)))
                  .Map(s => s.RunIfNotExited(() => RunBreakPhase(console, s)))

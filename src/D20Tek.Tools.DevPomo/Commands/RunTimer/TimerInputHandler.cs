@@ -1,6 +1,6 @@
 ﻿using Spectre.Console;
 
-namespace D20Tek.Tools.DevPomo.Commands;
+namespace D20Tek.Tools.DevPomo.Commands.RunTimer;
 
 internal sealed class TimerInputHandler : IDisposable
 {

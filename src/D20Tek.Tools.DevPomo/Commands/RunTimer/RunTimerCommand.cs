@@ -4,7 +4,7 @@ using Spectre.Console;
 using Spectre.Console.Cli;
 using System.ComponentModel;
 
-namespace D20Tek.Tools.DevPomo.Commands;
+namespace D20Tek.Tools.DevPomo.Commands.RunTimer;
 
 internal sealed class RunTimerCommand : Command<RunTimerCommand.Settings>
 {
