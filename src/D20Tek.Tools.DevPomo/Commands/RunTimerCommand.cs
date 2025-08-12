@@ -1,4 +1,5 @@
-﻿using D20Tek.Tools.DevPomo.Common;
+﻿using D20Tek.Functional;
+using D20Tek.Tools.DevPomo.Common;
 using Spectre.Console;
 using Spectre.Console.Cli;
 using System.ComponentModel;
@@ -15,7 +16,6 @@ internal sealed class RunTimerCommand : Command<RunTimerCommand.Settings>
         public int Count { get; set; }
     }
 
-    private readonly TimerState _state = new();
     private readonly IAnsiConsole _console;
 
     public RunTimerCommand(IAnsiConsole console) => _console = console;
@@ -23,28 +23,29 @@ internal sealed class RunTimerCommand : Command<RunTimerCommand.Settings>
     public override int Execute(CommandContext context, Settings settings)
     {
         _console.DisplayAppHeader("dev-pomo", Justify.Left);
-        using var inputHandler = TimerInputHandler.Start(_console, _state);
+        var state = TimerState.Create();
+        using var inputHandler = TimerInputHandler.Start(_console, state);
 
-        _state.SetPomodorosToRun(settings.Count);
-        PomodoroEngine.Run(_console, _state);
-        ShowExitMessage();
+        state.Iter(s => s.SetPomodorosToRun(settings.Count))
+             .Map(s => PomodoroEngine.Run(_console, s))
+             .Iter(s => ShowExitMessage(_console, s));
 
         return 0;
     }
 
-    private void ShowExitMessage()
+    private static void ShowExitMessage(IAnsiConsole console, TimerState state)
     {
-        if (_state.Exit)
+        if (state.Exit)
         {
-            _console.MarkupLine($"\n[bold red]⏹  Pomodoro Stopped Early.[/]");
-            _console.MarkupLinesConditional(
-                _state.CompletedPomodoro > 0,
-                $"But you completed {_state.CompletedPomodoro} pomodoro(s) before stopping.");
+            console.MarkupLine($"\n[bold red]⏹  Pomodoro Stopped Early.[/]");
+            console.MarkupLinesConditional(
+                state.CompletedPomodoro > 0,
+                $"But you completed {state.CompletedPomodoro} pomodoro(s) before stopping.");
         }
         else
         {
-            _console.MarkupLine(
-                $"\n[bold green]Pomodoro run ended! You completed {_state.CompletedPomodoro} pomodoro(s).[/]");
+            console.MarkupLine(
+                $"\n[bold green]Pomodoro run ended! You completed {state.CompletedPomodoro} pomodoro(s).[/]");
         }
     }
 }

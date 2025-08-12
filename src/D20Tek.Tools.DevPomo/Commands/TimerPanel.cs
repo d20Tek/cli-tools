@@ -23,7 +23,7 @@ internal sealed class TimerPanel
         double progressPercent = (double)(totalSeconds - remainingSeconds) / totalSeconds;
         string timeLeft = FormatTime(remainingSeconds);
 
-        var panel = new Panel(
+        return new Panel(
                 RenderTime(timeLeft, _foregroundColor, paused) +
                 $"{RenderProgressBar(progressPercent, 60, paused, _foregroundColor)}\n\n" +
                 "[dim]Commands: (P)ause (R)esume (Q)uit[/]")
@@ -31,8 +31,6 @@ internal sealed class TimerPanel
             .BorderStyle(new Style(paused ? Color.Yellow : _borderColor))
             .Header(_title, Justify.Center)
             .Padding(1, 1, 1, 1);
-
-        return panel;
     }
 
     private static string FormatTime(int remainingSeconds) =>

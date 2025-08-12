@@ -21,6 +21,8 @@ internal sealed class TimerState : IState
 
     public int CompletedPomodoro { get; private set; } = 0;
 
+    public static TimerState Create() => new();
+
     public void Pause()
     {
         if (!Paused)
@@ -62,11 +64,12 @@ internal sealed class TimerState : IState
         return this;
     }
 
-    public void SetPomodorosToRun(int count)
+    public TimerState SetPomodorosToRun(int count)
     {
         ArgumentOutOfRangeException.ThrowIfLessThanOrEqual(count, 0);
         ArgumentOutOfRangeException.ThrowIfGreaterThan(count, 50);
         PomodorosToRun = count;
+        return this;
     }
 
     public bool ArePomodorosComplete() => CompletedPomodoro == PomodorosToRun;

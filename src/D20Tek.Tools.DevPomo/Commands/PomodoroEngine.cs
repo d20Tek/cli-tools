@@ -28,10 +28,10 @@ internal static class PomodoroEngine
         state.Exit ? state : op();
 
     private static TimerState RunPomodoroPhase(IAnsiConsole console, TimerState state) =>
-        state.Iter(_ => console.MarkupLines([
+        state.Iter(_ => console.MarkupLines(
                             $"\n[bold green]🍅 Pomodoro Timer Started![/] Stay focused...",
                             $"Focus for [yellow]{state.PomodoroMinutes} minutes[/], starting now!",
-                            "[dim](Press [yellow]P[/] to pause, [yellow]R[/] to resume, [yellow]Q[/] to quit)[/]\n"]))
+                            "[dim](Press [yellow]P[/] to pause, [yellow]R[/] to resume, [yellow]Q[/] to quit)[/]\n"))
              .Map(s => RunTimerPhase(console, s, s.PomodoroMinutes * _minuteMultiplier, _pomodoroDetails)
                            .WithBeep(console, $"\n[bold green]✅ Pomodoro Complete! Time for a break.[/]")
                            .IncrementPomodoro());
