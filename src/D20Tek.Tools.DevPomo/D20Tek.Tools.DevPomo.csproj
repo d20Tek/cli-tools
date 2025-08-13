@@ -22,6 +22,7 @@
   <ItemGroup>
     <PackageReference Include="D20Tek.Functional" Version="1.0.1" />
     <PackageReference Include="D20Tek.Spectre.Console.Extensions" Version="1.50.1.7" />
+    <PackageReference Include="LowDb.Net.Repositories" Version="1.2.4" />
   </ItemGroup>
 
 </Project>
