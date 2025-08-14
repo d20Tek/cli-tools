@@ -14,12 +14,19 @@ internal class ConfigurationService : IConfigurationService
         Try.Run<TimerConfiguration>(() => _db.Get());
 
 
-    public Result<TimerConfiguration> Set(TimerConfiguration config)
-    {
-        return Try.Run<TimerConfiguration>(() =>
+    public Result<TimerConfiguration> Set(TimerConfiguration updated) =>
+        Try.Run<TimerConfiguration>(() =>
         {
-            _db.Write();
-            return config;
+            _db.Update(current =>
+            {
+                current.Update(
+                    updated.PomodoroMinutes,
+                    updated.BreakMinutes,
+                    updated.ShowAppTitleBar,
+                    updated.EnableSound,
+                    updated.AutostartCycles,
+                    updated.MinimalOutput);
+            });
+            return updated;
         });
-    }
 }

@@ -1,6 +1,7 @@
 ﻿using D20Tek.LowDb;
 using D20Tek.Spectre.Console.Extensions;
 using D20Tek.Spectre.Console.Extensions.Injection;
+using D20Tek.Tools.DevPomo.Commands.Configuration;
 using D20Tek.Tools.DevPomo.Commands.RunTimer;
 using D20Tek.Tools.DevPomo.Contracts;
 using D20Tek.Tools.DevPomo.Persistence;
@@ -34,6 +35,12 @@ internal sealed class Startup : StartupBase
               .WithAlias("r")
               .WithDescription("Default command that runs the pomodoro timer.")
               .WithExample(["run-timer"]);
+
+        config.AddCommand<UpdateConfigCommand>("configure")
+              .WithAlias("config")
+              .WithAlias("c")
+              .WithDescription("Configure various properties of the pomodoro timer.")
+              .WithExample(["configure"]);
 
         return config;
     }

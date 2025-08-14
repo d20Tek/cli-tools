@@ -33,12 +33,14 @@ USAGE:
     dev-pomo [OPTIONS] [COMMAND]
 
 OPTIONS:
-                                         DEFAULT
-    -h, --help                                      Prints help information
-    -c, --cycles <CYCLES>                1          The number of pomodoro cyles to run in a session (defaults to 4).
+                                      DEFAULT
+    -h, --help                                   Prints help information
+    -c, --cycles <POMODORO-CYCLES>    4          Defines how many iterations of pomodoros to run in a session (defaults
+                                                 to 4)
 
 COMMANDS:
-    run-timer    Default command that runs the pomodoro timer.
+    run-timer    Default command that runs the pomodoro timer
+    configure    Configure various properties of the pomodoro timer
 ```
 
 ### Examples
@@ -49,7 +51,7 @@ dev-pomo run-timer 3
 
 Configure the pomodoro timer options:
 ```bash
-dev-pomo config
+dev-pomo configure
 ```
 
 ## Feedback
