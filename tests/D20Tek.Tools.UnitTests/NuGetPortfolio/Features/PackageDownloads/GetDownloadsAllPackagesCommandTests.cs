@@ -31,13 +31,13 @@ public class GetDownloadsAllPackagesCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.S_OK, result.ExitCode);
-        StringAssert.Contains(result.Output, "Success:");
-        StringAssert.Contains(result.Output, "Test.Package.1");
-        StringAssert.Contains(result.Output, "Test.Package.2");
-        StringAssert.Contains(result.Output, "Test.Package.3");
-        StringAssert.Contains(result.Output, "42");
-        StringAssert.Contains(result.Output, "126");
-        StringAssert.Contains(result.Output, "for 3 tracked packages");
+        Assert.Contains("Success:", result.Output);
+        Assert.Contains("Test.Package.1", result.Output);
+        Assert.Contains("Test.Package.2", result.Output);
+        Assert.Contains("Test.Package.3", result.Output);
+        Assert.Contains("42", result.Output);
+        Assert.Contains("126", result.Output);
+        Assert.Contains("for 3 tracked packages", result.Output);
     }
 
     [TestMethod]
@@ -53,9 +53,9 @@ public class GetDownloadsAllPackagesCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.S_OK, result.ExitCode);
-        StringAssert.Contains(result.Output, "Success:");
-        StringAssert.Contains(result.Output, "No package downloads exist");
-        StringAssert.Contains(result.Output, "for 0 tracked packages");
+        Assert.Contains("Success:", result.Output);
+        Assert.Contains("No package downloads exist", result.Output);
+        Assert.Contains("for 0 tracked packages", result.Output);
     }
 
     [TestMethod]
@@ -81,7 +81,7 @@ public class GetDownloadsAllPackagesCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.E_FAIL, result.ExitCode);
-        StringAssert.Contains(result.Output, "Error:");
-        StringAssert.Contains(result.Output, "Package with id=Test.Package.1 not found");
+        Assert.Contains("Error:", result.Output);
+        Assert.Contains("Package with id=Test.Package.1 not found", result.Output);
     }
 }

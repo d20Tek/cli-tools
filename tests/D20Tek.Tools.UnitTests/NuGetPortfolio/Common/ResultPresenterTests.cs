@@ -22,8 +22,8 @@ public class ResultPresenterTests
 
         // assert
         Assert.AreEqual(Globals.S_OK, code);
-        StringAssert.StartsWith(console.Output, "Success:");
-        StringAssert.EndsWith(console.Output, "Result=115\n");
+        Assert.StartsWith("Success:", console.Output);
+        Assert.EndsWith("Result=115\n", console.Output);
     }
 
     [TestMethod]
@@ -38,8 +38,8 @@ public class ResultPresenterTests
 
         // assert
         Assert.AreEqual(Globals.E_FAIL, code);
-        StringAssert.StartsWith(console.Output, "Error:");
-        StringAssert.EndsWith(console.Output, "Invalid value.\n");
+        Assert.StartsWith("Error:", console.Output);
+        Assert.EndsWith("Invalid value.\n", console.Output);
     }
 
     [TestMethod]
@@ -48,21 +48,21 @@ public class ResultPresenterTests
         // arrange
         var console = new TestConsole();
         var result = Result<int>.Failure(
-            [
-                Error.Validation("Test", "Invalid value."),
-                Error.Validation("Two", "Second error."),
-                Error.Validation("Last", "Another error.")
-            ]);
+        [
+            Error.Validation("Test", "Invalid value."),
+            Error.Validation("Two", "Second error."),
+            Error.Validation("Last", "Another error.")
+        ]);
 
         // act
         var code = result.Render(console, [ExcludeFromCodeCoverage] (x) => $"Result={x}");
 
         // assert
         Assert.AreEqual(Globals.E_FAIL, code);
-        StringAssert.StartsWith(console.Output, "Multiple error messages:");
-        StringAssert.Contains(console.Output, "- Invalid value.");
-        StringAssert.Contains(console.Output, "- Second error.");
-        StringAssert.Contains(console.Output, "- Another error.");
+        Assert.StartsWith("Multiple error messages:", console.Output);
+        Assert.Contains("- Invalid value.", console.Output);
+        Assert.Contains("- Second error.", console.Output);
+        Assert.Contains("- Another error.", console.Output);
     }
 
     [TestMethod]
@@ -77,8 +77,8 @@ public class ResultPresenterTests
 
         // assert
         Assert.AreEqual(Globals.S_OK, code);
-        StringAssert.StartsWith(console.Output, "Success:");
-        StringAssert.EndsWith(console.Output, "Result=115\n");
+        Assert.StartsWith("Success:", console.Output);
+        Assert.EndsWith("Result=115\n", console.Output);
     }
 
     [TestMethod]
@@ -93,8 +93,8 @@ public class ResultPresenterTests
 
         // assert
         Assert.AreEqual(Globals.E_FAIL, code);
-        StringAssert.StartsWith(console.Output, "Error:");
-        StringAssert.EndsWith(console.Output, "Invalid value.\n");
+        Assert.StartsWith("Error:", console.Output);
+        Assert.EndsWith("Invalid value.\n", console.Output);
     }
 
     [TestMethod]
@@ -103,20 +103,20 @@ public class ResultPresenterTests
         // arrange
         var console = new TestConsole();
         var result = Task.FromResult(Result<int>.Failure(
-            [
-                Error.Validation("Test", "Invalid value."),
-                Error.Validation("Two", "Second error."),
-                Error.Validation("Last", "Another error.")
-            ]));
+        [
+            Error.Validation("Test", "Invalid value."),
+            Error.Validation("Two", "Second error."),
+            Error.Validation("Last", "Another error.")
+        ]));
 
         // act
         var code = await result.RenderAsync(console, [ExcludeFromCodeCoverage] (x) => $"Result={x}");
 
         // assert
         Assert.AreEqual(Globals.E_FAIL, code);
-        StringAssert.StartsWith(console.Output, "Multiple error messages:");
-        StringAssert.Contains(console.Output, "- Invalid value.");
-        StringAssert.Contains(console.Output, "- Second error.");
-        StringAssert.Contains(console.Output, "- Another error.");
+        Assert.StartsWith("Multiple error messages:", console.Output);
+        Assert.Contains("- Invalid value.", console.Output);
+        Assert.Contains("- Second error.", console.Output);
+        Assert.Contains("- Another error.", console.Output);
     }
 }

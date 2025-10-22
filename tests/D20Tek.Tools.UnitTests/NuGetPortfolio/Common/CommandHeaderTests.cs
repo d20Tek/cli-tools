@@ -17,7 +17,7 @@ public class CommandHeaderTests
         header.Render("My Header");
 
         // assert
-        StringAssert.StartsWith(console.Output, "── My…");
+        Assert.StartsWith("── My…", console.Output);
     }
 
     [TestMethod]
@@ -31,7 +31,7 @@ public class CommandHeaderTests
         header.Render("Green Header", "green");
 
         // assert
-        StringAssert.StartsWith(console.Output, "── Gre…");
+        Assert.StartsWith("── Gre…", console.Output);
     }
 
     [TestMethod]
@@ -45,6 +45,6 @@ public class CommandHeaderTests
         header.Render("My Header", rightPad: 10);
 
         // assert
-        StringAssert.StartsWith(console.Output, "── My Header");
+        Assert.StartsWith("── My Header", console.Output);
     }
 }

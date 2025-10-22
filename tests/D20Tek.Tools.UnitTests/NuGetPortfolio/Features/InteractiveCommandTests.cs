@@ -26,9 +26,9 @@ public class InteractiveCommandTests
 
         // assert
         Assert.AreEqual(0, result);
-        StringAssert.Contains(console.Output, "Running interactive mode.");
-        StringAssert.EndsWith(console.Output, "Bye!\n");
-        StringAssert.Contains(console.Output, "nu-port>");
+        Assert.Contains("Running interactive mode.", console.Output);
+        Assert.EndsWith("Bye!\n", console.Output);
+        Assert.Contains("nu-port>", console.Output);
     }
 
     [TestMethod]
@@ -50,8 +50,8 @@ public class InteractiveCommandTests
 
         // assert
         Assert.AreEqual(0, result);
-        StringAssert.Contains(console.Output, "Running interactive mode.");
-        StringAssert.EndsWith(console.Output, "Bye!\n");
-        StringAssert.Contains(console.Output, "nu-port>");
+        Assert.Contains("Running interactive mode.", console.Output);
+        Assert.EndsWith("Bye!\n", console.Output);
+        Assert.Contains("nu-port>", console.Output);
     }
 }

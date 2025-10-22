@@ -18,8 +18,8 @@ public class AddCollectionCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.S_OK, result.ExitCode);
-        StringAssert.Contains(result.Output, "Success:");
-        StringAssert.Contains(result.Output, "'Test Collection'");
+        Assert.Contains("Success:", result.Output);
+        Assert.Contains("'Test Collection'", result.Output);
     }
 
     [TestMethod]
@@ -35,8 +35,8 @@ public class AddCollectionCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.S_OK, result.ExitCode);
-        StringAssert.Contains(result.Output, "Success:");
-        StringAssert.Contains(result.Output, "'Interactive collection'");
+        Assert.Contains("Success:", result.Output);
+        Assert.Contains("'Interactive collection'", result.Output);
     }
 
     [TestMethod]
@@ -53,7 +53,7 @@ public class AddCollectionCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.E_FAIL, result.ExitCode);
-        StringAssert.Contains(result.Output, "Error:");
-        StringAssert.Contains(result.Output, "64 characters or less");
+        Assert.Contains("Error:", result.Output);
+        Assert.Contains("64 characters or less", result.Output);
     }
 }

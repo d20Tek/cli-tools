@@ -20,8 +20,8 @@ public class AddTrackedPackageCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.S_OK, result.ExitCode);
-        StringAssert.Contains(result.Output, "Success:");
-        StringAssert.Contains(result.Output, "'test-package-1'");
+        Assert.Contains("Success:", result.Output);
+        Assert.Contains("'test-package-1'", result.Output);
     }
 
     [TestMethod]
@@ -38,8 +38,8 @@ public class AddTrackedPackageCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.S_OK, result.ExitCode);
-        StringAssert.Contains(result.Output, "Success:");
-        StringAssert.Contains(result.Output, "'interactive-package-id'");
+        Assert.Contains("Success:", result.Output);
+        Assert.Contains("'interactive-package-id'", result.Output);
     }
 
     [TestMethod]
@@ -56,8 +56,8 @@ public class AddTrackedPackageCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.E_FAIL, result.ExitCode);
-        StringAssert.Contains(result.Output, "Error:");
-        StringAssert.Contains(result.Output, "256 characters or less");
+        Assert.Contains("Error:", result.Output);
+        Assert.Contains("256 characters or less", result.Output);
     }
 
     [TestMethod]
@@ -72,13 +72,13 @@ public class AddTrackedPackageCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.E_FAIL, result.ExitCode);
-        StringAssert.Contains(result.Output, "Error:");
-        StringAssert.Contains(result.Output, "not found");
+        Assert.Contains("Error:", result.Output);
+        Assert.Contains("not found", result.Output);
     }
 
     private AppDbContext CreateDatabaseWithCollections() =>
         InMemoryDbContext.InitializeDatabase(
-            [
-                CollectionEntity.Create("Default").GetValue(),
-            ]);
+        [
+            CollectionEntity.Create("Default").GetValue(),
+        ]);
 }

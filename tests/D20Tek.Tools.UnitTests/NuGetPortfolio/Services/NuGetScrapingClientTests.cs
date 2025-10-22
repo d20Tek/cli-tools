@@ -89,7 +89,7 @@ public class NuGetScrapingClientTests
 
         // assert
         Assert.IsTrue(result.IsFailure);
-        StringAssert.Contains(result.GetErrors().First().Message, "Could not find the expected version-history");
+        Assert.Contains("Could not find the expected version-history", result.GetErrors().First().Message);
     }
 
     [TestMethod]
@@ -126,7 +126,7 @@ public class NuGetScrapingClientTests
 
         // assert
         Assert.IsTrue(result.IsFailure);
-        StringAssert.Contains(result.GetErrors().First().Message, "not in a correct format");
+        Assert.Contains("not in a correct format", result.GetErrors().First().Message);
     }
 
     [TestMethod]
@@ -166,7 +166,7 @@ public class NuGetScrapingClientTests
 
         // assert
         Assert.IsTrue(result.IsFailure);
-        StringAssert.Contains(result.GetErrors().First().Message, "No downloads were found");
+        Assert.Contains("No downloads were found", result.GetErrors().First().Message);
     }
 
     [TestMethod]
@@ -201,6 +201,6 @@ public class NuGetScrapingClientTests
 
         // assert
         Assert.IsTrue(result.IsFailure);
-        StringAssert.Contains(result.GetErrors().First().Message, "No downloads were found");
+        Assert.Contains("No downloads were found", result.GetErrors().First().Message);
     }
 }

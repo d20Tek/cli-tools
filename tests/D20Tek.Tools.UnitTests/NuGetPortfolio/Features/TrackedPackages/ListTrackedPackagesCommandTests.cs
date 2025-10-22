@@ -19,9 +19,9 @@ public class ListTrackedPackagesCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.S_OK, result.ExitCode);
-        StringAssert.Contains(result.Output, "Success:");
-        StringAssert.Contains(result.Output, "No packages exist");
-        StringAssert.Contains(result.Output, "0 packages retrieved.");
+        Assert.Contains("Success:", result.Output);
+        Assert.Contains("No packages exist", result.Output);
+        Assert.Contains("0 packages retrieved.", result.Output);
     }
 
     [TestMethod]
@@ -39,10 +39,10 @@ public class ListTrackedPackagesCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.S_OK, result.ExitCode);
-        StringAssert.Contains(result.Output, "Success:");
-        StringAssert.Contains(result.Output, "Test.Package");
-        StringAssert.Contains(result.Output, "Default");
-        StringAssert.Contains(result.Output, "1 packages retrieved.");
+        Assert.Contains("Success:", result.Output);
+        Assert.Contains("Test.Package", result.Output);
+        Assert.Contains("Default", result.Output);
+        Assert.Contains("1 packages retrieved.", result.Output);
     }
 
     [TestMethod]
@@ -68,13 +68,13 @@ public class ListTrackedPackagesCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.S_OK, result.ExitCode);
-        StringAssert.Contains(result.Output, "Success:");
-        StringAssert.Contains(result.Output, "Test-Collection-1");
-        StringAssert.Contains(result.Output, "Test-Collection-2");
-        StringAssert.Contains(result.Output, "Test.Package.1");
-        StringAssert.Contains(result.Output, "Test.Package.2");
-        StringAssert.Contains(result.Output, "Test.Package.3");
-        StringAssert.Contains(result.Output, "Test.Package.4");
-        StringAssert.Contains(result.Output, "4 packages retrieved.");
+        Assert.Contains("Success:", result.Output);
+        Assert.Contains("Test-Collection-1", result.Output);
+        Assert.Contains("Test-Collection-2", result.Output);
+        Assert.Contains("Test.Package.1", result.Output);
+        Assert.Contains("Test.Package.2", result.Output);
+        Assert.Contains("Test.Package.3", result.Output);
+        Assert.Contains("Test.Package.4", result.Output);
+        Assert.Contains("4 packages retrieved.", result.Output);
     }
 }

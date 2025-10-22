@@ -20,9 +20,9 @@ public class ListCollectionsCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.S_OK, result.ExitCode);
-        StringAssert.Contains(result.Output, "Success:");
-        StringAssert.Contains(result.Output, "No collections exist");
-        StringAssert.Contains(result.Output, "0 collections retrieved.");
+        Assert.Contains("Success:", result.Output);
+        Assert.Contains("No collections exist", result.Output);
+        Assert.Contains("0 collections retrieved.", result.Output);
     }
 
     [TestMethod]
@@ -38,9 +38,9 @@ public class ListCollectionsCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.S_OK, result.ExitCode);
-        StringAssert.Contains(result.Output, "Success:");
-        StringAssert.Contains(result.Output, "Default");
-        StringAssert.Contains(result.Output, "1 collections retrieved.");
+        Assert.Contains("Success:", result.Output);
+        Assert.Contains("Default", result.Output);
+        Assert.Contains("1 collections retrieved.", result.Output);
     }
 
     [TestMethod]
@@ -61,10 +61,10 @@ public class ListCollectionsCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.S_OK, result.ExitCode);
-        StringAssert.Contains(result.Output, "Success:");
-        StringAssert.Contains(result.Output, "Test-Collection-1");
-        StringAssert.Contains(result.Output, "Test-Collection-2");
-        StringAssert.Contains(result.Output, "Test-Collection-3");
-        StringAssert.Contains(result.Output, "3 collections retrieved.");
+        Assert.Contains("Success:", result.Output);
+        Assert.Contains("Test-Collection-1", result.Output);
+        Assert.Contains("Test-Collection-2", result.Output);
+        Assert.Contains("Test-Collection-3", result.Output);
+        Assert.Contains("3 collections retrieved.", result.Output);
     }
 }

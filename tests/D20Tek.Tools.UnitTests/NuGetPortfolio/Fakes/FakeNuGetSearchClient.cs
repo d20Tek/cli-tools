@@ -3,11 +3,9 @@ using D20Tek.NuGet.Portfolio.Abstractions;
 
 namespace D20Tek.Tools.UnitTests.NuGetPortfolio.Fakes;
 
-internal class FakeNuGetSearchClient : INuGetSearchClient
+internal class FakeNuGetSearchClient(int downloadCount) : INuGetSearchClient
 {
-    private readonly int _downloadCount;
-
-    public FakeNuGetSearchClient(int downloadCount) => _downloadCount = downloadCount;
+    private readonly int _downloadCount = downloadCount;
 
     public Task<Result<long>> GetTotalDownloadsAsync(string packageId) => 
         Task.FromResult<Result<long>>(_downloadCount);

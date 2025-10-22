@@ -19,8 +19,8 @@ public class DeleteSnapshotsCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.E_FAIL, result.ExitCode);
-        StringAssert.Contains(result.Output, "Error:");
-        StringAssert.Contains(result.Output, "not found");
+        Assert.Contains("Error:", result.Output);
+        Assert.Contains("not found", result.Output);
     }
 
     [TestMethod]
@@ -50,8 +50,8 @@ public class DeleteSnapshotsCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.S_OK, result.ExitCode);
-        StringAssert.Contains(result.Output, "Success:");
-        StringAssert.Contains(result.Output, "0 snapshots deleted");
+        Assert.Contains("Success:", result.Output);
+        Assert.Contains("0 snapshots deleted", result.Output);
         Assert.AreEqual(1, db.PackageSnapshots.Count());
     }
 
@@ -84,8 +84,8 @@ public class DeleteSnapshotsCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.S_OK, result.ExitCode);
-        StringAssert.Contains(result.Output, "Success:");
-        StringAssert.Contains(result.Output, "0 snapshots deleted");
+        Assert.Contains("Success:", result.Output);
+        Assert.Contains("0 snapshots deleted", result.Output);
         Assert.AreEqual(1, db.PackageSnapshots.Count());
     }
 
@@ -118,8 +118,8 @@ public class DeleteSnapshotsCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.S_OK, result.ExitCode);
-        StringAssert.Contains(result.Output, "Success:");
-        StringAssert.Contains(result.Output, "1 snapshots deleted");
+        Assert.Contains("Success:", result.Output);
+        Assert.Contains("1 snapshots deleted", result.Output);
         Assert.AreEqual(0, db.PackageSnapshots.Count());
     }
 }

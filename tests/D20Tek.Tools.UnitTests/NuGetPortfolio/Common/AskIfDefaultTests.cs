@@ -35,8 +35,8 @@ public class AskIfDefaultTests
 
         // assert
         Assert.AreEqual("user input", result);
-        StringAssert.Contains(console.Output, "My label:");
-        StringAssert.Contains(console.Output, Globals.AppPrompt);
+        Assert.Contains("My label:", console.Output);
+        Assert.Contains(Globals.AppPrompt, console.Output);
     }
 
     [TestMethod]
@@ -51,8 +51,8 @@ public class AskIfDefaultTests
 
         // assert
         Assert.AreEqual("user input", result);
-        StringAssert.Contains(console.Output, "My label:");
-        StringAssert.Contains(console.Output, Globals.AppPrompt);
+        Assert.Contains("My label:", console.Output);
+        Assert.Contains(Globals.AppPrompt, console.Output);
     }
 
     [TestMethod]

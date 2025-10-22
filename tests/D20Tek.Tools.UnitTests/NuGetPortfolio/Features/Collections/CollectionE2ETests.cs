@@ -17,7 +17,7 @@ public class CollectionE2ETests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.S_OK, result.ExitCode);
-        StringAssert.Contains(result.Output, "Success:");
-        StringAssert.Contains(result.Output, "'E2E Test Collection'");
+        Assert.Contains("Success:", result.Output);
+        Assert.Contains("'E2E Test Collection'", result.Output);
     }
 }

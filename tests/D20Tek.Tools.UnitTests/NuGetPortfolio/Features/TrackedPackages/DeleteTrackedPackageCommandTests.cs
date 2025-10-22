@@ -19,8 +19,8 @@ public class DeleteTrackedPackageCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.E_FAIL, result.ExitCode);
-        StringAssert.Contains(result.Output, "Error:");
-        StringAssert.Contains(result.Output, "not found");
+        Assert.Contains("Error:", result.Output);
+        Assert.Contains("not found", result.Output);
     }
 
     [TestMethod]
@@ -46,7 +46,7 @@ public class DeleteTrackedPackageCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.S_OK, result.ExitCode);
-        StringAssert.Contains(result.Output, "Success:");
-        StringAssert.Contains(result.Output, "Tracked package deleted: 'Test.Package.3' [Id: 3]");
+        Assert.Contains("Success:", result.Output);
+        Assert.Contains("Tracked package deleted: 'Test.Package.3' [Id: 3]", result.Output);
     }
 }

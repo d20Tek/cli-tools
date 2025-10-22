@@ -21,8 +21,8 @@ public class EditCollectionCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.S_OK, result.ExitCode);
-        StringAssert.Contains(result.Output, "Success:");
-        StringAssert.Contains(result.Output, "'Test-Collection-Updated'");
+        Assert.Contains("Success:", result.Output);
+        Assert.Contains("'Test-Collection-Updated'", result.Output);
     }
 
     [TestMethod]
@@ -37,8 +37,8 @@ public class EditCollectionCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.E_FAIL, result.ExitCode);
-        StringAssert.Contains(result.Output, "Error:");
-        StringAssert.Contains(result.Output, "not found");
+        Assert.Contains("Error:", result.Output);
+        Assert.Contains("not found", result.Output);
     }
 
     [TestMethod]
@@ -55,8 +55,8 @@ public class EditCollectionCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.S_OK, result.ExitCode);
-        StringAssert.Contains(result.Output, "Success:");
-        StringAssert.Contains(result.Output, "'Interactive collection'");
+        Assert.Contains("Success:", result.Output);
+        Assert.Contains("'Interactive collection'", result.Output);
     }
 
     [TestMethod]
@@ -73,15 +73,15 @@ public class EditCollectionCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.E_FAIL, result.ExitCode);
-        StringAssert.Contains(result.Output, "Error:");
-        StringAssert.Contains(result.Output, "64 characters or less");
+        Assert.Contains("Error:", result.Output);
+        Assert.Contains("64 characters or less", result.Output);
     }
 
     private AppDbContext CreateDatabaseWithCollections() =>
         InMemoryDbContext.InitializeDatabase(
-            [
-                CollectionEntity.Create("Test-Collection-1").GetValue(),
-                CollectionEntity.Create("Test-Collection-2").GetValue(),
-                CollectionEntity.Create("Test-Collection-3").GetValue()
-            ]);
+        [
+            CollectionEntity.Create("Test-Collection-1").GetValue(),
+            CollectionEntity.Create("Test-Collection-2").GetValue(),
+            CollectionEntity.Create("Test-Collection-3").GetValue()
+        ]);
 }

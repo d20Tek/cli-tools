@@ -3,11 +3,9 @@ using System.Text;
 
 namespace D20Tek.Tools.UnitTests.NuGetPortfolio.Fakes;
 
-internal class FakeHttpMessageHandler : HttpMessageHandler
+internal class FakeHttpMessageHandler(string jsonContent) : HttpMessageHandler
 {
-    private readonly string _jsonContent;
-
-    public FakeHttpMessageHandler(string jsonContent) => _jsonContent = jsonContent;
+    private readonly string _jsonContent = jsonContent;
 
     protected override Task<HttpResponseMessage> SendAsync(HttpRequestMessage request, CancellationToken token) =>
         Task.FromResult(new HttpResponseMessage(HttpStatusCode.OK)

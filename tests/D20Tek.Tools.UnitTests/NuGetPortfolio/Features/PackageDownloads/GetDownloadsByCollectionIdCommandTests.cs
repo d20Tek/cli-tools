@@ -32,13 +32,13 @@ public class GetDownloadsByCollectionIdCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.S_OK, result.ExitCode);
-        StringAssert.Contains(result.Output, "Success:");
-        StringAssert.Contains(result.Output, "Test.Package.1");
-        StringAssert.Contains(result.Output, "Test.Package.2");
+        Assert.Contains("Success:", result.Output);
+        Assert.Contains("Test.Package.1", result.Output);
+        Assert.Contains("Test.Package.2", result.Output);
         Assert.DoesNotContain("Test.Package.3", result.Output);
-        StringAssert.Contains(result.Output, "42");
-        StringAssert.Contains(result.Output, "84");
-        StringAssert.Contains(result.Output, "for 2 tracked packages");
+        Assert.Contains("42", result.Output);
+        Assert.Contains("84", result.Output);
+        Assert.Contains("for 2 tracked packages", result.Output);
     }
 
     [TestMethod]
@@ -58,9 +58,9 @@ public class GetDownloadsByCollectionIdCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.S_OK, result.ExitCode);
-        StringAssert.Contains(result.Output, "Success:");
-        StringAssert.Contains(result.Output, "No package downloads exist");
-        StringAssert.Contains(result.Output, "for 0 tracked packages");
+        Assert.Contains("Success:", result.Output);
+        Assert.Contains("No package downloads exist", result.Output);
+        Assert.Contains("for 0 tracked packages", result.Output);
     }
 
     [TestMethod]
@@ -86,8 +86,8 @@ public class GetDownloadsByCollectionIdCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.E_FAIL, result.ExitCode);
-        StringAssert.Contains(result.Output, "Error:");
-        StringAssert.Contains(result.Output, "CollectionEntity with id=404 was not found");
+        Assert.Contains("Error:", result.Output);
+        Assert.Contains("CollectionEntity with id=404 was not found", result.Output);
     }
 
     [TestMethod]
@@ -113,7 +113,7 @@ public class GetDownloadsByCollectionIdCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.E_FAIL, result.ExitCode);
-        StringAssert.Contains(result.Output, "Error:");
-        StringAssert.Contains(result.Output, "Package with id=Test.Package.1 not found");
+        Assert.Contains("Error:", result.Output);
+        Assert.Contains("Package with id=Test.Package.1 not found", result.Output);
     }
 }

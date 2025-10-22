@@ -51,8 +51,8 @@ public class GetDownloadsByPackageIdCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.E_FAIL, result.ExitCode);
-        StringAssert.Contains(result.Output, "Error:");
-        StringAssert.Contains(result.Output, "not found");
+        Assert.Contains("Error:", result.Output);
+        Assert.Contains("not found", result.Output);
     }
 
     [TestMethod]
@@ -76,8 +76,8 @@ public class GetDownloadsByPackageIdCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.E_FAIL, result.ExitCode);
-        StringAssert.Contains(result.Output, "Error:");
-        StringAssert.Contains(result.Output, "Test.Package.1");
-        StringAssert.Contains(result.Output, "not found");
+        Assert.Contains("Error:", result.Output);
+        Assert.Contains("Test.Package.1", result.Output);
+        Assert.Contains("not found", result.Output);
     }
 }

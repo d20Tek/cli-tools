@@ -15,13 +15,14 @@ public class EditTrackedPackageCommandTests
         var context = CommandAppContextFactory.CreateWithMemoryDb(CreateDatabaseWithPackages());
 
         // act
-        var result = await context.RunAsync(["package", "edit", "--id", "2", "--package-id", "Test.Package.2.Updated", "--collection-id", "2"]);
+        var result = await context.RunAsync(
+            ["package", "edit", "--id", "2", "--package-id", "Test.Package.2.Updated", "--collection-id", "2"]);
 
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.S_OK, result.ExitCode);
-        StringAssert.Contains(result.Output, "Success:");
-        StringAssert.Contains(result.Output, "'Test.Package.2.Updated'");
+        Assert.Contains("Success:", result.Output);
+        Assert.Contains("'Test.Package.2.Updated'", result.Output);
     }
 
     [TestMethod]
@@ -31,13 +32,14 @@ public class EditTrackedPackageCommandTests
         var context = CommandAppContextFactory.CreateWithMemoryDb();
 
         // act
-        var result = await context.RunAsync(["package", "edit", "--id", "999", "--package-id", "Test.Package.2.Updated", "--collection-id", "2"]);
+        var result = await context.RunAsync(
+            ["package", "edit", "--id", "999", "--package-id", "Test.Package.2.Updated", "--collection-id", "2"]);
 
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.E_FAIL, result.ExitCode);
-        StringAssert.Contains(result.Output, "Error:");
-        StringAssert.Contains(result.Output, "not found");
+        Assert.Contains("Error:", result.Output);
+        Assert.Contains("not found", result.Output);
     }
 
     [TestMethod]
@@ -55,8 +57,8 @@ public class EditTrackedPackageCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.S_OK, result.ExitCode);
-        StringAssert.Contains(result.Output, "Success:");
-        StringAssert.Contains(result.Output, "'Test.Package.2.Interactive'");
+        Assert.Contains("Success:", result.Output);
+        Assert.Contains("'Test.Package.2.Interactive'", result.Output);
     }
 
     [TestMethod]
@@ -71,9 +73,9 @@ public class EditTrackedPackageCommandTests
         // assert
         Assert.IsNotNull(result);
         Assert.AreEqual(Globals.E_FAIL, result.ExitCode);
-        StringAssert.Contains(result.Output, "Error:");
-        StringAssert.Contains(result.Output, "CollectionEntity");
-        StringAssert.Contains(result.Output, "not found");
+        Assert.Contains("Error:", result.Output);
+        Assert.Contains("CollectionEntity", result.Output);
+        Assert.Contains("not found", result.Output);
     }
 
     private AppDbContext CreateDatabaseWithPackages() =>
