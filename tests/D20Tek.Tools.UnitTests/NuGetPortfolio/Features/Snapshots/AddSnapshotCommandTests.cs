@@ -35,7 +35,7 @@ public class AddSnapshotCommandTests
         StringAssert.Contains(result.Output, "Success:");
         StringAssert.Contains(result.Output, "Test.Package.1");
         StringAssert.Contains(result.Output, "Test.Package.2");
-        Assert.IsFalse(result.Output.Contains("Test.Package.3"));
+        Assert.DoesNotContain("Test.Package.3", result.Output);
         StringAssert.Contains(result.Output, "42");
         StringAssert.Contains(result.Output, "84");
         StringAssert.Contains(result.Output, "for 2 tracked packages");

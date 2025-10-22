@@ -5,22 +5,17 @@ using TextCopy;
 
 namespace D20Tek.Tools.CreateGuid.Commands;
 
-internal sealed class CreateGuidState
+internal sealed class CreateGuidState(
+    IGuidGenerator guidGen,
+    IGuidFormatter formatter,
+    IVerbosityWriter writer,
+    IClipboard clipboard)
 {
-    private readonly IGuidGenerator _guidGenerator;
-    private readonly IGuidFormatter _guidFormatter;
-    private readonly IVerbosityWriter _writer;
-    private readonly IClipboard _clipboard;
-    private readonly StringBuilder _stringBuilder;
-
-    public CreateGuidState(IGuidGenerator guidGen, IGuidFormatter formatter, IVerbosityWriter writer, IClipboard clipboard)
-    {
-        _guidGenerator = guidGen;
-        _guidFormatter = formatter;
-        _writer = writer;
-        _clipboard = clipboard;
-        _stringBuilder = new StringBuilder();
-    }
+    private readonly IGuidGenerator _guidGenerator = guidGen;
+    private readonly IGuidFormatter _guidFormatter = formatter;
+    private readonly IVerbosityWriter _writer = writer;
+    private readonly IClipboard _clipboard = clipboard;
+    private readonly StringBuilder _stringBuilder = new StringBuilder();
 
     internal CreateGuidState CopyToClipboard(GuidSettings settings)
     {

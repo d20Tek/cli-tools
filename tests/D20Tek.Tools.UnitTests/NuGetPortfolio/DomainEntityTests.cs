@@ -22,7 +22,7 @@ public class DomainEntityTests
         // assert
         Assert.AreEqual(0, coll.Id);
         Assert.AreEqual("TestCat", coll.Name);
-        Assert.AreEqual(1, coll.TrackedPackages.Count);
+        Assert.HasCount(1, coll.TrackedPackages);
     }
 
     [TestMethod]

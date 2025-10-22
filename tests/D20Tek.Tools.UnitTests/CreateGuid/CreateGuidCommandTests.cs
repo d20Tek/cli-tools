@@ -88,7 +88,7 @@ public sealed class CreateGuidCommandTests
 
         // assert
         result.AssertValidWithGuid(guid.ToString());
-        StringAssert.Contains(clipboard.GetText(), guid.ToString());
+        Assert.Contains(guid.ToString(), clipboard.GetText()!);
     }
 
     [TestMethod]

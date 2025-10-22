@@ -19,8 +19,8 @@ public class AskIfDefaultTests
 
         // assert
         Assert.AreEqual("test", result);
-        Assert.IsFalse(console.Output.Contains("My label:"));
-        Assert.IsFalse(console.Output.Contains(Globals.AppPrompt));
+        Assert.DoesNotContain("My label:", console.Output);
+        Assert.DoesNotContain(Globals.AppPrompt, console.Output);
     }
 
     [TestMethod]

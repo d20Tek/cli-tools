@@ -9,9 +9,9 @@ internal static class CreateGuidCommandValidator
         Assert.IsNotNull(result);
         Assert.AreEqual(0, result.ExitCode);
 
-        StringAssert.Contains(result.Output, expected);
-        StringAssert.StartsWith(result.Output, "create-guid: running");
-        StringAssert.Contains(result.Output, "Command completed successfully!");
+        Assert.Contains(expected, result.Output);
+        Assert.StartsWith("create-guid: running", result.Output);
+        Assert.Contains("Command completed successfully!", result.Output);
     }
 
     public static void AssertValidWithThreeGuids(this CommandAppResult result, Guid[] expected)
@@ -19,13 +19,13 @@ internal static class CreateGuidCommandValidator
         Assert.IsNotNull(result);
         Assert.AreEqual(0, result.ExitCode);
 
-        StringAssert.Contains(result.Output, expected[0].ToString());
-        StringAssert.Contains(result.Output, expected[1].ToString());
-        StringAssert.Contains(result.Output, expected[2].ToString());
-        Assert.IsFalse(result.Output.Contains(expected[3].ToString()));
-        Assert.IsFalse(result.Output.Contains(expected[4].ToString()));
+        Assert.Contains(expected[0].ToString(), result.Output);
+        Assert.Contains(expected[1].ToString(), result.Output);
+        Assert.Contains(expected[2].ToString(), result.Output);
+        Assert.DoesNotContain(expected[3].ToString(), result.Output);
+        Assert.DoesNotContain(expected[4].ToString(), result.Output);
 
-        StringAssert.StartsWith(result.Output, "create-guid: running");
-        StringAssert.Contains(result.Output, "Command completed successfully!");
+        Assert.StartsWith("create-guid: running", result.Output);
+        Assert.Contains("Command completed successfully!", result.Output);
     }
 }
