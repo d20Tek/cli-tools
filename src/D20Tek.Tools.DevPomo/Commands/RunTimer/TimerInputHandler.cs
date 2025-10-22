@@ -2,14 +2,12 @@
 
 namespace D20Tek.Tools.DevPomo.Commands.RunTimer;
 
-internal sealed class TimerInputHandler : IDisposable
+internal sealed class TimerInputHandler(IAnsiConsole console, TimerState state) : IDisposable
 {
-    private readonly IAnsiConsole _console;
-    private readonly TimerState _state;
+    private readonly IAnsiConsole _console = console;
+    private readonly TimerState _state = state;
     private Thread? _inputThread;
     private bool _running;
-
-    public TimerInputHandler(IAnsiConsole console, TimerState state) => (_console, _state) = (console, state);
 
     public void Start()
     {

@@ -4,13 +4,10 @@ using Spectre.Console.Cli;
 
 namespace D20Tek.Tools.DevPomo.Commands.Configuration;
 
-internal class UpdateConfigCommand : Command
+internal class UpdateConfigCommand(IAnsiConsole console, IConfigurationService service) : Command
 {
-    private readonly IAnsiConsole _console;
-    private readonly IConfigurationService _service;
-
-    public UpdateConfigCommand(IAnsiConsole console, IConfigurationService service) =>
-        (_console, _service) = (console, service);
+    private readonly IAnsiConsole _console = console;
+    private readonly IConfigurationService _service = service;
 
     public override int Execute(CommandContext context)
     {

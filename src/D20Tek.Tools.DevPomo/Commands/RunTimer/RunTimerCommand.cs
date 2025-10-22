@@ -6,7 +6,7 @@ using System.ComponentModel;
 
 namespace D20Tek.Tools.DevPomo.Commands.RunTimer;
 
-internal sealed class RunTimerCommand : Command<RunTimerCommand.Settings>
+internal sealed class RunTimerCommand(IAnsiConsole console) : Command<RunTimerCommand.Settings>
 {
     internal class Settings : CommandSettings
     {
@@ -16,9 +16,7 @@ internal sealed class RunTimerCommand : Command<RunTimerCommand.Settings>
         public int Cycles { get; set; }
     }
 
-    private readonly IAnsiConsole _console;
-
-    public RunTimerCommand(IAnsiConsole console) => _console = console;
+    private readonly IAnsiConsole _console = console;
 
     public override int Execute(CommandContext context, Settings settings)
     {

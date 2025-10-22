@@ -2,18 +2,11 @@
 
 namespace D20Tek.Tools.DevPomo.Commands.RunTimer;
 
-internal sealed class TimerPanel
+internal sealed class TimerPanel(string title, string foregroundColor = "red", Color? borderColor = null)
 {
-    private readonly string _title;
-    private readonly string _foregroundColor;
-    private readonly Color _borderColor;
-
-    public TimerPanel(string title, string foregroundColor = "red", Color? borderColor = null)
-    {
-        _title = title;
-        _foregroundColor = foregroundColor;
-        _borderColor = borderColor ?? Color.Red;
-    }
+    private readonly string _title = title;
+    private readonly string _foregroundColor = foregroundColor;
+    private readonly Color _borderColor = borderColor ?? Color.Red;
 
     public TimerPanel(PanelDetails details)
         : this(details.Title, details.ForegroundColor, details.BorderColor) { }
