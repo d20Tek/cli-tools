@@ -5,7 +5,7 @@ using System.Text.Json;
 
 namespace D20Tek.NuGet.Portfolio.Services;
 
-internal class NuGetSearchClient : INuGetSearchClient
+internal class NuGetSearchClient(HttpClient httpClient) : INuGetSearchClient
 {
     private const string _dataNode = "data";
     private const string _downloadsProperty = "totalDownloads";
@@ -15,9 +15,7 @@ internal class NuGetSearchClient : INuGetSearchClient
     private static string GetCacheKey(string packageId) => $"NuGet.Package.{packageId.ToLowerInvariant()}";
     private static string PackageNotFound(string packageId) => $"Package with id '{packageId}' was not found.";
 
-    private readonly HttpClient _httpClient;
-
-    public NuGetSearchClient(HttpClient httpClient) => _httpClient = httpClient;
+    private readonly HttpClient _httpClient = httpClient;
 
     public async Task<Result<long>> GetTotalDownloadsAsync(string packageId) =>
         await TryAsync.RunAsync<long>(async () =>

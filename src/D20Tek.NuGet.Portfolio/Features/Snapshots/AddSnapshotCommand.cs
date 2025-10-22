@@ -4,14 +4,12 @@ using D20Tek.NuGet.Portfolio.Persistence;
 
 namespace D20Tek.NuGet.Portfolio.Features.Snapshots;
 
-internal sealed class AddSnapshotCommand : AsyncCommand<CollectionId>
+internal sealed class AddSnapshotCommand(IAnsiConsole console, AppDbContext dbContext, INuGetSearchClient client) :
+    AsyncCommand<CollectionId>
 {
-    private readonly IAnsiConsole _console;
-    private readonly AppDbContext _dbContext;
-    private readonly INuGetSearchClient _client;
-
-    public AddSnapshotCommand(IAnsiConsole console, AppDbContext dbContext, INuGetSearchClient client) =>
-        (_console, _dbContext, _client) = (console, dbContext, client);
+    private readonly IAnsiConsole _console = console;
+    private readonly AppDbContext _dbContext = dbContext;
+    private readonly INuGetSearchClient _client = client;
 
     public override async Task<int> ExecuteAsync(CommandContext context, CollectionId id)
     {

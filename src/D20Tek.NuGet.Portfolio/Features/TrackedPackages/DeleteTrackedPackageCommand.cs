@@ -2,7 +2,8 @@
 
 namespace D20Tek.NuGet.Portfolio.Features.TrackedPackages;
 
-internal sealed class DeleteTrackedPackageCommand : AsyncCommand<DeleteTrackedPackageCommand.PackageId>
+internal sealed class DeleteTrackedPackageCommand(IAnsiConsole console, AppDbContext dbContext) :
+    AsyncCommand<DeleteTrackedPackageCommand.PackageId>
 {
     public sealed class PackageId : CommandSettings
     {
@@ -11,11 +12,8 @@ internal sealed class DeleteTrackedPackageCommand : AsyncCommand<DeleteTrackedPa
         public int Value { get; set; }
     }
 
-    private readonly IAnsiConsole _console;
-    private readonly AppDbContext _dbContext;
-
-    public DeleteTrackedPackageCommand(IAnsiConsole console, AppDbContext dbContext) =>
-        (_console, _dbContext) = (console, dbContext);
+    private readonly IAnsiConsole _console = console;
+    private readonly AppDbContext _dbContext = dbContext;
 
     public override async Task<int> ExecuteAsync(CommandContext context, PackageId id)
     {

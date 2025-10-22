@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace D20Tek.NuGet.Portfolio.Services;
 
-internal sealed class NuGetScrapingClient : INuGetSearchClient
+internal sealed class NuGetScrapingClient(HttpClient httpClient) : INuGetSearchClient
 {
     private const string _versionHistoryPath = "//div[@id='version-history']//table//tbody//tr";
     private const string _cellPath = "td";
@@ -17,9 +17,7 @@ internal sealed class NuGetScrapingClient : INuGetSearchClient
     private static string GetCacheKey(string packageId) => $"NuGet.Package.{packageId.ToLowerInvariant()}";
 
     private static readonly IMemoryCache _cache = new MemoryCache(new MemoryCacheOptions());
-    private readonly HttpClient _httpClient;
-
-    public NuGetScrapingClient(HttpClient httpClient) => _httpClient = httpClient;
+    private readonly HttpClient _httpClient = httpClient;
 
     public async Task<Result<long>> GetTotalDownloadsAsync(string packageId) =>
         await TryAsync.RunAsync<long>(async () =>

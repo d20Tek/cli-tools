@@ -4,13 +4,11 @@ using D20Tek.NuGet.Portfolio.Persistence;
 
 namespace D20Tek.NuGet.Portfolio.Features.Snapshots;
 
-internal sealed class ListTodayByCollectionCommand : Command<CollectionId>
+internal sealed class ListTodayByCollectionCommand(IAnsiConsole console, AppDbContext dbContext) :
+    Command<CollectionId>
 {
-    private readonly IAnsiConsole _console;
-    private readonly AppDbContext _dbContext;
-
-    public ListTodayByCollectionCommand(IAnsiConsole console, AppDbContext dbContext) =>
-        (_console, _dbContext) = (console, dbContext);
+    private readonly IAnsiConsole _console = console;
+    private readonly AppDbContext _dbContext = dbContext;
 
     public override int Execute(CommandContext context, CollectionId id)
     {

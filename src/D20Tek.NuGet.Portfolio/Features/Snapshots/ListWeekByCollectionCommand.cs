@@ -6,13 +6,10 @@ using System.Diagnostics.CodeAnalysis;
 namespace D20Tek.NuGet.Portfolio.Features.Snapshots;
 
 [ExcludeFromCodeCoverage]
-internal sealed class ListWeekByCollectionCommand : Command<CollectionId>
+internal sealed class ListWeekByCollectionCommand(IAnsiConsole console, AppDbContext dbContext) : Command<CollectionId>
 {
-    private readonly IAnsiConsole _console;
-    private readonly AppDbContext _dbContext;
-
-    public ListWeekByCollectionCommand(IAnsiConsole console, AppDbContext dbContext) =>
-        (_console, _dbContext) = (console, dbContext);
+    private readonly IAnsiConsole _console = console;
+    private readonly AppDbContext _dbContext = dbContext;
 
     public override int Execute(CommandContext context, CollectionId id)
     {

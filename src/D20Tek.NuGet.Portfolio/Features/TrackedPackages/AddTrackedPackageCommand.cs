@@ -3,7 +3,8 @@ using D20Tek.NuGet.Portfolio.Persistence;
 
 namespace D20Tek.NuGet.Portfolio.Features.TrackedPackages;
 
-internal sealed class AddTrackedPackageCommand : AsyncCommand<AddTrackedPackageCommand.Request>
+internal sealed class AddTrackedPackageCommand(IAnsiConsole console, AppDbContext dbContext) :
+    AsyncCommand<AddTrackedPackageCommand.Request>
 {
     public sealed class Request : CommandSettings
     {
@@ -16,11 +17,8 @@ internal sealed class AddTrackedPackageCommand : AsyncCommand<AddTrackedPackageC
         public int CollectionId { get; set; }
     }
 
-    private readonly IAnsiConsole _console;
-    private readonly AppDbContext _dbContext;
-
-    public AddTrackedPackageCommand(IAnsiConsole console, AppDbContext dbContext) =>
-        (_console, _dbContext) = (console, dbContext);
+    private readonly IAnsiConsole _console = console;
+    private readonly AppDbContext _dbContext = dbContext;
 
     public override async Task<int> ExecuteAsync(CommandContext context, Request request)
     {

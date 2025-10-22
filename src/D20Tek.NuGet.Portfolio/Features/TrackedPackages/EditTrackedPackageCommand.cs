@@ -3,7 +3,8 @@ using D20Tek.NuGet.Portfolio.Persistence;
 
 namespace D20Tek.NuGet.Portfolio.Features.TrackedPackages;
 
-internal class EditTrackedPackageCommand : AsyncCommand<EditTrackedPackageCommand.Request>
+internal class EditTrackedPackageCommand(IAnsiConsole console, AppDbContext dbContext) :
+    AsyncCommand<EditTrackedPackageCommand.Request>
 {
     internal sealed class Request : CommandSettings
     {
@@ -20,11 +21,8 @@ internal class EditTrackedPackageCommand : AsyncCommand<EditTrackedPackageComman
         public int CollectionId { get; set; }
     }
 
-    private readonly IAnsiConsole _console;
-    private readonly AppDbContext _dbContext;
-
-    public EditTrackedPackageCommand(IAnsiConsole console, AppDbContext dbContext) =>
-        (_console, _dbContext) = (console, dbContext);
+    private readonly IAnsiConsole _console = console;
+    private readonly AppDbContext _dbContext = dbContext;
 
     public override async Task<int> ExecuteAsync(CommandContext context, Request request)
     {

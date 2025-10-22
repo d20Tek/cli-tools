@@ -2,10 +2,9 @@
 
 namespace D20Tek.NuGet.Portfolio.Features;
 
-internal sealed class InteractiveCommand : InteractiveCommandBase
+internal sealed class InteractiveCommand(ICommandApp app, IAnsiConsole console) :
+    InteractiveCommandBase(app, console)
 {
-    public InteractiveCommand(ICommandApp app, IAnsiConsole console) : base(app, console) { }
-
     protected override void ShowWelcomeMessage(IAnsiConsole console) =>
         console.ToIdentity().Iter(c => c.Clear())
                             .Iter(c => c.Write(new FigletText(Globals.AppTitle).Centered().Color(Color.Green)))

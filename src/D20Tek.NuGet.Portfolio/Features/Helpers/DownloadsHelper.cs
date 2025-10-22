@@ -24,12 +24,12 @@ internal static class DownloadsHelper
     public static Task RenderDownloadSnapshots(this IAnsiConsole console, PackageSnapshotEntity[] snapshots)
     {
         console.RenderTableWithTitle(
-                   "Collection package downloads",
-                   DownloadsTableBuilder.Create()
-                                        .WithHeader()
-                                        .WithRows(snapshots)
-                                        .WithTotals(snapshots)
-                                        .Build());
+            "Collection package downloads",
+            DownloadsTableBuilder.Create()
+                                .WithHeader()
+                                .WithRows(snapshots)
+                                .WithTotals(snapshots)
+                                .Build());
         return Task.CompletedTask;
     }
 }

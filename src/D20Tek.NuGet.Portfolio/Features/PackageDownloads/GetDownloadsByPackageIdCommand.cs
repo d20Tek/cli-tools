@@ -4,7 +4,8 @@ using D20Tek.NuGet.Portfolio.Persistence;
 
 namespace D20Tek.NuGet.Portfolio.Features.PackageDownloads;
 
-internal sealed class GetDownloadsByPackageIdCommand : AsyncCommand<GetDownloadsByPackageIdCommand.PackageId>
+internal sealed class GetDownloadsByPackageIdCommand(IAnsiConsole console, AppDbContext dbContext, INuGetSearchClient client) :
+    AsyncCommand<GetDownloadsByPackageIdCommand.PackageId>
 {
     public sealed class PackageId : CommandSettings
     {
@@ -13,15 +14,9 @@ internal sealed class GetDownloadsByPackageIdCommand : AsyncCommand<GetDownloads
         public int Value { get; set; }
     }
 
-    private readonly IAnsiConsole _console;
-    private readonly AppDbContext _dbContext;
-    private readonly INuGetSearchClient _client;
-
-    public GetDownloadsByPackageIdCommand(
-        IAnsiConsole console,
-        AppDbContext dbContext,
-        INuGetSearchClient client) =>
-        (_console, _dbContext, _client) = (console, dbContext, client);
+    private readonly IAnsiConsole _console = console;
+    private readonly AppDbContext _dbContext = dbContext;
+    private readonly INuGetSearchClient _client = client;
 
     public override async Task<int> ExecuteAsync(CommandContext context, PackageId id)
     {

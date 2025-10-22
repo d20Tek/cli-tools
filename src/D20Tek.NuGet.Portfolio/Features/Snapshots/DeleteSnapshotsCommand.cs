@@ -2,7 +2,8 @@
 
 namespace D20Tek.NuGet.Portfolio.Features.Snapshots;
 
-internal sealed class DeleteSnapshotsCommand : AsyncCommand<DeleteSnapshotsCommand.Settings>
+internal sealed class DeleteSnapshotsCommand(IAnsiConsole console, AppDbContext dbContext) :
+    AsyncCommand<DeleteSnapshotsCommand.Settings>
 {
     public sealed class Settings : CommandSettings
     {
@@ -15,11 +16,8 @@ internal sealed class DeleteSnapshotsCommand : AsyncCommand<DeleteSnapshotsComma
         public DateOnly Date { get; set; }
     }
 
-    private readonly IAnsiConsole _console;
-    private readonly AppDbContext _dbContext;
-
-    public DeleteSnapshotsCommand(IAnsiConsole console, AppDbContext dbContext) =>
-        (_console, _dbContext) = (console, dbContext);
+    private readonly IAnsiConsole _console = console;
+    private readonly AppDbContext _dbContext = dbContext;
 
     public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
     {

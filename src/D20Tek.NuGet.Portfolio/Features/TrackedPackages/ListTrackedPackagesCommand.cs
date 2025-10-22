@@ -3,13 +3,10 @@ using D20Tek.NuGet.Portfolio.Persistence;
 
 namespace D20Tek.NuGet.Portfolio.Features.TrackedPackages;
 
-internal sealed class ListTrackedPackagesCommand : Command
+internal sealed class ListTrackedPackagesCommand(IAnsiConsole console, AppDbContext dbContext) : Command
 {
-    private readonly IAnsiConsole _console;
-    private readonly AppDbContext _dbContext;
-
-    public ListTrackedPackagesCommand(IAnsiConsole console, AppDbContext dbContext) =>
-        (_console, _dbContext) = (console, dbContext);
+    private readonly IAnsiConsole _console = console;
+    private readonly AppDbContext _dbContext = dbContext;
 
     public override int Execute(CommandContext context) =>
         GetTrackedPackages()

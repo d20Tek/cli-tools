@@ -5,19 +5,16 @@ using Microsoft.Extensions.Logging;
 
 namespace D20Tek.NuGet.Portfolio.Persistence;
 
-internal sealed class AppDbContext : DbContext
+internal sealed class AppDbContext(DbContextOptions<AppDbContext> options, ILogger<AppDbContext> logger) :
+    DbContext(options)
 {
-    private readonly ILogger<AppDbContext> _logger;
+    private readonly ILogger<AppDbContext> _logger = logger;
 
     public DbSet<CollectionEntity> Collections { get; set; }
 
     public DbSet<TrackedPackageEntity> TrackedPackages { get; set; }
 
     public DbSet<PackageSnapshotEntity> PackageSnapshots { get; set; }
-
-    public AppDbContext(DbContextOptions<AppDbContext> options, ILogger<AppDbContext> logger)
-        : base(options) => 
-        _logger = logger;
 
     protected override void OnModelCreating(ModelBuilder modelBuilder) =>
         modelBuilder.ApplyConfiguration(new CollectionConfiguration())

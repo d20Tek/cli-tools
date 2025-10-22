@@ -1,12 +1,10 @@
 ﻿namespace D20Tek.NuGet.Portfolio.Common.Controls;
 
-internal sealed class CommandHeader
+internal sealed class CommandHeader(IAnsiConsole console)
 {
     private const string _defaultColor = "grey";
     private const int _paddingRight = 70;
-    private readonly IAnsiConsole _console;
-
-    public CommandHeader(IAnsiConsole console) => _console = console;
+    private readonly IAnsiConsole _console = console;
 
     public void Render(string title, string color = _defaultColor, int rightPad = _paddingRight) =>
         _console.Write(new Padder(

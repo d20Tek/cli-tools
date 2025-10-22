@@ -3,7 +3,8 @@ using D20Tek.NuGet.Portfolio.Persistence;
 
 namespace D20Tek.NuGet.Portfolio.Features.Collections;
 
-internal sealed class AddCollectionCommand : AsyncCommand<AddCollectionCommand.Request>
+internal sealed class AddCollectionCommand(IAnsiConsole console, AppDbContext dbContext) :
+    AsyncCommand<AddCollectionCommand.Request>
 {
     internal sealed class Request : CommandSettings
     {
@@ -12,11 +13,8 @@ internal sealed class AddCollectionCommand : AsyncCommand<AddCollectionCommand.R
         public string Name { get; set; } = "";
     }
 
-    private readonly IAnsiConsole _console;
-    private readonly AppDbContext _dbContext;
-
-    public AddCollectionCommand(IAnsiConsole console, AppDbContext dbContext) =>
-        (_console, _dbContext) = (console, dbContext);
+    private readonly IAnsiConsole _console = console;
+    private readonly AppDbContext _dbContext = dbContext;
 
     public override async Task<int> ExecuteAsync(CommandContext context, Request request)
     {
