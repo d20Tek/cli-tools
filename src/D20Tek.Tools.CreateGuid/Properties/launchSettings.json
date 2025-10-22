@@ -2,7 +2,7 @@
   "profiles": {
     "D20Tek.Tools.CreateGuid": {
       "commandName": "Project",
-      "commandLineArgs": "--help"
+      "commandLineArgs": "--generate --count 10 --uuid-v7"
     }
   }
 }
