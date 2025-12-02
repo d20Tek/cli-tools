@@ -1,7 +1,5 @@
 ﻿using D20Tek.NuGet.Portfolio.Features;
-using D20Tek.Spectre.Console.Extensions.Testing;
 using D20Tek.Tools.UnitTests.NuGetPortfolio.Fakes;
-using Spectre.Console.Cli;
 
 namespace D20Tek.Tools.UnitTests.NuGetPortfolio.Features;
 

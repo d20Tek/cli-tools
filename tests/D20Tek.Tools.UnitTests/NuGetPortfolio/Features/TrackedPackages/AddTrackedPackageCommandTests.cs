@@ -15,7 +15,8 @@ public class AddTrackedPackageCommandTests
         var context = CommandAppContextFactory.CreateWithMemoryDb(CreateDatabaseWithCollections());
 
         // act
-        var result = await context.RunAsync(["package", "add", "--package-id", "test-package-1", "--collection-id", "1"]);
+        var result = await context.RunAsync(
+            ["package", "add", "--package-id", "test-package-1", "--collection-id", "1"]);
 
         // assert
         Assert.IsNotNull(result);
@@ -67,7 +68,8 @@ public class AddTrackedPackageCommandTests
         var context = CommandAppContextFactory.CreateWithMemoryDb();
 
         // act
-        var result = await context.RunAsync(["package", "add", "--package-id", "test-package-2", "--collection-id", "404"]);
+        var result = await context.RunAsync(
+            ["package", "add", "--package-id", "test-package-2", "--collection-id", "404"]);
 
         // assert
         Assert.IsNotNull(result);

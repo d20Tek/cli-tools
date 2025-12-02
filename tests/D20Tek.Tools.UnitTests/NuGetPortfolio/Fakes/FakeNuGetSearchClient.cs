@@ -1,5 +1,4 @@
-﻿using D20Tek.Functional;
-using D20Tek.NuGet.Portfolio.Abstractions;
+﻿using D20Tek.NuGet.Portfolio.Abstractions;
 
 namespace D20Tek.Tools.UnitTests.NuGetPortfolio.Fakes;
 

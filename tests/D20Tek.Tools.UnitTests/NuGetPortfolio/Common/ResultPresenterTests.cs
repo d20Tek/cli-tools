@@ -1,8 +1,5 @@
-﻿using D20Tek.Functional;
-using D20Tek.NuGet.Portfolio;
+﻿using D20Tek.NuGet.Portfolio;
 using D20Tek.NuGet.Portfolio.Common.Controls;
-using D20Tek.Spectre.Console.Extensions.Testing;
-using System.Diagnostics.CodeAnalysis;
 
 namespace D20Tek.Tools.UnitTests.NuGetPortfolio.Common;
 

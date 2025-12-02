@@ -1,9 +1,6 @@
-﻿using D20Tek.Spectre.Console.Extensions;
-using D20Tek.Spectre.Console.Extensions.Services;
-using D20Tek.Tools.CreateGuid.Commands;
+﻿using D20Tek.Tools.CreateGuid.Commands;
 using D20Tek.Tools.CreateGuid.Contracts;
 using D20Tek.Tools.CreateGuid.Services;
-using Spectre.Console.Cli;
 using TextCopy;
 
 namespace D20Tek.Tools.UnitTests.CreateGuid.Fakes;

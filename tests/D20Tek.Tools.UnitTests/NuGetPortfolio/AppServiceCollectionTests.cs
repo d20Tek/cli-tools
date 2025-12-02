@@ -1,8 +1,6 @@
 ﻿using D20Tek.NuGet.Portfolio;
 using D20Tek.NuGet.Portfolio.Abstractions;
 using D20Tek.NuGet.Portfolio.Persistence;
-using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 
 namespace D20Tek.Tools.UnitTests.NuGetPortfolio;
 

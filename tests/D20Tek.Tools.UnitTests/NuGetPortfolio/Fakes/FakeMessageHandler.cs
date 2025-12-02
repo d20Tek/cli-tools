@@ -1,7 +1,4 @@
-﻿using System.Net;
-using System.Text;
-
-namespace D20Tek.Tools.UnitTests.NuGetPortfolio.Fakes;
+﻿namespace D20Tek.Tools.UnitTests.NuGetPortfolio.Fakes;
 
 internal class FakeHttpMessageHandler(string jsonContent) : HttpMessageHandler
 {

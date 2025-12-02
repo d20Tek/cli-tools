@@ -2,11 +2,9 @@
 
 namespace D20Tek.Tools.UnitTests.CreateGuid.Fakes;
 
-internal sealed class FakeGuidGenerator : IGuidGenerator
+internal sealed class FakeGuidGenerator(Guid[] guids) : IGuidGenerator
 {
-    private readonly Guid[] _guids;
-
-    public FakeGuidGenerator(Guid[] guids) => _guids = guids;
+    private readonly Guid[] _guids = guids;
 
     public IEnumerable<Guid> GenerateGuids(int guidCount, bool useEmptyGuid, bool isUuidV7)
     {

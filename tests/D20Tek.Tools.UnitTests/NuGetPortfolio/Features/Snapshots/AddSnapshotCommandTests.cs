@@ -49,9 +49,9 @@ public class AddSnapshotCommandTests
     {
         // arrange
         var db = InMemoryDbContext.InitializeDatabase(
-            [
-                CollectionEntity.Create("Test-Collection-1").GetValue(),
-            ]);
+        [
+            CollectionEntity.Create("Test-Collection-1").GetValue(),
+        ]);
         var context = CommandAppContextFactory.CreateWithMemoryDb(db);
         context.Registrar.RegisterInstance(typeof(INuGetSearchClient), new FakeNuGetSearchClient(42));
 

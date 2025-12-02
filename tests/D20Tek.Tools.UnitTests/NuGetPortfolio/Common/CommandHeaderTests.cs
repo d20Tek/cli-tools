@@ -1,5 +1,4 @@
 ﻿using D20Tek.NuGet.Portfolio.Common.Controls;
-using D20Tek.Spectre.Console.Extensions.Testing;
 
 namespace D20Tek.Tools.UnitTests.NuGetPortfolio.Common;
 

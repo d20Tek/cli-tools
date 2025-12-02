@@ -68,7 +68,8 @@ public class EditTrackedPackageCommandTests
         var context = CommandAppContextFactory.CreateWithMemoryDb(CreateDatabaseWithPackages());
 
         // act
-        var result = await context.RunAsync(["package", "edit", "--id", "2", "--package-id", "Test.Package.2.Updated", "--collection-id", "99"]);
+        var result = await context.RunAsync(
+            ["package", "edit", "--id", "2", "--package-id", "Test.Package.2.Updated", "--collection-id", "99"]);
 
         // assert
         Assert.IsNotNull(result);

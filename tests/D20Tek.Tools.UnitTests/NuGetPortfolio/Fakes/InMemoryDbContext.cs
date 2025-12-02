@@ -1,9 +1,5 @@
-﻿using D20Tek.Functional;
-using D20Tek.NuGet.Portfolio.Domain;
+﻿using D20Tek.NuGet.Portfolio.Domain;
 using D20Tek.NuGet.Portfolio.Persistence;
-using Microsoft.Data.Sqlite;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Logging.Abstractions;
 
 namespace D20Tek.Tools.UnitTests.NuGetPortfolio.Fakes;
 

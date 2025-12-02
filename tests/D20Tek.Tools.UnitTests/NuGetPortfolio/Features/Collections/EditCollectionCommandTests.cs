@@ -32,7 +32,8 @@ public class EditCollectionCommandTests
         var context = CommandAppContextFactory.CreateWithMemoryDb();
 
         // act
-        var result = await context.RunAsync(["collection", "edit", "--id", "999", "--name", "Test-Collection-Updated"]);
+        var result = await context.RunAsync(
+            ["collection", "edit", "--id", "999", "--name", "Test-Collection-Updated"]);
 
         // assert
         Assert.IsNotNull(result);

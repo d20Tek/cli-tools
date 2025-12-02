@@ -1,6 +1,4 @@
-﻿using D20Tek.Spectre.Console.Extensions.Testing;
-
-namespace D20Tek.Tools.UnitTests.CreateGuid;
+﻿namespace D20Tek.Tools.UnitTests.CreateGuid;
 
 internal static class CreateGuidCommandValidator
 {

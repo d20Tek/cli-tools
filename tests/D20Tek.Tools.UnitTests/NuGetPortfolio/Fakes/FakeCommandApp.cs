@@ -1,17 +1,9 @@
-﻿using Spectre.Console.Cli;
-using System.Diagnostics.CodeAnalysis;
-
-namespace D20Tek.Tools.UnitTests.NuGetPortfolio.Fakes;
+﻿namespace D20Tek.Tools.UnitTests.NuGetPortfolio.Fakes;
 
 [ExcludeFromCodeCoverage]
-internal class FakeCommandApp : ICommandApp
+internal class FakeCommandApp(int expectedResult = 0) : ICommandApp
 {
-    private readonly int _expectedResult;
-
-    public FakeCommandApp(int expectedResult = 0)
-    {
-        _expectedResult = expectedResult;
-    }
+    private readonly int _expectedResult = expectedResult;
 
     public void Configure(Action<IConfigurator> configuration) => throw new NotImplementedException();
 

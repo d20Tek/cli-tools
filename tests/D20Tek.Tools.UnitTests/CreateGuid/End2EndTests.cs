@@ -1,6 +1,4 @@
-﻿using D20Tek.Spectre.Console.Extensions.Testing;
-using D20Tek.Tools.CreateGuid;
-using System.Diagnostics.CodeAnalysis;
+﻿using D20Tek.Tools.CreateGuid;
 
 namespace D20Tek.Tools.UnitTests.CreateGuid;
 
@@ -12,7 +10,7 @@ public sealed class End2EndTests
     public async Task Run_WithDefaultArgs()
     {
         // arrange
-        await Task.Delay(100);
+        await Task.Delay(100, TestContext.CancellationToken);
 
         // act
         var result = await CommandAppE2ERunner.RunAsync(Program.Main, []);
@@ -33,4 +31,6 @@ public sealed class End2EndTests
         // assert
         Assert.AreEqual(0, result.ExitCode);
     }
+
+    public TestContext TestContext { get; set; }
 }

@@ -1,6 +1,5 @@
 ﻿using D20Tek.NuGet.Portfolio.Persistence;
 using D20Tek.Tools.UnitTests.NuGetPortfolio.Fakes;
-using Microsoft.Data.Sqlite;
 
 namespace D20Tek.Tools.UnitTests.NuGetPortfolio.Persistence;
 

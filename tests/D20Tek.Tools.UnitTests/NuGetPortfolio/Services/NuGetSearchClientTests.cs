@@ -1,6 +1,5 @@
 ﻿using D20Tek.NuGet.Portfolio.Services;
 using D20Tek.Tools.UnitTests.NuGetPortfolio.Fakes;
-using Microsoft.Extensions.Caching.Memory;
 
 namespace D20Tek.Tools.UnitTests.NuGetPortfolio.Services;
 
@@ -107,6 +106,6 @@ public class NuGetSearchClientTests
         Assert.IsTrue(result.IsFailure);
         var error = result.GetErrors().FirstOrDefault();
         Assert.AreEqual("General.Exception", error.Code);
-        StringAssert.Contains(error.Message, "'TestPackage' was not found");
+        Assert.Contains("'TestPackage' was not found", error.Message);
     }
 }

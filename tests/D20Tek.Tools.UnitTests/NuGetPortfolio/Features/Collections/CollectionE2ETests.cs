@@ -1,5 +1,4 @@
 ﻿using D20Tek.NuGet.Portfolio;
-using D20Tek.Spectre.Console.Extensions.Testing;
 
 namespace D20Tek.Tools.UnitTests.NuGetPortfolio.Features.Collections;
 
@@ -12,7 +11,8 @@ public class CollectionE2ETests
         // arrange
 
         // act
-        var result = await CommandAppE2ERunner.RunAsync(Program.Main, ["collection", "add", "--name", "E2E Test Collection"]);
+        var result = await CommandAppE2ERunner.RunAsync(
+            Program.Main, ["collection", "add", "--name", "E2E Test Collection"]);
 
         // assert
         Assert.IsNotNull(result);
