@@ -16,7 +16,7 @@ internal sealed class AddCollectionCommand(IAnsiConsole console, AppDbContext db
     private readonly IAnsiConsole _console = console;
     private readonly AppDbContext _dbContext = dbContext;
 
-    public override async Task<int> ExecuteAsync(CommandContext context, Request request)
+    public override async Task<int> ExecuteAsync(CommandContext context, Request request, CancellationToken token)
     {
         _console.CommandHeader().Render("Add new collection");
         return await request.Pipe(GetRequestInput)

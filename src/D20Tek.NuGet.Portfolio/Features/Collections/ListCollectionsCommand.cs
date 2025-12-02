@@ -8,7 +8,7 @@ internal sealed class ListCollectionsCommand(IAnsiConsole console, AppDbContext 
     private readonly IAnsiConsole _console = console;
     private readonly AppDbContext _dbContext = dbContext;
 
-    public override int Execute(CommandContext context) =>
+    public override int Execute(CommandContext context, CancellationToken token) =>
         GetCollections().Iter(RenderCollections)
                         .Render(_console, s => $"{s.Length} collections retrieved.");
 

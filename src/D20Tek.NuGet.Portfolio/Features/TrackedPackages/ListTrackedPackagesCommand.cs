@@ -8,7 +8,7 @@ internal sealed class ListTrackedPackagesCommand(IAnsiConsole console, AppDbCont
     private readonly IAnsiConsole _console = console;
     private readonly AppDbContext _dbContext = dbContext;
 
-    public override int Execute(CommandContext context) =>
+    public override int Execute(CommandContext context, CancellationToken token) =>
         GetTrackedPackages()
             .Iter(RenderTrackedPackages)
             .Render(_console, s => $"{s.Length} packages retrieved.");

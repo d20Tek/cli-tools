@@ -10,7 +10,7 @@ internal sealed class ListTodayByCollectionCommand(IAnsiConsole console, AppDbCo
     private readonly IAnsiConsole _console = console;
     private readonly AppDbContext _dbContext = dbContext;
 
-    public override int Execute(CommandContext context, CollectionId id)
+    public override int Execute(CommandContext context, CollectionId id, CancellationToken token)
     {
         _console.CommandHeader().Render("Packages snapshots");
         return id.Pipe(i => EnsureIdInput(i))

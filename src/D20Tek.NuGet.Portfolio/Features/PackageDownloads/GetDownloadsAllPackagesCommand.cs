@@ -11,7 +11,7 @@ internal sealed class GetDownloadsAllPackagesCommand(IAnsiConsole console, AppDb
     private readonly AppDbContext _dbContext = dbContext;
     private readonly INuGetSearchClient _client = client;
 
-    public override async Task<int> ExecuteAsync(CommandContext context) =>
+    public override async Task<int> ExecuteAsync(CommandContext context, CancellationToken token) =>
         await _dbContext.GetAllTrackedPackages()
                 .Pipe(p => _client.RetrieveDownloadSnapshots(p))
                 .IterAsync(s => _console.RenderDownloadSnapshots(s))

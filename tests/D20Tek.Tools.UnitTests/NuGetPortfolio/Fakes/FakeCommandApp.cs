@@ -15,7 +15,7 @@ internal class FakeCommandApp : ICommandApp
 
     public void Configure(Action<IConfigurator> configuration) => throw new NotImplementedException();
 
-    public int Run(IEnumerable<string> args) => _expectedResult;
+    public int Run(IEnumerable<string> args, CancellationToken token) => _expectedResult;
 
-    public Task<int> RunAsync(IEnumerable<string> args) => Task.FromResult(_expectedResult);
+    public Task<int> RunAsync(IEnumerable<string> args, CancellationToken token) => Task.FromResult(_expectedResult);
 }

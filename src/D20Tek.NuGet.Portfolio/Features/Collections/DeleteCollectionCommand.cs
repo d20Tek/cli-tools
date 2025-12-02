@@ -15,7 +15,7 @@ internal sealed class DeleteCollectionCommand(IAnsiConsole console, AppDbContext
     private readonly IAnsiConsole _console = console;
     private readonly AppDbContext _dbContext = dbContext;
 
-    public override async Task<int> ExecuteAsync(CommandContext context, CollectionId id)
+    public override async Task<int> ExecuteAsync(CommandContext context, CollectionId id, CancellationToken token)
     {
         _console.CommandHeader().Render("Delete collection");
         return await id.Pipe(i => EnsureIdInput(i))

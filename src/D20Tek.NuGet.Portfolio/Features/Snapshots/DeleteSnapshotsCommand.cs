@@ -19,7 +19,7 @@ internal sealed class DeleteSnapshotsCommand(IAnsiConsole console, AppDbContext 
     private readonly IAnsiConsole _console = console;
     private readonly AppDbContext _dbContext = dbContext;
 
-    public override async Task<int> ExecuteAsync(CommandContext context, Settings settings)
+    public override async Task<int> ExecuteAsync(CommandContext context, Settings settings, CancellationToken token)
     {
         _console.CommandHeader().Render("Delete tracked package");
         return await settings.Pipe(s => EnsureIdInput(s))

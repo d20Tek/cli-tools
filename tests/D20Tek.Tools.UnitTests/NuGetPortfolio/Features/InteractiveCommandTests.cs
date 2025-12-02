@@ -22,7 +22,7 @@ public class InteractiveCommandTests
         var context = new CommandContext([], NullRemainingArguments.Instance, "test", null);
 
         // act
-        var result = await command.ExecuteAsync(context);
+        var result = await command.ExecuteAsync(context, CancellationToken.None);
 
         // assert
         Assert.AreEqual(0, result);
@@ -46,7 +46,7 @@ public class InteractiveCommandTests
         var context = new CommandContext([], NullRemainingArguments.Instance, "test", null);
 
         // act
-        var result = await command.ExecuteAsync(context);
+        var result = await command.ExecuteAsync(context, CancellationToken.None);
 
         // assert
         Assert.AreEqual(0, result);

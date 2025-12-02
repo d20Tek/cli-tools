@@ -18,7 +18,7 @@ internal sealed class RunTimerCommand(IAnsiConsole console) : Command<RunTimerCo
 
     private readonly IAnsiConsole _console = console;
 
-    public override int Execute(CommandContext context, Settings settings)
+    public override int Execute(CommandContext context, Settings settings, CancellationToken token)
     {
         _console.DisplayAppHeader("dev-pomo", Justify.Left);
         var state = TimerState.Create();
