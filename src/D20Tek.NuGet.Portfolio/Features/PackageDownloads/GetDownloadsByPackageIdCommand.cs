@@ -4,8 +4,10 @@ using D20Tek.NuGet.Portfolio.Persistence;
 
 namespace D20Tek.NuGet.Portfolio.Features.PackageDownloads;
 
-internal sealed class GetDownloadsByPackageIdCommand(IAnsiConsole console, AppDbContext dbContext, INuGetSearchClient client) :
-    AsyncCommand<GetDownloadsByPackageIdCommand.PackageId>
+internal sealed class GetDownloadsByPackageIdCommand(
+    IAnsiConsole console,
+    AppDbContext dbContext,
+    INuGetSearchClient client) : AsyncCommand<GetDownloadsByPackageIdCommand.PackageId>
 {
     public sealed class PackageId : CommandSettings
     {

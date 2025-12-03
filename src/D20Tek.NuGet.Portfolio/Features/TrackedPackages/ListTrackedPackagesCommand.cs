@@ -9,9 +9,8 @@ internal sealed class ListTrackedPackagesCommand(IAnsiConsole console, AppDbCont
     private readonly AppDbContext _dbContext = dbContext;
 
     public override int Execute(CommandContext context, CancellationToken token) =>
-        GetTrackedPackages()
-            .Iter(RenderTrackedPackages)
-            .Render(_console, s => $"{s.Length} packages retrieved.");
+        GetTrackedPackages().Iter(RenderTrackedPackages)
+                            .Render(_console, s => $"{s.Length} packages retrieved.");
 
     private Result<TrackedPackageEntity[]> GetTrackedPackages() =>
         Try.Run(() =>

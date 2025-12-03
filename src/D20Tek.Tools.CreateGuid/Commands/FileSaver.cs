@@ -1,6 +1,4 @@
-﻿using System.Text;
-
-namespace D20Tek.Tools.CreateGuid.Commands;
+﻿namespace D20Tek.Tools.CreateGuid.Commands;
 
 internal static class FileSaver
 {

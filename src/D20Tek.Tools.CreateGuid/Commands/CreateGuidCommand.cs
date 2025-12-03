@@ -1,6 +1,4 @@
-using D20Tek.Spectre.Console.Extensions.Services;
 using D20Tek.Tools.CreateGuid.Contracts;
-using Spectre.Console.Cli;
 using TextCopy;
 
 namespace D20Tek.Tools.CreateGuid.Commands;
@@ -9,7 +7,6 @@ internal sealed class CreateGuidCommand : Command<GuidSettings>
 {
 	private readonly CreateGuidState _state;
 	private readonly IVerbosityWriter _writer;
-
 
     public CreateGuidCommand(
         IGuidGenerator guidGen,

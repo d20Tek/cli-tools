@@ -1,6 +1,4 @@
-﻿using D20Tek.Spectre.Console.Extensions.Services;
-using D20Tek.Tools.CreateGuid.Contracts;
-using System.Text;
+﻿using D20Tek.Tools.CreateGuid.Contracts;
 using TextCopy;
 
 namespace D20Tek.Tools.CreateGuid.Commands;

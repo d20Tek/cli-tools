@@ -1,10 +1,14 @@
-using D20Tek.Spectre.Console.Extensions;
-using D20Tek.Spectre.Console.Extensions.Injection;
-using D20Tek.Spectre.Console.Extensions.Services;
+global using D20Tek.Spectre.Console.Extensions;
+global using D20Tek.Spectre.Console.Extensions.Injection;
+global using D20Tek.Spectre.Console.Extensions.Services;
+global using D20Tek.Spectre.Console.Extensions.Settings;
+global using Spectre.Console.Cli;
+global using System.ComponentModel;
+global using System.Text;
+
 using D20Tek.Tools.CreateGuid.Commands;
 using D20Tek.Tools.CreateGuid.Contracts;
 using D20Tek.Tools.CreateGuid.Services;
-using Spectre.Console.Cli;
 using TextCopy;
 
 namespace D20Tek.Tools.CreateGuid;

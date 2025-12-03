@@ -7,6 +7,6 @@ internal sealed class GuidFormatter : IGuidFormatter
 	public string Format(Guid guid, GuidFormat format, bool toUpper)
 	{
 		string text = guid.ToString(format.ToFormatString());
-		return (toUpper) ? text.ToUpper() : text;
+		return toUpper ? text.ToUpper() : text;
 	}
 }

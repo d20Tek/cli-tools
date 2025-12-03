@@ -8,8 +8,7 @@ namespace D20Tek.NuGet.Portfolio;
 
 internal static class AppServiceCollection
 {
-    public static IServiceCollection Initialize() =>
-        CreateAppServiceCollection().ApplyMigrations();
+    public static IServiceCollection Initialize() => CreateAppServiceCollection().ApplyMigrations();
 
     private static IServiceCollection CreateAppServiceCollection() =>
         new ServiceCollection().AddDatabase()
@@ -17,16 +16,15 @@ internal static class AppServiceCollection
                                {
                                    config.AddConsole();
                                    config.SetMinimumLevel(LogLevel.Information);
-                               })
-                               .AddServiceClients();
+                               }).AddServiceClients();
 
     private static IServiceCollection ApplyMigrations(this IServiceCollection services)
     {
         var provider = services.BuildServiceProvider();
         using var scope = provider.CreateScope();
 
-        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-        db.ApplyMigrations();
+        scope.ServiceProvider.GetRequiredService<AppDbContext>()
+                             .ApplyMigrations();
 
         return services;
     }
@@ -34,9 +32,8 @@ internal static class AppServiceCollection
     private static IServiceCollection AddServiceClients(this IServiceCollection services) =>
         services.ToIdentity()
                 .Iter(s => s.AddHttpClient<INuGetSearchClient, NuGetScrapingClient>(client =>
-                    {
-                        client.BaseAddress = new Uri("https://www.nuget.org/");
-                        client.DefaultRequestHeaders.UserAgent.ParseAdd("NuGet.Portfolio/1.0");
-                    }))
-                .Get();
+                {
+                    client.BaseAddress = new Uri("https://www.nuget.org/");
+                    client.DefaultRequestHeaders.UserAgent.ParseAdd("NuGet.Portfolio/1.0");
+                })).Get();
 }

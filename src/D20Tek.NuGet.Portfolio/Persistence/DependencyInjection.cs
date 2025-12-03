@@ -8,7 +8,6 @@ internal static class DependencyInjection
     public static IServiceCollection AddDatabase(this IServiceCollection services) =>
         services.ToIdentity()
                 .Iter(s => s.AddMemoryCache())
-                .Iter(s => s.AddDbContext<AppDbContext>(options =>
-                    options.UseSqlite("Data Source=nu-port.db")))
+                .Iter(s => s.AddDbContext<AppDbContext>(options => options.UseSqlite("Data Source=nu-port.db")))
                 .Get();
 }

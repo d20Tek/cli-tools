@@ -22,8 +22,7 @@ internal sealed class PackageSnapshotConfiguration : IEntityTypeConfiguration<Pa
                .HasForeignKey(ps => ps.TrackedPackageId)
                .OnDelete(DeleteBehavior.NoAction);
 
-        builder
-            .HasIndex(ps => ps.SnapshotDate)
-            .HasDatabaseName("IX_PackageSnapshot_SnapshotDate");
+        builder.HasIndex(ps => ps.SnapshotDate)
+               .HasDatabaseName("IX_PackageSnapshot_SnapshotDate");
     }
 }

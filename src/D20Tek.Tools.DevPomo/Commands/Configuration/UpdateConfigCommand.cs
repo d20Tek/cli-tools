@@ -23,10 +23,18 @@ internal class UpdateConfigCommand(IAnsiConsole console, IConfigurationService s
 
         var showAppTitle = _console.Confirm("Show the terminal application's title?", prevConfig.ShowAppTitleBar);
         var enableSound = _console.Confirm("Play notification sound on timer competion?", prevConfig.EnableSound);
-        var autostartCycle = _console.Confirm("Auto-start new cycle when current one completes?", prevConfig.AutostartCycles);
+        var autostartCycle = _console.Confirm(
+            "Auto-start new cycle when current one completes?",
+            prevConfig.AutostartCycles);
         var minimalOutput = _console.Confirm("Show compact/minimal timer output?", prevConfig.MinimalOutput);
 
-        var config = TimerConfiguration.Create(pomoMinutes, breakMinutes, showAppTitle, enableSound, autostartCycle, minimalOutput);
+        var config = TimerConfiguration.Create(
+            pomoMinutes,
+            breakMinutes,
+            showAppTitle,
+            enableSound,
+            autostartCycle,
+            minimalOutput);
 
         var result = _service.Set(config);
 

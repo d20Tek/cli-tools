@@ -1,5 +1,4 @@
-﻿using D20Tek.Spectre.Console.Extensions;
-using D20Tek.Tools.CreateGuid.Commands;
+﻿using D20Tek.Tools.CreateGuid.Commands;
 
 namespace D20Tek.Tools.CreateGuid;
 

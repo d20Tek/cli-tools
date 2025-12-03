@@ -41,7 +41,11 @@ internal static class PomodoroEngine
              .Map(s => RunTimerPhase(console, s, s.BreakMinutes * _minuteMultiplier, _breakDetails)
                            .WithBeep(console, $"\n[bold green]✅ Break is over! Back to work.[/]"));
 
-    private static TimerState RunTimerPhase(IAnsiConsole console, TimerState state, int totalSeconds, PanelDetails details)
+    private static TimerState RunTimerPhase(
+        IAnsiConsole console,
+        TimerState state,
+        int totalSeconds,
+        PanelDetails details)
     {
         var panel = new TimerPanel(details);
         var remainingSeconds = totalSeconds;
