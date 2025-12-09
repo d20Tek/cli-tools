@@ -1,7 +1,4 @@
-﻿using D20Tek.Functional;
-using Spectre.Console;
-
-namespace D20Tek.Tools.DevPomo.Common;
+﻿namespace D20Tek.Tools.DevPomo.Common;
 
 public static class AnsiConsoleExtensions
 {

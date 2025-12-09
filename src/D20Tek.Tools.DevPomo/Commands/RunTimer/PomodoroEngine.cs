@@ -1,8 +1,4 @@
-﻿using D20Tek.Functional;
-using D20Tek.Tools.DevPomo.Common;
-using Spectre.Console;
-
-namespace D20Tek.Tools.DevPomo.Commands.RunTimer;
+﻿namespace D20Tek.Tools.DevPomo.Commands.RunTimer;
 
 internal static class PomodoroEngine
 {
@@ -24,8 +20,7 @@ internal static class PomodoroEngine
         return state;
     }
 
-    private static TimerState RunIfNotExited(this TimerState state, Func<TimerState> op) =>
-        state.Exit ? state : op();
+    private static TimerState RunIfNotExited(this TimerState state, Func<TimerState> op) => state.Exit ? state : op();
 
     private static TimerState RunPomodoroPhase(IAnsiConsole console, TimerState state) =>
         state.Iter(_ => console.MarkupLines(

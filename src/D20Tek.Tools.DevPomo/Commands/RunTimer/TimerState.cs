@@ -1,7 +1,4 @@
-﻿using D20Tek.Functional;
-using D20Tek.Tools.DevPomo.Common;
-using Spectre.Console;
-using System.Diagnostics;
+﻿using System.Diagnostics;
 
 namespace D20Tek.Tools.DevPomo.Commands.RunTimer;
 

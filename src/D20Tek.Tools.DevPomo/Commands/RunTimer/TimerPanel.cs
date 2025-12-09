@@ -1,6 +1,4 @@
-﻿using Spectre.Console;
-
-namespace D20Tek.Tools.DevPomo.Commands.RunTimer;
+﻿namespace D20Tek.Tools.DevPomo.Commands.RunTimer;
 
 internal sealed class TimerPanel(string title, string foregroundColor = "red", Color? borderColor = null)
 {
@@ -8,8 +6,7 @@ internal sealed class TimerPanel(string title, string foregroundColor = "red", C
     private readonly string _foregroundColor = foregroundColor;
     private readonly Color _borderColor = borderColor ?? Color.Red;
 
-    public TimerPanel(PanelDetails details)
-        : this(details.Title, details.ForegroundColor, details.BorderColor) { }
+    public TimerPanel(PanelDetails details) : this(details.Title, details.ForegroundColor, details.BorderColor) { }
 
     public Panel Render(int remainingSeconds, int totalSeconds, bool paused)
     {

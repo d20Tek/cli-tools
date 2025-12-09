@@ -1,6 +1,4 @@
-﻿using D20Tek.Functional;
-
-namespace D20Tek.Tools.DevPomo.Contracts;
+﻿namespace D20Tek.Tools.DevPomo.Contracts;
 
 public interface IConfigurationService
 {

@@ -1,8 +1,4 @@
-﻿using D20Tek.Tools.DevPomo.Contracts;
-using Spectre.Console;
-using Spectre.Console.Cli;
-
-namespace D20Tek.Tools.DevPomo.Commands.Configuration;
+﻿namespace D20Tek.Tools.DevPomo.Commands.Configuration;
 
 internal class UpdateConfigCommand(IAnsiConsole console, IConfigurationService service) : Command
 {
