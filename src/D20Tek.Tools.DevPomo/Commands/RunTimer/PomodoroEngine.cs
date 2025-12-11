@@ -1,5 +1,8 @@
-﻿namespace D20Tek.Tools.DevPomo.Commands.RunTimer;
+﻿using System.Diagnostics.CodeAnalysis;
 
+namespace D20Tek.Tools.DevPomo.Commands.RunTimer;
+
+[ExcludeFromCodeCoverage]
 internal static class PomodoroEngine
 {
     private const int _minuteMultiplier = 60;

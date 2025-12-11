@@ -11,7 +11,7 @@ internal class UpdateConfigCommand(IAnsiConsole console, IConfigurationService s
 
         var pomoMinutes = _console.Prompt<int>(new TextPrompt<int>("Enter the pomodoro duration (in minutes)")
             .DefaultValue(prevConfig.PomodoroMinutes)
-            .Validate(v => v >=5 && v <= 120, "Pomodoro duration must be between 5 and 120 minutes."));
+            .Validate(v => v >= 5 && v <= 120, "Pomodoro duration must be between 5 and 120 minutes."));
 
         var breakMinutes = _console.Prompt<int>(new TextPrompt<int>("Enter the break duration (in minutes)")
             .DefaultValue(prevConfig.BreakMinutes)
@@ -24,15 +24,14 @@ internal class UpdateConfigCommand(IAnsiConsole console, IConfigurationService s
             prevConfig.AutostartCycles);
         var minimalOutput = _console.Confirm("Show compact/minimal timer output?", prevConfig.MinimalOutput);
 
-        var config = TimerConfiguration.Create(
-            pomoMinutes,
-            breakMinutes,
-            showAppTitle,
-            enableSound,
-            autostartCycle,
-            minimalOutput);
-
-        var result = _service.Set(config);
+        var result = _service.Set(
+            TimerConfiguration.Create(
+                pomoMinutes,
+                breakMinutes,
+                showAppTitle,
+                enableSound,
+                autostartCycle,
+                minimalOutput));
 
         return 0;
     }

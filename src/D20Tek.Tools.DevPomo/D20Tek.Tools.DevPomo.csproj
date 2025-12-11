@@ -33,4 +33,7 @@
     </None>
   </ItemGroup>
 
+  <ItemGroup>
+    <InternalsVisibleTo Include="D20Tek.Tools.UnitTests" />
+  </ItemGroup>
 </Project>

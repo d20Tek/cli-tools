@@ -27,7 +27,7 @@ internal sealed class TimerInputHandler(IAnsiConsole console, TimerState state) 
         {
             if (_console.Input.IsKeyAvailable())
             {
-                var key = _console.Input.ReadKey(true)?.Key;
+                var key = _console.Input.ReadKey(true)!.Value.Key;
                 if (key == ConsoleKey.P) _state.Pause();
                 else if (key == ConsoleKey.R) _state.Resume();
                 else if (key == ConsoleKey.Q) _state.RequestExit();

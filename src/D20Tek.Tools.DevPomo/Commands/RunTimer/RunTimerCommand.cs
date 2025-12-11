@@ -27,7 +27,7 @@ internal sealed class RunTimerCommand(IAnsiConsole console) : Command<RunTimerCo
         return 0;
     }
 
-    private static void ShowExitMessage(IAnsiConsole console, TimerState state)
+    internal static void ShowExitMessage(IAnsiConsole console, TimerState state)
     {
         if (state.Exit)
         {

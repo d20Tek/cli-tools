@@ -15,6 +15,7 @@
   <ItemGroup>
     <ProjectReference Include="..\..\src\D20Tek.NuGet.Portfolio\D20Tek.NuGet.Portfolio.csproj" />
     <ProjectReference Include="..\..\src\D20Tek.Tools.CreateGuid\D20Tek.Tools.CreateGuid.csproj" />
+    <ProjectReference Include="..\..\src\D20Tek.Tools.DevPomo\D20Tek.Tools.DevPomo.csproj" />
   </ItemGroup>
 
   <ItemGroup>
