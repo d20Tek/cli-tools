@@ -9,6 +9,9 @@ internal class UpdateConfigCommand(IAnsiConsole console, IConfigurationService s
     {
         var prevConfig = _service.Get().GetValue();
 
+        _console.DisplayAppHeader("dev-pomo", prevConfig.ShowAppTitleBar, Justify.Left);
+        _console.MarkupLines(string.Empty, "Update the configuration for the pomodoro timers.");
+
         var pomoMinutes = _console.Prompt<int>(new TextPrompt<int>("Enter the pomodoro duration (in minutes)")
             .DefaultValue(prevConfig.PomodoroMinutes)
             .Validate(v => v >= 5 && v <= 120, "Pomodoro duration must be between 5 and 120 minutes."));

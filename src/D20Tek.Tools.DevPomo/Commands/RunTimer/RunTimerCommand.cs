@@ -2,7 +2,8 @@
 
 namespace D20Tek.Tools.DevPomo.Commands.RunTimer;
 
-internal sealed class RunTimerCommand(IAnsiConsole console) : Command<RunTimerCommand.Settings>
+internal sealed class RunTimerCommand(IAnsiConsole console, IConfigurationService configurationService) 
+    : Command<RunTimerCommand.Settings>
 {
     internal class Settings : CommandSettings
     {
@@ -13,11 +14,14 @@ internal sealed class RunTimerCommand(IAnsiConsole console) : Command<RunTimerCo
     }
 
     private readonly IAnsiConsole _console = console;
+    private readonly IConfigurationService _configurationService = configurationService;
 
     public override int Execute(CommandContext context, Settings settings, CancellationToken token)
     {
-        _console.DisplayAppHeader("dev-pomo", Justify.Left);
-        var state = TimerState.Create();
+        var timerConfig = _configurationService.Get().GetValue();
+
+        _console.DisplayAppHeader("dev-pomo", timerConfig.ShowAppTitleBar, Justify.Left);
+        var state = TimerState.Create(timerConfig);
         using var inputHandler = TimerInputHandler.Start(_console, state);
 
         state.Iter(s => s.SetPomodoroCycles(settings.Cycles))

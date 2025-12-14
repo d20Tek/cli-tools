@@ -17,7 +17,10 @@ public static class AnsiConsoleExtensions
     public static void DisplayAppHeader(
         this IAnsiConsole console,
         string title,
+        bool showHeader,
         Justify? justification = Justify.Center,
-        Color? color = null) =>
-        console.Write(new FigletText(title).Justify(justification).Color(color ?? Color.Green));
+        Color? color = null)
+    {
+        if (showHeader) console.Write(new FigletText(title).Justify(justification).Color(color ?? Color.Green));
+    }
 }

@@ -13,7 +13,7 @@ public class AnsiConsoleExtensionsTests
         var console = new TestConsole();
 
         // act
-        console.DisplayAppHeader("Test", Justify.Left, Color.Yellow);
+        console.DisplayAppHeader("Test", true, Justify.Left, Color.Yellow);
 
         // assert
         Assert.IsNotNull(console.Output);

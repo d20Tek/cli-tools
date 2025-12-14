@@ -26,13 +26,21 @@ internal static class PomodoroEngine
     private static TimerState RunIfNotExited(this TimerState state, Func<TimerState> op) => state.Exit ? state : op();
 
     private static TimerState RunPomodoroPhase(IAnsiConsole console, TimerState state) =>
-        state.Iter(_ => console.MarkupLines(
-                            $"\n[bold green]🍅 Pomodoro Timer Started![/] Stay focused...",
-                            $"Focus for [yellow]{state.PomodoroMinutes} minutes[/], starting now!",
-                            "[dim](Press [yellow]P[/] to pause, [yellow]R[/] to resume, [yellow]Q[/] to quit)[/]\n"))
+        state.Iter(_ => console.MarkupLines(GetPomodoroMessages(state)))
              .Map(s => RunTimerPhase(console, s, s.PomodoroMinutes * _minuteMultiplier, _pomodoroDetails)
                            .WithBeep(console, $"\n[bold green]✅ Pomodoro Complete! Time for a break.[/]")
                            .IncrementPomodoro());
+
+    private static string[] GetPomodoroMessages(TimerState state)
+    {
+        List<string> messages = [$"\n[bold green]🍅 Pomodoro Timer Started![/] Stay focused..." ];
+        if (state.Configuration.MinimalOutput is false)
+        {
+            messages.Add($"Focus for [yellow]{state.PomodoroMinutes} minutes[/], starting now!");
+            messages.Add("[dim](Press [yellow]P[/] to pause, [yellow]R[/] to resume, [yellow]Q[/] to quit)[/]\n");
+        }
+        return [.. messages];
+    }
 
     private static TimerState RunBreakPhase(IAnsiConsole console, TimerState state) =>
         state.Iter(_ => console.MarkupLine($"\n[bold blue]☕ Break Time! Relax and recharge...[/]"))
@@ -45,7 +53,7 @@ internal static class PomodoroEngine
         int totalSeconds,
         PanelDetails details)
     {
-        var panel = new TimerPanel(details);
+        var panel = new TimerPanel(details, state.Configuration.MinimalOutput);
         var remainingSeconds = totalSeconds;
         var runningState = state.RestartTimer();
 
@@ -75,6 +83,7 @@ internal static class PomodoroEngine
         state switch
         {
             { } when state.ArePomodorosComplete() => state,
+            { } when state.Configuration.AutostartCycles => state,
             _ when console.Confirm("Are you ready to continue to the next cycle?") => state!,
             _ => state!.RequestExit()
         };

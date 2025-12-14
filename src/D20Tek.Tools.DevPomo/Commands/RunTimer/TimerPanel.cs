@@ -1,12 +1,18 @@
 ﻿namespace D20Tek.Tools.DevPomo.Commands.RunTimer;
 
-internal sealed class TimerPanel(string title, string foregroundColor = "red", Color? borderColor = null)
+internal sealed class TimerPanel(
+    string title,
+    bool minimalOutput,
+    string foregroundColor = "red",
+    Color? borderColor = null)
 {
     private readonly string _title = title;
+    private readonly bool _minimalOutput = minimalOutput;
     private readonly string _foregroundColor = foregroundColor;
     private readonly Color _borderColor = borderColor ?? Color.Red;
 
-    public TimerPanel(PanelDetails details) : this(details.Title, details.ForegroundColor, details.BorderColor) { }
+    public TimerPanel(PanelDetails details, bool minimalOutput) :
+        this(details.Title, minimalOutput, details.ForegroundColor, details.BorderColor) { }
 
     public Panel Render(int remainingSeconds, int totalSeconds, bool paused)
     {
@@ -15,13 +21,18 @@ internal sealed class TimerPanel(string title, string foregroundColor = "red", C
 
         return new Panel(
                 RenderTime(timeLeft, _foregroundColor, paused) +
-                $"{RenderProgressBar(progressPercent, 60, paused, _foregroundColor)}\n\n" +
-                "[dim]Commands: (P)ause (R)esume (Q)uit[/]")
+                $"{RenderProgressBar(progressPercent, GetWidth(), paused, _foregroundColor)}\n" +
+                GetCommandsDisplay())
             .Border(BoxBorder.Rounded)
             .BorderStyle(new Style(paused ? Color.Yellow : _borderColor))
             .Header(_title, Justify.Center)
             .Padding(1, 1, 1, 1);
     }
+
+    private int GetWidth() => _minimalOutput ? 40 : 60;
+
+    private string GetCommandsDisplay() =>
+        _minimalOutput ? string.Empty : "\n[dim]Commands: (P)ause (R)esume (Q)uit[/]";
 
     private static string FormatTime(int remainingSeconds) =>
         $"{remainingSeconds / 60:D2}:{remainingSeconds % 60:D2}";
