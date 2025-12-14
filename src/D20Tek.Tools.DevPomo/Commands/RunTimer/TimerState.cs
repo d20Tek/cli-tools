@@ -10,13 +10,13 @@ internal sealed class TimerState : IState
 
     public bool Exit { get; private set; } = false;
 
-    public int PomodoroMinutes { get; private set; } = 25;
+    public int PomodoroMinutes { get; private set; } = Constants.DefaultPomodoroMinutes;
 
-    public int BreakMinutes { get; private set; } = 5;
+    public int BreakMinutes { get; private set; } = Constants.DefaultRestMinutes;
 
-    public int PomodoroCycles { get; private set;} = 4;
+    public int PomodoroCycles { get; private set;} = Constants.DefaultNumCycles;
 
-    public int CompletedPomodoro { get; private set; } = 0;
+    public int CompletedPomodoros { get; private set; } = 0;
 
     public TimerConfiguration Configuration = new();
 
@@ -63,7 +63,7 @@ internal sealed class TimerState : IState
     {
         if (!Exit)
         {
-            CompletedPomodoro++;
+            CompletedPomodoros++;
         }
         return this;
     }
@@ -76,7 +76,7 @@ internal sealed class TimerState : IState
         return this;
     }
 
-    public bool ArePomodorosComplete() => CompletedPomodoro >= PomodoroCycles;
+    public bool ArePomodorosComplete() => CompletedPomodoros >= PomodoroCycles;
 
     public TimerState WithBeep(IAnsiConsole console, string message)
     {

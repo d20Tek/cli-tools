@@ -1,5 +1,4 @@
-﻿using D20Tek.Spectre.Console.Extensions;
-using D20Tek.Spectre.Console.Extensions.Injection;
+﻿using D20Tek.Spectre.Console.Extensions.Injection;
 using D20Tek.Tools.DevPomo.Commands.Configuration;
 using D20Tek.Tools.DevPomo.Commands.RunTimer;
 using D20Tek.Tools.DevPomo.Persistence;
@@ -9,11 +8,14 @@ namespace D20Tek.Tools.DevPomo;
 
 internal sealed class Startup : StartupBase
 {
+    private const string _configFilename = "config.json";
+    private const string _dataFolder = "data";
+
     public override void ConfigureServices(ITypeRegistrar registrar)
     {
         registrar.WithLifetimes().Services.AddLowDb<TimerConfiguration>(b =>
-            b.UseFileDatabase("config.json")
-             .WithFolder("data")
+            b.UseFileDatabase(_configFilename)
+             .WithFolder(_dataFolder)
              .WithLifetime(ServiceLifetime.Singleton));
 
         registrar.WithLifetimes().RegisterSingleton<IConfigurationService, ConfigurationService>();
@@ -24,7 +26,7 @@ internal sealed class Startup : StartupBase
         Console.OutputEncoding = System.Text.Encoding.UTF8;
 
         config.CaseSensitivity(CaseSensitivity.None);
-        config.SetApplicationName("dev-pomo");
+        config.SetApplicationName(Constants.AppTitle);
         config.ValidateExamples();
 
         config.AddCommand<RunTimerCommand>("run-timer")

@@ -1,6 +1,4 @@
-﻿using D20Tek.Spectre.Console.Extensions;
-using D20Tek.Tools.DevPomo.Commands.RunTimer;
-using System.Diagnostics.CodeAnalysis;
+﻿using D20Tek.Tools.DevPomo.Commands.RunTimer;
 
 namespace D20Tek.Tools.DevPomo;
 

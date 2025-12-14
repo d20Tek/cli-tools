@@ -5,10 +5,6 @@ namespace D20Tek.Tools.DevPomo.Commands.RunTimer;
 [ExcludeFromCodeCoverage]
 internal static class PomodoroEngine
 {
-    private const int _minuteMultiplier = 60;
-    private static readonly PanelDetails _pomodoroDetails = new("🍅 Pomodoro", "red", Color.Red);
-    private static readonly PanelDetails _breakDetails = new("☕ Break", "blue", Color.Blue);
-
     public static TimerState Run(IAnsiConsole console, TimerState state)
     {
         for (var i = 0; i < state.PomodoroCycles; i++)
@@ -27,25 +23,29 @@ internal static class PomodoroEngine
 
     private static TimerState RunPomodoroPhase(IAnsiConsole console, TimerState state) =>
         state.Iter(_ => console.MarkupLines(GetPomodoroMessages(state)))
-             .Map(s => RunTimerPhase(console, s, s.PomodoroMinutes * _minuteMultiplier, _pomodoroDetails)
-                           .WithBeep(console, $"\n[bold green]✅ Pomodoro Complete! Time for a break.[/]")
+             .Map(s => RunTimerPhase(
+                             console,
+                             s,
+                             s.PomodoroMinutes * Constants.Timer.MinuteMultiplier,
+                             Constants.Timer.PomodoroDetails)
+                           .WithBeep(console, Constants.Timer.EndPomoCycleMsg)
                            .IncrementPomodoro());
 
     private static string[] GetPomodoroMessages(TimerState state)
     {
-        List<string> messages = [$"\n[bold green]🍅 Pomodoro Timer Started![/] Stay focused..." ];
-        if (state.Configuration.MinimalOutput is false)
-        {
-            messages.Add($"Focus for [yellow]{state.PomodoroMinutes} minutes[/], starting now!");
-            messages.Add("[dim](Press [yellow]P[/] to pause, [yellow]R[/] to resume, [yellow]Q[/] to quit)[/]\n");
-        }
-        return [.. messages];
+        string[] extras =
+            state.Configuration.MinimalOutput ? [] : Constants.Timer.PomoStartedFullMsg(state.PomodoroMinutes);
+        return [Constants.Timer.PomoStartedMsg, .. extras];
     }
 
     private static TimerState RunBreakPhase(IAnsiConsole console, TimerState state) =>
-        state.Iter(_ => console.MarkupLine($"\n[bold blue]☕ Break Time! Relax and recharge...[/]"))
-             .Map(s => RunTimerPhase(console, s, s.BreakMinutes * _minuteMultiplier, _breakDetails)
-                           .WithBeep(console, $"\n[bold green]✅ Break is over! Back to work.[/]"));
+        state.Iter(_ => console.MarkupLine(Constants.Timer.StartBreakMsg))
+             .Map(s => RunTimerPhase(
+                             console,
+                             s,
+                             s.BreakMinutes * Constants.Timer.MinuteMultiplier,
+                             Constants.Timer.BreakDetails)
+                           .WithBeep(console, Constants.Timer.EndBreakMsg));
 
     private static TimerState RunTimerPhase(
         IAnsiConsole console,
@@ -84,7 +84,7 @@ internal static class PomodoroEngine
         {
             { } when state.ArePomodorosComplete() => state,
             { } when state.Configuration.AutostartCycles => state,
-            _ when console.Confirm("Are you ready to continue to the next cycle?") => state!,
+            _ when console.Confirm(Constants.Timer.ContinueCyclesLabel) => state!,
             _ => state!.RequestExit()
         };
 }

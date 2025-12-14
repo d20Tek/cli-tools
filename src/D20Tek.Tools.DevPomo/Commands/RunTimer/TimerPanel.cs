@@ -3,7 +3,7 @@
 internal sealed class TimerPanel(
     string title,
     bool minimalOutput,
-    string foregroundColor = "red",
+    string foregroundColor = Constants.Timer.DefaultForegroundColor,
     Color? borderColor = null)
 {
     private readonly string _title = title;
@@ -17,11 +17,12 @@ internal sealed class TimerPanel(
     public Panel Render(int remainingSeconds, int totalSeconds, bool paused)
     {
         var progressPercent = (double)(totalSeconds - remainingSeconds) / totalSeconds;
-        var timeLeft = FormatTime(remainingSeconds);
+        var timeLeft = Constants.Timer.FormatTime(remainingSeconds);
+        var width = Constants.Timer.GetWidth(_minimalOutput);
 
         return new Panel(
-                RenderTime(timeLeft, _foregroundColor, paused) +
-                $"{RenderProgressBar(progressPercent, GetWidth(), paused, _foregroundColor)}\n" +
+                Constants.Timer.RenderTime(timeLeft, _foregroundColor, paused) +
+                $"{RenderProgressBar(progressPercent, width, paused, _foregroundColor)}\n" +
                 GetCommandsDisplay())
             .Border(BoxBorder.Rounded)
             .BorderStyle(new Style(paused ? Color.Yellow : _borderColor))
@@ -29,23 +30,14 @@ internal sealed class TimerPanel(
             .Padding(1, 1, 1, 1);
     }
 
-    private int GetWidth() => _minimalOutput ? 40 : 60;
-
-    private string GetCommandsDisplay() =>
-        _minimalOutput ? string.Empty : "\n[dim]Commands: (P)ause (R)esume (Q)uit[/]";
-
-    private static string FormatTime(int remainingSeconds) =>
-        $"{remainingSeconds / 60:D2}:{remainingSeconds % 60:D2}";
-
-    private static string RenderTime(string timeLeft, string color, bool paused) =>
-        paused ? $"[bold yellow]{timeLeft} - ⏸  Paused[/]\n\n" : $"[bold {color}]{timeLeft}[/]\n\n";
+    private string GetCommandsDisplay() => _minimalOutput ? string.Empty : Constants.Timer.TimerPanelCommands;
 
     private static string RenderProgressBar(
         double percent,
         int width,
         bool paused,
         string foregroundColor,
-        string backgroundColor = "grey")
+        string backgroundColor = Constants.Timer.DefaultProgressBarBackgoundColor)
     {
         var foreStyle = paused ? $"{foregroundColor} dim" : foregroundColor;
         var backStyle = paused ? $"{backgroundColor} dim" : backgroundColor;

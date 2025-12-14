@@ -4,9 +4,9 @@ namespace D20Tek.Tools.DevPomo.Contracts;
 
 public class TimerConfiguration
 {
-    public int PomodoroMinutes { get; private set; } = 25;
+    public int PomodoroMinutes { get; private set; } = Constants.DefaultPomodoroMinutes;
 
-    public int BreakMinutes { get; private set; } = 5;
+    public int BreakMinutes { get; private set; } = Constants.DefaultRestMinutes;
 
     public bool ShowAppTitleBar { get; private set; } = true;
 

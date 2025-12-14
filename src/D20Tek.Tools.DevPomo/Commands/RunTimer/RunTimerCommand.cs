@@ -9,7 +9,7 @@ internal sealed class RunTimerCommand(IAnsiConsole console, IConfigurationServic
     {
         [CommandOption("-c|--cycles <POMODORO-CYCLES>")]
         [Description("Defines how many iterations of pomodoros to run in a session (defaults to 4).")]
-        [DefaultValue(4)]
+        [DefaultValue(Constants.DefaultNumCycles)]
         public int Cycles { get; set; }
     }
 
@@ -20,7 +20,7 @@ internal sealed class RunTimerCommand(IAnsiConsole console, IConfigurationServic
     {
         var timerConfig = _configurationService.Get().GetValue();
 
-        _console.DisplayAppHeader("dev-pomo", timerConfig.ShowAppTitleBar, Justify.Left);
+        _console.DisplayAppHeader(Constants.AppTitle, timerConfig.ShowAppTitleBar, Justify.Left);
         var state = TimerState.Create(timerConfig);
         using var inputHandler = TimerInputHandler.Start(_console, state);
 
@@ -35,15 +35,14 @@ internal sealed class RunTimerCommand(IAnsiConsole console, IConfigurationServic
     {
         if (state.Exit)
         {
-            console.MarkupLine($"\n[bold red]⏹  Pomodoro Stopped Early.[/]");
+            console.MarkupLine(Constants.Timer.EarlyStopMsg);
             console.MarkupLinesConditional(
-                state.CompletedPomodoro > 0,
-                $"But you completed {state.CompletedPomodoro} pomodoro(s) before stopping.");
+                state.CompletedPomodoros > 0,
+                Constants.Timer.EarlyStopPomoCount(state.CompletedPomodoros));
         }
         else
         {
-            console.MarkupLine(
-                $"\n[bold green]Pomodoro run ended! You completed {state.CompletedPomodoro} pomodoro(s).[/]");
+            console.MarkupLine(Constants.Timer.CompletedMsg(state.CompletedPomodoros));
         }
     }
 }
