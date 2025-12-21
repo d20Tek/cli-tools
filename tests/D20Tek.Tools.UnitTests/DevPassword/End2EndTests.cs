@@ -1,6 +1,6 @@
-﻿using D20Tek.Tools.CreateGuid;
+﻿using D20Tek.Tools.DevPassword;
 
-namespace D20Tek.Tools.UnitTests.CreateGuid;
+namespace D20Tek.Tools.UnitTests.DevPassword;
 
 [TestClass]
 [ExcludeFromCodeCoverage]

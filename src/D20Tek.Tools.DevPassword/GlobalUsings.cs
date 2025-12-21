@@ -6,3 +6,4 @@ global using D20Tek.Tools.DevPassword.Contracts;
 global using Spectre.Console;
 global using Spectre.Console.Cli;
 global using System.Diagnostics.CodeAnalysis;
+global using System.ComponentModel;

@@ -1,9 +1,14 @@
-﻿namespace D20Tek.Tools.DevPassword;
+﻿using D20Tek.Tools.DevPassword.Commands;
 
-internal class Program
+namespace D20Tek.Tools.DevPassword;
+
+[ExcludeFromCodeCoverage]
+public sealed class Program
 {
-    static void Main(string[] args)
-    {
-        Console.WriteLine("Hello, World!");
-    }
+    public static async Task<int> Main(string[] args) =>
+        await new CommandAppBuilder().WithDIContainer()
+                                     .WithStartup<Startup>()
+                                     .WithDefaultCommand<GeneratePasswordCommand>()
+                                     .Build()
+                                     .RunAsync(args);
 }
