@@ -1,4 +1,4 @@
-﻿namespace D20Tek.Tools.DevPassword.Persistence;
+﻿namespace D20Tek.Tools.DevPassword.Services;
 
 internal class ConfigurationService(LowDb<PasswordConfig> db) : IConfigurationService
 {

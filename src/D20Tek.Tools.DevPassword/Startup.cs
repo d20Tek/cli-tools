@@ -1,20 +1,20 @@
 ﻿using D20Tek.Spectre.Console.Extensions.Injection;
 using D20Tek.Spectre.Console.Extensions.Services;
 using D20Tek.Tools.DevPassword.Commands;
-using D20Tek.Tools.DevPassword.Persistence;
+using D20Tek.Tools.DevPassword.Services;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace D20Tek.Tools.DevPassword;
 
 internal sealed class Startup : StartupBase
 {
-    private const string _configFilename = "config.json";
-    private const string _dataFolder = "data";
+    private const string _configFilename = Constants.ConfigFile;
+    private const string _dataFolder = Constants.DataFolder;
 
     public override IConfigurator ConfigureCommands(IConfigurator config)
     {
         config.CaseSensitivity(CaseSensitivity.None);
-        config.SetApplicationName("dev-password");
+        config.SetApplicationName(Constants.AppName);
         config.ValidateExamples();
 
         config.AddCommand<GeneratePasswordCommand>("generate")
