@@ -2,10 +2,13 @@
 
 internal static class Constants
 {
-    public const int DefaultPasswordLength = 25;
     public const string AppName = "dev-password";
     public const string ConfigFile = "password.config";
     public const string DataFolder = "data";
+
+    public const int DefaultPasswordLength = 25;
+    public const int MinPasswordLength = 4;
+    public const int MaxPasswordLength = 64;
 
     public static string PasswordMessage(string password) =>
         $"[yellow]Generated Password:[/] {password.EscapeMarkup()}";

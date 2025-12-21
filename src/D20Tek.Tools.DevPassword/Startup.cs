@@ -1,8 +1,5 @@
-﻿using D20Tek.Spectre.Console.Extensions.Injection;
-using D20Tek.Spectre.Console.Extensions.Services;
-using D20Tek.Tools.DevPassword.Commands;
+﻿using D20Tek.Tools.DevPassword.Commands;
 using D20Tek.Tools.DevPassword.Services;
-using Microsoft.Extensions.DependencyInjection;
 
 namespace D20Tek.Tools.DevPassword;
 

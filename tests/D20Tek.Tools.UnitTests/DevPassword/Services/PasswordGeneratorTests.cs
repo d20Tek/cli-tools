@@ -13,6 +13,9 @@ public class PasswordGeneratorTests
     [DataRow(false, true, true, true, 20, 120, "Very Strong", "abcdefghijklmnopqrstuvwxyz")]
     [DataRow(true, true, false, true, 25, 150, "Very Strong", "0123456789")]
     [DataRow(true, true, true, false, 50, 290, "Very Strong", "!\\\"#$%&'()*+,-./:;<=>?@[\\\\]^_`{|}~\"")]
+    [DataRow(true, true, true, false, 6, 30, "Very Weak", "!\\\"#$%&'()*+,-./:;<=>?@[\\\\]^_`{|}~\"")]
+    [DataRow(true, true, true, false, 8, 40, "Weak", "!\\\"#$%&'()*+,-./:;<=>?@[\\\\]^_`{|}~\"")]
+    [DataRow(true, true, true, false, 10, 50, "Good", "!\\\"#$%&'()*+,-./:;<=>?@[\\\\]^_`{|}~\"")]
     public void Generate_WithIncludeFlags_ReturnsString(
         bool lower,
         bool upper,
