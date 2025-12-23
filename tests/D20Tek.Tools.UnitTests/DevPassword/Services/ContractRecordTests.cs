@@ -9,12 +9,13 @@ public class ContractRecordTests
     public void PasswordState_WithUpdate_ReturnsNewValue()
     {
         // arrange
-        var state = new PasswordState(0, null!, null!);
+        var state = new PasswordState(0, 0, null!, null!);
 
         // act
         var result = state with
         {
             Length = 10,
+            Count = 5,
             Config = new(),
             Rnd = [ExcludeFromCodeCoverage] (x) => Random.Shared.Next(x),
             CharSet = "testchars",

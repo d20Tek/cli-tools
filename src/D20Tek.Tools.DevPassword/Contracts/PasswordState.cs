@@ -2,6 +2,7 @@
 
 internal sealed record PasswordState(
     int Length,
+    int Count,
     PasswordConfig Config,
     Func<int, int> Rnd,
     string CharSet = "",

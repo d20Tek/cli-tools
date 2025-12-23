@@ -16,12 +16,12 @@ internal sealed class GeneratePasswordCommand(
         CancellationToken cancellationToken)
     {
         _writer.Verbosity = settings.Verbosity;
-        _writer.WriteNormal("dev-password: generating password...");
+        _writer.WriteNormal(Constants.DevPasswordTitle);
 
         return _configurationService.Get()
             .Bind(config => Validate(settings, config))
             .Map(state => _passwordGenerator.Generate(state))
-            .Match(r => RenderResponse(r), e => RenderErrors(e));
+            .Match(r => RenderResponses(r), e => RenderErrors(e));
     }
 
     private static Result<PasswordState> Validate(PasswordSettings request, PasswordConfig config) =>
@@ -33,21 +33,27 @@ internal sealed class GeneratePasswordCommand(
                 () => request.Count < Constants.CountMin || request.Count > Constants.CountMax, 
                 Constants.PasswordCountError)
             .AddIfError(() => config.RequiredCharsAmount < 1, Constants.PasswordNoCharSetsError)
-            .Map(() => new PasswordState(request.Length, config, RndGen));
+            .Map(() => new PasswordState(request.Length, request.Count, config, RndGen));
 
     private static int RndGen(int x) => Random.Shared.Next(x);
 
-    private int RenderResponse(PasswordResponse response) =>
+    private int RenderResponses(IEnumerable<PasswordResponse> responses)
+    {
+        responses.ForEach(response => RenderResponse(response));
+        _writer.MarkupNormal(Constants.CompletionMessage);
+        return 0;
+    }
+
+    private void RenderResponse(PasswordResponse response) =>
         _writer.ToIdentity()
                .Iter(w => w.MarkupSummary(Constants.PasswordMessage(response.Password.EscapeMarkup())))
                .Iter(w => w.MarkupSummary(Constants.EntropyMessage(response.Entropy)))
                .Iter(w => w.MarkupSummary(Constants.StrengthMessage(response.Strength)))
-               .Iter(w => w.MarkupNormal("[green]Command completed successfully![/]"))
-               .Pipe(_ => 0);
+               .Iter(w => w.MarkupSummary(Constants.PasswordSeparator));
 
     private int RenderErrors(Error[] errors)
     {
-        errors.ForEach(e => _writer.MarkupSummary($"[red]Error:[/] {e.Message}"));
+        errors.ForEach(e => _writer.MarkupSummary($"{Constants.ErrorLabel} {e.Message}"));
         return -1;
     }
 }

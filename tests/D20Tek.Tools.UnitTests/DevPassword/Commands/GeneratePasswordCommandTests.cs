@@ -24,6 +24,21 @@ public class GeneratePasswordCommandTests
     }
 
     [TestMethod]
+    public void Execute_WithMultipleCount_GeneratesMultiplePasswords()
+    {
+        // arrange
+        var context = TestContextFactory.Create();
+
+        // act
+        var result = context.Run(["generate", "-c", "5"]);
+
+        // assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual(0, result.ExitCode);
+        Assert.Contains("Command completed successfully!", result.Output);
+    }
+
+    [TestMethod]
     public void Execute_WithLowLengthSetting_ReturnsErrorMessage()
     {
         // arrange

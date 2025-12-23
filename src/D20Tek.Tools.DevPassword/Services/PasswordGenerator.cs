@@ -2,7 +2,7 @@
 
 internal class PasswordGenerator : IPasswordGenerator
 {
-    public PasswordResponse Generate(PasswordState state)
+    public IEnumerable<PasswordResponse> Generate(PasswordState state)
     {
         ArgumentNullException.ThrowIfNull(state);
         ArgumentOutOfRangeException.ThrowIfLessThan(state.Length, Constants.MinPasswordLength);
@@ -11,12 +11,23 @@ internal class PasswordGenerator : IPasswordGenerator
         ArgumentNullException.ThrowIfNull(state.Rnd);
 
 
-        return state.Map(GetCharacterSet)
-                    .Map(CalculateEntropy)
-                    .Map(s => new PasswordResponse(
-                         Shuffle(GetRandomCharacters(s), s.Rnd),
-                         s.Entropy,
-                         Constants.DetermineStrength(s.Entropy)));
+        return state.Map(s => GetCharacterSet(s))
+                    .Map(s => CalculateEntropy(s))
+                    .Map(s => GeneratePasswordList(s));
+    }
+
+    private static List<PasswordResponse> GeneratePasswordList(PasswordState state)
+    {
+        var list = new List<PasswordResponse>();
+        for (int i = 0; i < state.Count; i++)
+        {
+            list.Add(new(
+                Shuffle(GetRandomCharacters(state), state.Rnd),
+                state.Entropy,
+                Constants.DetermineStrength(state.Entropy)));
+        }
+
+        return list;
     }
 
     private static PasswordState GetCharacterSet(PasswordState s) => s with { CharSet = s.Config.GetCharacterSet() };

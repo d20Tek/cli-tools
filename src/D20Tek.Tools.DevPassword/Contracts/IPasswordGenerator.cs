@@ -2,5 +2,5 @@
 
 internal interface IPasswordGenerator
 {
-    PasswordResponse Generate(PasswordState state);
+    IEnumerable<PasswordResponse> Generate(PasswordState state);
 }
