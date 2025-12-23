@@ -9,6 +9,8 @@ internal static class Constants
     public const int DefaultPasswordLength = 25;
     public const int MinPasswordLength = 4;
     public const int MaxPasswordLength = 64;
+    public const int CountMin = 1;
+    public const int CountMax = 100;
 
     public static string PasswordMessage(string password) =>
         $"[yellow]Generated Password:[/] {password.EscapeMarkup()}";
@@ -19,6 +21,9 @@ internal static class Constants
 
     public static readonly Error PasswordLengthError =
         Error.Validation("Password.Length", "Password length must be between 4-64 characters.");
+
+    public static readonly Error PasswordCountError =
+        Error.Validation("Password.Count", "Password count must be between 1-100 characters.");
 
     public static readonly Error PasswordNoCharSetsError =
         Error.Validation(

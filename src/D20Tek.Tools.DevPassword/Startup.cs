@@ -31,5 +31,6 @@ internal sealed class Startup : StartupBase
 
         registrar.WithConsoleVerbosityWriter();
         registrar.WithLifetimes().RegisterSingleton<IConfigurationService, ConfigurationService>();
+        registrar.WithLifetimes().RegisterSingleton<IPasswordGenerator, PasswordGenerator>();
     }
 }
