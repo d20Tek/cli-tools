@@ -12,12 +12,15 @@ internal sealed class UpdateConfigCommand(IAnsiConsole console, IVerbosityWriter
     public override int Execute(CommandContext context, VerbositySettings settings, CancellationToken token)
     {
         ArgumentNullException.ThrowIfNull(settings);
-        var prevConfig = _service.Get().GetValue();
+        _writer.RenderCommandTitle(Constants.Configuration.Description, settings.Verbosity);
 
-        _writer.Verbosity = settings.Verbosity;
-        _writer.MarkupNormal(Constants.Configuration.Description);
-        _writer.MarkupNormal();
+        return _service.Get()
+                       .Bind(prevConfig => _service.Set(CollectConfigInput(prevConfig)))
+                       .Match(_ => _writer.RenderCompletion(Constants.CompletionMessage), e => _writer.RenderErrors(e));
+    }
 
+    private PasswordConfig CollectConfigInput(PasswordConfig prevConfig)
+    {
         var incLower = _console.Confirm(Constants.Configuration.IncludeLowerLabel, prevConfig.IncludeLowerCase);
         var incUpper = _console.Confirm(Constants.Configuration.IncludeUpperLabel, prevConfig.IncludeUpperCase);
         var incNumbers = _console.Confirm(Constants.Configuration.IncludeNumbersLabel, prevConfig.IncludeNumbers);
@@ -25,9 +28,6 @@ internal sealed class UpdateConfigCommand(IAnsiConsole console, IVerbosityWriter
         var exclAmbiguous = _console.Confirm(Constants.Configuration.ExcludeAmbiguousLabel, prevConfig.ExcludeAmbiguous);
         var exclBrackets = _console.Confirm(Constants.Configuration.ExcludeBracketsLabel, prevConfig.ExcludeBrackets);
 
-        var result = _service.Set(
-            new PasswordConfig(incLower, incUpper, incNumbers, incSymbols, exclAmbiguous, exclBrackets));
-
-        return result.Match(_ => _writer.RenderCompletion(Constants.CompletionMessage), e => _writer.RenderErrors(e));
+        return new(incLower, incUpper, incNumbers, incSymbols, exclAmbiguous, exclBrackets);
     }
 }

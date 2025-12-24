@@ -15,9 +15,7 @@ internal sealed class GeneratePasswordCommand(
         PasswordSettings settings,
         CancellationToken cancellationToken)
     {
-        _writer.Verbosity = settings.Verbosity;
-        _writer.WriteNormal(Constants.DevPasswordTitle);
-        _writer.WriteNormal();
+        _writer.RenderCommandTitle(Constants.DevPasswordTitle, settings.Verbosity);
 
         return _configurationService.Get()
             .Bind(config => Validate(settings, config))

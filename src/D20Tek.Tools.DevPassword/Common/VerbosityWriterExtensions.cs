@@ -1,8 +1,19 @@
-﻿namespace D20Tek.Tools.DevPassword.Common;
+﻿using D20Tek.Spectre.Console.Extensions.Settings;
+
+namespace D20Tek.Tools.DevPassword.Common;
 
 public static class VerbosityWriterExtensions
 {
     public const string ErrorLabel = "[red]Error:[/]";
+
+    public static IVerbosityWriter RenderCommandTitle(this IVerbosityWriter writer, string title, VerbosityLevel verbosityLevel)
+    {
+        writer.Verbosity = verbosityLevel;
+        writer.WriteNormal(title);
+        writer.WriteNormal();
+
+        return writer;
+    }
 
     public static int RenderCompletion(this IVerbosityWriter writer, string completionMessage)
     {
