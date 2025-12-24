@@ -16,7 +16,7 @@ internal sealed class UpdateConfigCommand(IAnsiConsole console, IVerbosityWriter
 
         return _service.Get()
                        .Bind(prevConfig => _service.Set(CollectConfigInput(prevConfig)))
-                       .Match(_ => _writer.RenderCompletion(Constants.CompletionMessage), e => _writer.RenderErrors(e));
+                       .Match(_ => _writer.RenderCompletion(Constants.CompletionMessage), _writer.RenderErrors);
     }
 
     private PasswordConfig CollectConfigInput(PasswordConfig prevConfig)
