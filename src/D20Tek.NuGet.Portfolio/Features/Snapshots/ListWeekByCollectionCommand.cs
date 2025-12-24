@@ -22,7 +22,7 @@ internal sealed class ListWeekByCollectionCommand(IAnsiConsole console, AppDbCon
     }
 
     private CollectionId EnsureIdInput(Identity<CollectionId> id) =>
-        id.Iter(r => r.Value = _console.AskIfDefault(r.Value, "Enter the collection id:"));
+        id.Iter(r => r.Value = _console.AskIfDefault(r.Value, "Enter the collection id:", Globals.AppPrompt));
 
     public void RenderSnapshotsForWeek(PackageSnapshotEntity[] snapshots) =>
         _console.RenderTableWithTitle(

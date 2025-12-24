@@ -30,8 +30,10 @@ internal sealed class AddTrackedPackageCommand(IAnsiConsole console, AppDbContex
     }
 
     private Request GetRequestInput(Identity<Request> request) =>
-        request.Iter(r => r.PackageId = _console.AskIfDefault(r.PackageId, "Enter the NuGet package id:"))
-               .Iter(r => r.CollectionId = _console.AskIfDefault(r.CollectionId, "Add to collection with id:"));
+        request.Iter(r =>
+                    r.PackageId = _console.AskIfDefault(r.PackageId, "Enter the NuGet package id:", Globals.AppPrompt))
+               .Iter(r => 
+                    r.CollectionId = _console.AskIfDefault(r.CollectionId, "Add to collection with id:", Globals.AppPrompt));
 
     private async Task<Result<TrackedPackageEntity>> SaveEntity(TrackedPackageEntity entity) =>
         await _dbContext.Collections.GetEntityById(entity.CollectionId)

@@ -24,5 +24,5 @@ internal sealed class AddSnapshotCommand(IAnsiConsole console, AppDbContext dbCo
     }
 
     private CollectionId EnsureIdInput(Identity<CollectionId> id) =>
-        id.Iter(r => r.Value = _console.AskIfDefault(r.Value, "Enter the collection id:"));
+        id.Iter(r => r.Value = _console.AskIfDefault(r.Value, "Enter the collection id:", Globals.AppPrompt));
 }

@@ -1,5 +1,5 @@
 ﻿using D20Tek.NuGet.Portfolio;
-using D20Tek.NuGet.Portfolio.Common;
+using D20Tek.Tools.Common;
 
 namespace D20Tek.Tools.UnitTests.NuGetPortfolio.Common;
 
@@ -14,7 +14,7 @@ public class AskIfDefaultTests
         var console = new TestConsole();
 
         // act
-        var result = console.AskIfDefault<string>("test", "My label:");
+        var result = console.AskIfDefault<string>("test", "My label:", Globals.AppPrompt);
 
         // assert
         Assert.AreEqual("test", result);
@@ -30,7 +30,7 @@ public class AskIfDefaultTests
         console.TestInput.PushTextWithEnter("user input");
 
         // act
-        var result = console.AskIfDefault<string>(null!, "My label:");
+        var result = console.AskIfDefault<string>(null!, "My label:", Globals.AppPrompt);
 
         // assert
         Assert.AreEqual("user input", result);
@@ -46,7 +46,7 @@ public class AskIfDefaultTests
         console.TestInput.PushTextWithEnter("user input");
 
         // act
-        var result = console.AskIfDefault<string>(string.Empty, "My label:");
+        var result = console.AskIfDefault<string>(string.Empty, "My label:", Globals.AppPrompt);
 
         // assert
         Assert.AreEqual("user input", result);
@@ -61,7 +61,7 @@ public class AskIfDefaultTests
         var console = new TestConsole();
 
         // act
-        var result = console.AskIfDefault<int>(42, "My label:");
+        var result = console.AskIfDefault<int>(42, "My label:", Globals.AppPrompt);
 
         // assert
         Assert.AreEqual(42, result);
@@ -75,7 +75,7 @@ public class AskIfDefaultTests
         console.TestInput.PushTextWithEnter("101");
 
         // act
-        var result = console.AskIfDefault<int>(0, "My label:");
+        var result = console.AskIfDefault<int>(0, "My label:", Globals.AppPrompt);
 
         // assert
         Assert.AreEqual(101, result);

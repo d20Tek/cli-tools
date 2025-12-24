@@ -36,11 +36,19 @@ internal class EditTrackedPackageCommand(IAnsiConsole console, AppDbContext dbCo
 
     private Request GetRequestInput(Request request, TrackedPackageEntity prevEntity) =>
         request.ToIdentity()
-               .Iter(r => r.PackageId = _console.PromptIfDefault(r.PackageId, "Update NuGet package id:", prevEntity.PackageId))
-               .Iter(r => r.CollectionId = _console.PromptIfDefault(r.CollectionId, "Update its collection id:", prevEntity.CollectionId));
+               .Iter(r => r.PackageId = _console.PromptIfDefault(
+                   r.PackageId,
+                   "Update NuGet package id:",
+                   Globals.AppPrompt,
+                   prevEntity.PackageId))
+               .Iter(r => r.CollectionId = _console.PromptIfDefault(
+                   r.CollectionId,
+                   "Update its collection id:",
+                   Globals.AppPrompt,
+                   prevEntity.CollectionId));
 
     private Result<TrackedPackageEntity> GetEntity(int id) =>
-        _console.AskIfDefault(id, "Id of tracked package to edit:")
+        _console.AskIfDefault(id, "Id of tracked package to edit:", Globals.AppPrompt)
                 .Pipe(i => _dbContext.TrackedPackages.GetEntityById(i));
 
     private async Task<Result<TrackedPackageEntity>> EditEntity(TrackedPackageEntity entity) =>

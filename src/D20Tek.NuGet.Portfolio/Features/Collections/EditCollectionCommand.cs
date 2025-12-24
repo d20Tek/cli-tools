@@ -31,9 +31,13 @@ internal sealed class EditCollectionCommand(IAnsiConsole console, AppDbContext d
 
     private Request GetRequestInput(Request request, CollectionEntity prevEntity) =>
         request.ToIdentity()
-               .Iter(r => r.Name = _console.PromptIfDefault(r.Name, "Update collection's name:", prevEntity.Name));
+               .Iter(r => r.Name = _console.PromptIfDefault(
+                   r.Name, 
+                   "Update collection's name:",
+                   Globals.AppPrompt,
+                   prevEntity.Name));
 
     private Result<CollectionEntity> GetEntity(int id) =>
-        _console.AskIfDefault(id, "Id of collection to edit:")
+        _console.AskIfDefault(id, "Id of collection to edit:", Globals.AppPrompt)
                 .Pipe(i => _dbContext.Collections.GetEntityById(i));
 }

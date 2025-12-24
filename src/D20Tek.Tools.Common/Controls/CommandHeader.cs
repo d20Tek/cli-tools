@@ -1,6 +1,6 @@
-﻿namespace D20Tek.NuGet.Portfolio.Common.Controls;
+﻿namespace D20Tek.Tools.Common.Controls;
 
-internal sealed class CommandHeader(IAnsiConsole console)
+public sealed class CommandHeader(IAnsiConsole console)
 {
     private const string _defaultColor = "grey";
     private const int _paddingRight = 70;

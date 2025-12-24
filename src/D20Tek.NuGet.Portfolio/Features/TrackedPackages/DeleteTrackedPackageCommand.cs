@@ -24,5 +24,5 @@ internal sealed class DeleteTrackedPackageCommand(IAnsiConsole console, AppDbCon
     }
 
     private PackageId EnsureIdInput(Identity<PackageId> id) =>
-        id.Iter(r => r.Value = _console.AskIfDefault(r.Value, "Enter the tracked package id:"));
+        id.Iter(r => r.Value = _console.AskIfDefault(r.Value, "Enter the tracked package id:", Globals.AppPrompt));
 }

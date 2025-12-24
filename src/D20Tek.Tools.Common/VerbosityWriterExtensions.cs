@@ -1,8 +1,4 @@
-﻿using D20Tek.Functional;
-using D20Tek.Spectre.Console.Extensions.Services;
-using D20Tek.Spectre.Console.Extensions.Settings;
-
-namespace D20Tek.Tools.Common;
+﻿namespace D20Tek.Tools.Common;
 
 public static class VerbosityWriterExtensions
 {

@@ -30,7 +30,7 @@ internal sealed class GetDownloadsByPackageIdCommand(
     }
 
     private PackageId EnsureIdInput(Identity<PackageId> id) =>
-        id.Iter(r => r.Value = _console.AskIfDefault(r.Value, "Enter the tracked package id:"));
+        id.Iter(r => r.Value = _console.AskIfDefault(r.Value, "Enter the tracked package id:", Globals.AppPrompt));
 
     private async Task<Result<PackageSnapshotEntity>> RetrieveDownloadSnapshot(TrackedPackageEntity package)
     {

@@ -26,4 +26,8 @@
     <InternalsVisibleTo Include="D20Tek.Tools.UnitTests" />
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\D20Tek.Tools.Common\D20Tek.Tools.Common.csproj" />
+  </ItemGroup>
+
 </Project>

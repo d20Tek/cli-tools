@@ -1,6 +1,6 @@
-﻿namespace D20Tek.NuGet.Portfolio.Common.Controls;
+﻿namespace D20Tek.Tools.Common.Controls;
 
-internal static class ResultPresenter
+public static class ResultPresenter
 {
     public static async Task<int> RenderAsync<T>(
         this Task<Result<T>> result,
@@ -19,17 +19,17 @@ internal static class ResultPresenter
 
     private static int RenderSuccess(IAnsiConsole console, string message) =>
         console.ToIdentity().Iter(c => c.MarkupLine($"[green]Success:[/] {Markup.Escape(message)}"))
-                            .Map(_ => Globals.S_OK);
+                            .Map(_ => 0);
 
     private static int RenderErrors(IAnsiConsole console, IEnumerable<Error> errors) =>
-        (errors.Count() > 1) ? RenderErrorList(console, errors) : RenderError(console, errors.First());
+        errors.Count() > 1 ? RenderErrorList(console, errors) : RenderError(console, errors.First());
 
     private static int RenderError(IAnsiConsole console, Error error) =>
         console.ToIdentity().Iter(c => c.MarkupLine($"[red]Error[/]: {Markup.Escape(error.Message)}"))
-                            .Map(_ => Globals.E_FAIL);
+                            .Map(_ => -1);
 
     private static int RenderErrorList(IAnsiConsole console, IEnumerable<Error> errors) =>
         console.ToIdentity().Iter(c => c.MarkupLine("[red]Multiple error messages[/]:"))
                             .Iter(c => errors.ForEach(e => console.MarkupLine($" - {Markup.Escape(e.Message)}")))
-                            .Map(_ => Globals.E_FAIL);
+                            .Map(_ => -1);
 }

@@ -26,5 +26,8 @@ internal sealed class AddCollectionCommand(IAnsiConsole console, AppDbContext db
     }
 
     private Request GetRequestInput(Request request) =>
-        request.ToIdentity().Iter(r => r.Name = _console.AskIfDefault(r.Name, "Enter the new collection's name:"));
+        request.ToIdentity().Iter(r => r.Name = _console.AskIfDefault(
+            r.Name,
+            "Enter the new collection's name:",
+            Globals.AppPrompt));
 }

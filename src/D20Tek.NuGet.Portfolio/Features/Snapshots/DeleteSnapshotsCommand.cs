@@ -29,9 +29,13 @@ internal sealed class DeleteSnapshotsCommand(IAnsiConsole console, AppDbContext 
     }
 
     private Settings EnsureIdInput(Identity<Settings> settings) =>
-        settings.Iter(r => r.CollectionId = _console.AskIfDefault(r.CollectionId, "Enter the collection id:"))
+        settings.Iter(r => r.CollectionId = _console.AskIfDefault(
+                    r.CollectionId,
+                    "Enter the collection id:",
+                    Globals.AppPrompt))
                 .Iter(r => r.Date = _console.PromptIfDefault(
                     r.Date,
                     "Enter snapshot date to delete:",
+                    Globals.AppPrompt,
                     DateOnlyExtensions.Today()));
 }

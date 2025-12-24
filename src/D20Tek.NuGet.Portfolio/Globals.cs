@@ -4,8 +4,8 @@ global using D20Tek.Spectre.Console.Extensions;
 global using Spectre.Console;
 global using Spectre.Console.Cli;
 global using System.ComponentModel;
-global using D20Tek.NuGet.Portfolio.Common;
-global using D20Tek.NuGet.Portfolio.Common.Controls;
+global using D20Tek.Tools.Common;
+global using D20Tek.Tools.Common.Controls;
 
 namespace D20Tek.NuGet.Portfolio;
 

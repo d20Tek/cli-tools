@@ -1,4 +1,4 @@
-﻿namespace D20Tek.NuGet.Portfolio.Common;
+﻿namespace D20Tek.Tools.Common;
 
 public static class DateOnlyExtensions
 {
