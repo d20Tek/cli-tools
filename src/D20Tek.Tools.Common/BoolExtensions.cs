@@ -1,4 +1,4 @@
-﻿namespace D20Tek.Tools.DevPassword.Common;
+﻿namespace D20Tek.Tools.Common;
 
 public static class BoolExtensions
 {

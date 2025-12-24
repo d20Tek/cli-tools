@@ -3,7 +3,7 @@ global using D20Tek.LowDb;
 global using D20Tek.Spectre.Console.Extensions;
 global using D20Tek.Spectre.Console.Extensions.Injection;
 global using D20Tek.Spectre.Console.Extensions.Services;
-global using D20Tek.Tools.DevPassword.Common;
+global using D20Tek.Tools.Common;
 global using D20Tek.Tools.DevPassword.Contracts;
 
 global using Microsoft.Extensions.DependencyInjection;
