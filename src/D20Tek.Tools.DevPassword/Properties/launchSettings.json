@@ -1,8 +1,20 @@
 {
   "profiles": {
-    "D20Tek.Tools.DevPassword": {
+    "DevPassword-Generate-1": {
+      "commandName": "Project",
+      "commandLineArgs": "generate"
+    },
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    },
+    "DevPassword-Generate-5": {
       "commandName": "Project",
       "commandLineArgs": "generate -c 5"
+    },
+    "DevPassword-Config": {
+      "commandName": "Project",
+      "commandLineArgs": "config"
     }
   }
 }

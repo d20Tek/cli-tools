@@ -19,6 +19,12 @@ internal sealed class Startup : StartupBase
               .WithDescription("Default command that a generates password based on defined settings.")
               .WithExample(["gen", "-c", "1"]);
 
+        config.AddCommand<UpdateConfigCommand>("configure")
+              .WithAlias("config")
+              .WithAlias("c")
+              .WithDescription("Configure various properties of the dev passwords.")
+              .WithExample(["configure"]);
+
         return config;
     }
 

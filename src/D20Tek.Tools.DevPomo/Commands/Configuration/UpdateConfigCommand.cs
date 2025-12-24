@@ -1,6 +1,6 @@
 ﻿namespace D20Tek.Tools.DevPomo.Commands.Configuration;
 
-internal class UpdateConfigCommand(IAnsiConsole console, IConfigurationService service) : Command
+internal sealed class UpdateConfigCommand(IAnsiConsole console, IConfigurationService service) : Command
 {
     private readonly IAnsiConsole _console = console;
     private readonly IConfigurationService _service = service;

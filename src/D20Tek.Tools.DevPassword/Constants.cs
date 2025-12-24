@@ -45,4 +45,15 @@ internal static class Constants
             < 120 => "Strong",
             _ => "Very Strong",
         };
+
+    public static class Configuration
+    {
+        public const string Description = "Update the configuration for the dev-password tool.";
+        public const string IncludeLowerLabel = "Include lower case characters in passwords?";
+        public const string IncludeUpperLabel = "Include upper case characters in passwords?";
+        public const string IncludeNumbersLabel = "Include numbers in passwords?";
+        public const string IncludeSymbolsLabel = "Include special symbols in password?";
+        public const string ExcludeAmbiguousLabel = "Exclude ambiguous characters from passwords?";
+        public const string ExcludeBracketsLabel = "Exclude brackets and grouping characters from passwords?";
+    }
 }

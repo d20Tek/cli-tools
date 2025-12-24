@@ -17,11 +17,12 @@ internal sealed class GeneratePasswordCommand(
     {
         _writer.Verbosity = settings.Verbosity;
         _writer.WriteNormal(Constants.DevPasswordTitle);
+        _writer.WriteNormal();
 
         return _configurationService.Get()
             .Bind(config => Validate(settings, config))
             .Map(state => _passwordGenerator.Generate(state))
-            .Match(r => RenderResponses(r), e => RenderErrors(e));
+            .Match(r => RenderResponses(r), e => _writer.RenderErrors(e));
     }
 
     private static Result<PasswordState> Validate(PasswordSettings request, PasswordConfig config) =>
@@ -40,8 +41,7 @@ internal sealed class GeneratePasswordCommand(
     private int RenderResponses(IEnumerable<PasswordResponse> responses)
     {
         responses.ForEach(response => RenderResponse(response));
-        _writer.MarkupNormal(Constants.CompletionMessage);
-        return 0;
+        return _writer.RenderCompletion(Constants.CompletionMessage);
     }
 
     private void RenderResponse(PasswordResponse response) =>
@@ -50,10 +50,4 @@ internal sealed class GeneratePasswordCommand(
                .Iter(w => w.MarkupSummary(Constants.EntropyMessage(response.Entropy)))
                .Iter(w => w.MarkupSummary(Constants.StrengthMessage(response.Strength)))
                .Iter(w => w.MarkupSummary(Constants.PasswordSeparator));
-
-    private int RenderErrors(Error[] errors)
-    {
-        errors.ForEach(e => _writer.MarkupSummary($"{Constants.ErrorLabel} {e.Message}"));
-        return -1;
-    }
 }
