@@ -13,8 +13,7 @@ internal static class Constants
     public const int CountMax = 100;
 
     public const string DevPasswordTitle = "dev-password: generating password...";
-    public const string CompletionMessage = "[green]Command completed successfully![/]";
-    public const string ErrorLabel = "[red]Error:[/]";
+    public const string CompletionMessage = "Command completed successfully!";
     public const string PasswordSeparator = "-----------------------------------------------";
 
     public static string PasswordMessage(string password) =>

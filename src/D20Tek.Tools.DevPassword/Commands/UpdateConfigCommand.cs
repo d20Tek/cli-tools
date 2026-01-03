@@ -1,4 +1,5 @@
 ﻿using D20Tek.Spectre.Console.Extensions.Settings;
+using D20Tek.Tools.Common.Controls;
 
 namespace D20Tek.Tools.DevPassword.Commands;
 
@@ -16,7 +17,7 @@ internal sealed class UpdateConfigCommand(IAnsiConsole console, IVerbosityWriter
 
         return _service.Get()
                        .Bind(prevConfig => _service.Set(CollectConfigInput(prevConfig)))
-                       .Match(_ => _writer.RenderCompletion(Constants.CompletionMessage), _writer.RenderErrors);
+                       .Render(_writer, _ => Constants.CompletionMessage);
     }
 
     private PasswordConfig CollectConfigInput(PasswordConfig prevConfig)

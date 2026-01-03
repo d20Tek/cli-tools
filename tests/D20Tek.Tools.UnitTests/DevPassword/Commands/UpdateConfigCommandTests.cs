@@ -7,7 +7,7 @@ public class UpdateConfigCommandTests
     public void Execute_WithDefault_SavesPasswordConfig()
     {
         // arrange
-        var context = TestContextFactory.Create();
+        var context = TestContextFactory.CreateWithMemoryLowDb();
         context.Console.TestInput.PushTextWithEnter("y");
         context.Console.TestInput.PushTextWithEnter("y");
         context.Console.TestInput.PushTextWithEnter("y");
@@ -27,7 +27,7 @@ public class UpdateConfigCommandTests
     public void Execute_WithValidInput_SavesPasswordConfig()
     {
         // arrange
-        var context = TestContextFactory.Create();
+        var context = TestContextFactory.CreateWithMemoryLowDb();
         context.Console.TestInput.PushTextWithEnter("y");
         context.Console.TestInput.PushTextWithEnter("n");
         context.Console.TestInput.PushTextWithEnter("y");
@@ -39,6 +39,9 @@ public class UpdateConfigCommandTests
         var result = context.Run(["configure"]);
 
         // assert
+        Console.WriteLine(result.ExitCode);
+        Console.WriteLine(result.Output);
+
         Assert.IsNotNull(result);
         Assert.AreEqual(0, result.ExitCode);
     }

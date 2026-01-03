@@ -1,4 +1,6 @@
-﻿namespace D20Tek.Tools.DevPassword.Commands;
+﻿using D20Tek.Tools.Common.Controls;
+
+namespace D20Tek.Tools.DevPassword.Commands;
 
 internal sealed class GeneratePasswordCommand(
     IPasswordGenerator passwordGenerator,
@@ -20,7 +22,7 @@ internal sealed class GeneratePasswordCommand(
         return _configurationService.Get()
             .Bind(config => Validate(settings, config))
             .Map(state => _passwordGenerator.Generate(state))
-            .Match(r => RenderResponses(r), e => _writer.RenderErrors(e));
+            .Render(_writer, RenderResponses);
     }
 
     private static Result<PasswordState> Validate(PasswordSettings request, PasswordConfig config) =>
@@ -36,10 +38,10 @@ internal sealed class GeneratePasswordCommand(
 
     private static int RndGen(int x) => Random.Shared.Next(x);
 
-    private int RenderResponses(IEnumerable<PasswordResponse> responses)
+    private string RenderResponses(IEnumerable<PasswordResponse> responses)
     {
         responses.ForEach(response => RenderResponse(response));
-        return _writer.RenderCompletion(Constants.CompletionMessage);
+        return Constants.CompletionMessage;
     }
 
     private void RenderResponse(PasswordResponse response) =>
