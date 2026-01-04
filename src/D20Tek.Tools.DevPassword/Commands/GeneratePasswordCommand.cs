@@ -38,16 +38,20 @@ internal sealed class GeneratePasswordCommand(
 
     private static int RndGen(int x) => Random.Shared.Next(x);
 
-    private string RenderResponses(IEnumerable<PasswordResponse> responses)
-    {
-        responses.ForEach(response => RenderResponse(response));
-        return Constants.CompletionMessage;
-    }
+    private string RenderResponses(IEnumerable<PasswordResponse> responses) =>
+        responses.ToIdentity()
+                 .Iter(r => RenderResponseMetadata(r.First()))
+                 .Iter(_ => _writer.MarkupNormal(Constants.PasswordSeparator))
+                 .Iter(r => RenderPasswords(r))
+                 .Iter(_ => _writer.MarkupNormal(Constants.PasswordSeparator))
+                 .Map(_ => Constants.CompletionMessage);
 
-    private void RenderResponse(PasswordResponse response) =>
-        _writer.ToIdentity()
-               .Iter(w => w.MarkupSummary(Constants.PasswordMessage(response.Password.EscapeMarkup())))
-               .Iter(w => w.MarkupSummary(Constants.EntropyMessage(response.Entropy)))
-               .Iter(w => w.MarkupSummary(Constants.StrengthMessage(response.Strength)))
-               .Iter(w => w.MarkupSummary(Constants.PasswordSeparator));
+    private void RenderResponseMetadata(PasswordResponse response) =>
+        _writer.MarkupNormal(
+            $"{Constants.LengthMessage(response.Password.Length)} | " +
+            $"{Constants.EntropyMessage(response.Entropy)} | " +
+            $"{Constants.StrengthMessage(response.Strength)}");
+
+    private void RenderPasswords(IEnumerable<PasswordResponse> responses) =>
+        responses.ForEach(response => _writer.MarkupSummary(response.Password.EscapeMarkup()));
 }

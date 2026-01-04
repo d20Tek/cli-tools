@@ -14,14 +14,13 @@ internal static class Constants
 
     public const string DevPasswordTitle = "dev-password: generating password...";
     public const string CompletionMessage = "Command completed successfully!";
-    public const string PasswordSeparator = "-----------------------------------------------";
+    public const string PasswordSeparator = "-------------------------------------------------------------------";
 
-    public static string PasswordMessage(string password) =>
-        $"[yellow]Generated Password:[/] {password.EscapeMarkup()}";
+    public static string LengthMessage(int length) => $"[yellow]Password Length:[/] {length}";
 
-    public static string EntropyMessage(double entropy) => $"[yellow]Password Entropy:[/] {entropy:0.##} bits";
+    public static string EntropyMessage(double entropy) => $"[yellow]Entropy:[/] {entropy:0.##} bits";
 
-    public static string StrengthMessage(string strength) => $"[yellow]Password Strength:[/] {strength}";
+    public static string StrengthMessage(string strength) => $"[yellow]Strength:[/] {strength}";
 
     public static readonly Error PasswordLengthError =
         Error.Validation("Password.Length", "Password length must be between 4-64 characters.");

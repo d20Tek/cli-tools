@@ -1,4 +1,6 @@
-﻿namespace D20Tek.Tools.Common.Controls;
+﻿using System.Diagnostics.CodeAnalysis;
+
+namespace D20Tek.Tools.Common.Controls;
 
 public static class ResultPresenter
 {
@@ -21,6 +23,7 @@ public static class ResultPresenter
             s => RenderSuccess(console.MarkupLine, successMessage(s)),
             e => RenderErrors(console.MarkupLine, e));
 
+    /* Removing RenderAsync until AsyncCommands are used.
     public static async Task<int> RenderAsync<T>(
         this Task<Result<T>> result,
         IVerbosityWriter writer,
@@ -29,6 +32,7 @@ public static class ResultPresenter
         await result.MatchAsync(
             s => Task.FromResult(RenderSuccess(writer.MarkupNormal, successMessage(s))),
             e => Task.FromResult(RenderErrors(writer.MarkupSummary, e)));
+    */
 
     public static int Render<T>(this Result<T> result, IVerbosityWriter writer, Func<T, string> successMessage)
         where T : notnull =>
