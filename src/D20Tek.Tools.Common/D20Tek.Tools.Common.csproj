@@ -1,13 +1,13 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="D20Tek.Functional" Version="1.0.6" />
-    <PackageReference Include="D20Tek.Spectre.Console.Extensions" Version="1.53.1" />
+    <PackageReference Include="D20Tek.Functional" Version="1.1.0" />
+    <PackageReference Include="D20Tek.Spectre.Console.Extensions" Version="1.54.1" />
   </ItemGroup>
 </Project>

@@ -2,7 +2,7 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net9.0</TargetFramework>
+    <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <AssemblyName>create-guid</AssemblyName>
@@ -22,7 +22,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="D20Tek.Spectre.Console.Extensions" Version="1.53.1" />
+    <PackageReference Include="D20Tek.Spectre.Console.Extensions" Version="1.54.1" />
     <PackageReference Include="TextCopy" Version="6.2.1" />
   </ItemGroup>
 
@@ -31,10 +31,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Update="README.md">
-      <Pack>True</Pack>
-      <PackagePath>\</PackagePath>
-    </None>
+    <None Include="README.md" Pack="true" PackagePath="\" />
   </ItemGroup>
-
+  
 </Project>
