@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "JsonMinify File": {
+      "commandName": "Project",
+      "commandLineArgs": ".\\data\\test.json"
+    },
+    "JsonMinify Help": {
+      "commandName": "Project",
+      "commandLineArgs": "--help"
+    }
+  }
+}
