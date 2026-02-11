@@ -2,7 +2,7 @@
   "profiles": {
     "JsonMinify File": {
       "commandName": "Project",
-      "commandLineArgs": ".\\data\\test.json"
+      "commandLineArgs": "C:\\temp\\json\\weather.json"
     },
     "JsonMinify Help": {
       "commandName": "Project",
