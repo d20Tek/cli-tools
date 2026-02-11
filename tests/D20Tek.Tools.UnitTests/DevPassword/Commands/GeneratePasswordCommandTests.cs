@@ -1,7 +1,6 @@
 ﻿using D20Tek.Tools.DevPassword.Commands;
 using D20Tek.Tools.DevPassword.Contracts;
 using D20Tek.Tools.DevPassword.Services;
-using System.ComponentModel.DataAnnotations;
 
 namespace D20Tek.Tools.UnitTests.DevPassword.Commands;
 

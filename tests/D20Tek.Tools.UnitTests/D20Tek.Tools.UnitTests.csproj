@@ -17,6 +17,7 @@
     <ProjectReference Include="..\..\src\D20Tek.Tools.CreateGuid\D20Tek.Tools.CreateGuid.csproj" />
     <ProjectReference Include="..\..\src\D20Tek.Tools.DevPassword\D20Tek.Tools.DevPassword.csproj" />
     <ProjectReference Include="..\..\src\D20Tek.Tools.DevPomo\D20Tek.Tools.DevPomo.csproj" />
+    <ProjectReference Include="..\..\src\D20Tek.Tools.JsonMinify\D20Tek.Tools.JsonMinify.csproj" />
   </ItemGroup>
 
   <ItemGroup>
