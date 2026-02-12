@@ -17,11 +17,15 @@ internal sealed class MinifyFileCommand(IFileSystemAdapter fileAdapter, IMinifyS
         [CommandArgument(0, "<FILEPATH>")]
         [Description("The fully qualified file path for the target json file to minify.")]
         public string FilePath { get; init; } = string.Empty;
+
+        [CommandOption("-t|--target-folder")]
+        [Description("The target folder where the minified file will be written. Defaults to the current folder.")]
+        public string TargetFolder { get; init; } = string.Empty;
     }
 
     public override int Execute(CommandContext context, Settings settings, CancellationToken _) =>
         _validator.Validate(settings.FilePath)
                   .Iter(f => _console.WriteMessages(Constants.MinifyFileTitle(f)))
-                  .Bind(f => _minifyService.MinifyFile(settings.FilePath))
+                  .Bind(f => _minifyService.MinifyFile(settings.FilePath, settings.TargetFolder))
                   .Render(_console, _ => Constants.SingleFileSuccess);
 }

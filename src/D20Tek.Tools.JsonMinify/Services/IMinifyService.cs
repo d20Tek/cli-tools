@@ -2,5 +2,5 @@
 
 internal interface IMinifyService
 {
-    Result<bool> MinifyFile(string filePath);
+    Result<bool> MinifyFile(string filePath, string targetFolder = "");
 }

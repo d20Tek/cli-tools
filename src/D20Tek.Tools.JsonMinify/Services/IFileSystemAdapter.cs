@@ -2,6 +2,8 @@
 
 internal interface IFileSystemAdapter
 {
+    bool EnsureFolderExists(string path);
+
     IEnumerable<string> EnumerateFolderFiles(string path, string searchPattern);
     
     bool Exists(string path);

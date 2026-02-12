@@ -27,6 +27,27 @@ public class MinifyFileCommandTests
     }
 
     [TestMethod]
+    public void Execute_WithTargetFolderShouldReturnSuccess_WhenFilePathIsValid()
+    {
+        // arrange
+        var fileAdapter = new FakeFileSystemAdapter(
+            @"{
+                ""name"": ""John"",
+                ""age"": 30,
+                ""city"": ""New York""
+            }");
+        var context = TestContextFactory.CreateWithFakeFileAdapter(fileAdapter);
+
+        // act
+        var result = context.Run(["file", "./test/file.json", "-t", "./test/ouput"]);
+
+        // assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual(0, result.ExitCode);
+        Assert.Contains("Json file was successfully minified.", result.Output);
+    }
+
+    [TestMethod]
     public void Execute_ShouldReturnError_WhenFilePathIsInvalid()
     {
         // arrange

@@ -2,6 +2,14 @@
 
 internal class FileSystemAdapter : IFileSystemAdapter
 {
+    public bool EnsureFolderExists(string path)
+    {
+        if (Directory.Exists(path)) return true;
+
+        Directory.CreateDirectory(path);
+        return true;
+    }
+
     public IEnumerable<string> EnumerateFolderFiles(string path, string searchPattern) =>
         Directory.EnumerateFiles(path, searchPattern)
                  .Where(file =>
