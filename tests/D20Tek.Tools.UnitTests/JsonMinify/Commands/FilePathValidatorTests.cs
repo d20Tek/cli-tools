@@ -11,7 +11,7 @@ public class FilePathValidatorTests
     public void Validate_ShouldReturnFailure_WhenFilePathIsEmpty()
     {
         // arrange
-        var fileAdapter = new FakeFileAdapter(string.Empty);
+        var fileAdapter = new FakeFileSystemAdapter(string.Empty);
         var validator = new FilePathValidator(fileAdapter);
 
         // act
@@ -26,7 +26,7 @@ public class FilePathValidatorTests
     public void Validate_ShouldReturnFailure_WhenFileDoesNotExist()
     {
         // arrange
-        var fileAdapter = new FakeFileAdapter(string.Empty);
+        var fileAdapter = new FakeFileSystemAdapter(string.Empty);
         var validator = new FilePathValidator(fileAdapter);
         var filePath = "./nonexistent.json";
 
@@ -42,7 +42,7 @@ public class FilePathValidatorTests
     public void Validate_ShouldReturnFailure_WhenFileHasInvalidExtension()
     {
         // arrange
-        var fileAdapter = new FakeFileAdapter("{}");
+        var fileAdapter = new FakeFileSystemAdapter("{}");
         var validator = new FilePathValidator(fileAdapter);
         var filePath = "./file.txt";
 

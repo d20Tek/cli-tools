@@ -10,7 +10,7 @@ internal class FolderPathValidator(IFileSystemAdapter fileAdapter)
     public Result<string> Validate(string folderPath) => ValidateNotEmpty(folderPath).Bind(ValidateFolderExists);
 
     private static Result<string> ValidateNotEmpty(string folderPath) =>
-        string.IsNullOrEmpty(folderPath) ? Failure(Constants.Errors.FilePathRequired) : Success(folderPath);
+        string.IsNullOrEmpty(folderPath) ? Failure(Constants.Errors.FolderPathRequired) : Success(folderPath);
 
     private Result<string> ValidateFolderExists(string folderPath) =>
         fileAdapter.FolderExists(folderPath) ? Success(folderPath) : Failure(Constants.Errors.FolderPathNotFound(folderPath));

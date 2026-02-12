@@ -2,13 +2,14 @@
 
 namespace D20Tek.Tools.UnitTests.JsonMinify.Fakes;
 
-internal sealed class FakeFileAdapter(string fileBody, string[]? folderFiles = null) : IFileSystemAdapter
+internal sealed class FakeFileSystemAdapter(string fileBody, string[]? folderFiles = null) : IFileSystemAdapter
 {
+    [ExcludeFromCodeCoverage]
     public IEnumerable<string> EnumerateFolderFiles(string path, string searchPattern) => folderFiles ?? [];
 
     public bool Exists(string path) => string.IsNullOrEmpty(fileBody) is false;
 
-    public bool FolderExists(string path) => throw new NotImplementedException();
+    public bool FolderExists(string path) => folderFiles is not null;
 
     public string ReadAllText(string path) => fileBody;
 

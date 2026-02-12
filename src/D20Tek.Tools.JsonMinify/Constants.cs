@@ -18,6 +18,7 @@ internal static class Constants
     public static class Errors
     {
         public static Error FilePathRequired = Error.Validation("FilePath.Required", "The file path is required.");
+        public static Error FolderPathRequired = Error.Validation("FolderPath.Required", "The folder path is required.");
 
         public static Error FilePathNotFound(string path) =>
             Error.NotFound("FilePath.NotFound", $"The file '{path}' does not exist.");

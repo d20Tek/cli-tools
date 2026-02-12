@@ -9,7 +9,9 @@ internal sealed class FakeStartup : StartupBase
     {
         config.CaseSensitivity(CaseSensitivity.None);
         config.SetApplicationName("json-minify-test");
+
         config.AddCommand<MinifyFileCommand>("file");
+        config.AddCommand<MinifyFolderCommand>("folder");
 
         return config;
 
