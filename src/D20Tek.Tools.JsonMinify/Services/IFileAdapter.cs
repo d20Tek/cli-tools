@@ -2,8 +2,12 @@
 
 internal interface IFileAdapter
 {
-    bool Exists(string path);
+    IEnumerable<string> EnumerateFolderFiles(string path, string searchPattern);
     
+    bool Exists(string path);
+
+    bool FolderExists(string path);
+
     string ReadAllText(string path);
 
     void WriteAllText(string path, string contents);

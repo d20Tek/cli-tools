@@ -15,6 +15,9 @@ internal sealed class Startup : StartupBase
               .WithDescription("Default command that minifies the specified json file.")
               .WithExample(["file", ".\\test.json"]);
 
+        config.AddCommand<MinifyFolderCommand>("folder")
+              .WithDescription("Command that minifies all of the json files in the specified folder.")
+              .WithExample(["folder", ".\\test\\path"]);
         return config;
     }
 

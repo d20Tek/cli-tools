@@ -5,7 +5,9 @@ internal static class Constants
     public const string AppName = "json-minify";
     public const string JsonFileExtension = ".json";
     public const string MinifiedJsonFileExtension = ".min.json";
+    public const string JsonFileSearchPattern = "*.json";
     public const string SingleFileSuccess = "Json file was successfully minified.";
+    public static string MultipleFileSuccess(int fileCount) => $"Folder with {fileCount} files successfully minified.";
 
     public static class Errors
     {
@@ -16,5 +18,8 @@ internal static class Constants
 
         public static Error FilePathInvalidExtension(string path) =>
             Error.Validation("FilePath.Extension", $"The file '{path}' is not a json file.");
+
+        public static Error FolderPathNotFound(string path) =>
+            Error.NotFound("FolderPath.NotFound", $"The folder '{path}' does not exist.");
     }
 }

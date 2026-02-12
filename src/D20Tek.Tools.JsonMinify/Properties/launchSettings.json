@@ -4,6 +4,10 @@
       "commandName": "Project",
       "commandLineArgs": "C:\\temp\\json\\weather.json"
     },
+    "JsonMinify Folder": {
+      "commandName": "Project",
+      "commandLineArgs": "folder C:\\temp\\json"
+    },
     "JsonMinify Help": {
       "commandName": "Project",
       "commandLineArgs": "--help"
