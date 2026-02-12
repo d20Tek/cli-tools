@@ -4,10 +4,10 @@ using D20Tek.Tools.JsonMinify.Services;
 
 namespace D20Tek.Tools.JsonMinify.Commands;
 
-internal sealed class MinifyFileCommand(IFileAdapter fileAdapter, IMinifyService minifyService, IAnsiConsole console)
+internal sealed class MinifyFileCommand(IFileSystemAdapter fileAdapter, IMinifyService minifyService, IAnsiConsole console)
     : Command<MinifyFileCommand.Settings>
 {
-    private readonly IFileAdapter _fileAdapter = fileAdapter;
+    private readonly IFileSystemAdapter _fileAdapter = fileAdapter;
     private readonly IMinifyService _minifyService = minifyService;
     private readonly IAnsiConsole _console = console;
     private readonly FilePathValidator _validator = new(fileAdapter);
@@ -21,7 +21,7 @@ internal sealed class MinifyFileCommand(IFileAdapter fileAdapter, IMinifyService
 
     public override int Execute(CommandContext context, Settings settings, CancellationToken _) =>
         _validator.Validate(settings.FilePath)
-                  .Iter(f => _console.WriteMessages($"[purple]Minifying[/] the JSON file: [yellow]'{f}'[/]"))
+                  .Iter(f => _console.WriteMessages(Constants.MinifyFileTitle(f)))
                   .Bind(f => _minifyService.MinifyFile(settings.FilePath))
                   .Render(_console, _ => Constants.SingleFileSuccess);
 }

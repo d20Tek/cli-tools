@@ -9,6 +9,12 @@ internal static class Constants
     public const string SingleFileSuccess = "Json file was successfully minified.";
     public static string MultipleFileSuccess(int fileCount) => $"Folder with {fileCount} files successfully minified.";
 
+    public static string MinifyFileTitle(string filePath) => $"[purple]Minifying[/] the JSON file: [yellow]'{filePath}'[/]";
+
+    public static string MinifyFolderTitle(string folderPath) => $"[purple]Minifying[/] the JSON files in folder: [yellow]'{folderPath}'[/]";
+
+    public static string MinifyFolderLineItem(string filePath) => $" - Minifying file: [yellow]{filePath}[/]";
+
     public static class Errors
     {
         public static Error FilePathRequired = Error.Validation("FilePath.Required", "The file path is required.");

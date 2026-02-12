@@ -1,6 +1,6 @@
 ﻿namespace D20Tek.Tools.JsonMinify.Services;
 
-internal class FileAdapter : IFileAdapter
+internal class FileSystemAdapter : IFileSystemAdapter
 {
     public IEnumerable<string> EnumerateFolderFiles(string path, string searchPattern) =>
         Directory.EnumerateFiles(path, searchPattern)

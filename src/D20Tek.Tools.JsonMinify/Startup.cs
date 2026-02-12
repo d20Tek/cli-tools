@@ -23,7 +23,7 @@ internal sealed class Startup : StartupBase
 
     public override void ConfigureServices(ITypeRegistrar registrar)
     {
-        registrar.WithLifetimes().RegisterSingleton<IFileAdapter, FileAdapter>();
+        registrar.WithLifetimes().RegisterSingleton<IFileSystemAdapter, FileSystemAdapter>();
         registrar.WithLifetimes().RegisterSingleton<IMinifyService, MinifyService>();
     }
 }

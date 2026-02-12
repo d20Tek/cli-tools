@@ -4,10 +4,10 @@ using D20Tek.Tools.JsonMinify.Services;
 
 namespace D20Tek.Tools.JsonMinify.Commands;
 
-internal sealed class MinifyFolderCommand(IFileAdapter fileAdapter, IMinifyService minifyService, IAnsiConsole console)
+internal sealed class MinifyFolderCommand(IFileSystemAdapter fileAdapter, IMinifyService minifyService, IAnsiConsole console)
     : Command<MinifyFolderCommand.Settings>
 {
-    private readonly IFileAdapter _fileAdapter = fileAdapter;
+    private readonly IFileSystemAdapter _fileAdapter = fileAdapter;
     private readonly IMinifyService _minifyService = minifyService;
     private readonly IAnsiConsole _console = console;
     private readonly FolderPathValidator _validator = new(fileAdapter);
@@ -21,14 +21,14 @@ internal sealed class MinifyFolderCommand(IFileAdapter fileAdapter, IMinifyServi
 
     public override int Execute(CommandContext context, Settings settings, CancellationToken _) =>
         _validator.Validate(settings.FolderPath)
-                  .Iter(f => _console.WriteMessages($"[purple]Minifying[/] the JSON files in folder: [yellow]'{f}'[/]"))
+                  .Iter(f => _console.WriteMessages(Constants.MinifyFolderTitle(f)))
                   .Map(f => _fileAdapter.EnumerateFolderFiles(f, Constants.JsonFileSearchPattern))
                   .Bind(fileSet => MinifyFileSet(fileSet))
                   .Render(_console, count => Constants.MultipleFileSuccess(count));
 
     private Result<int> MinifyFileSet(IEnumerable<string> filePaths) =>
         filePaths.Count(filePath =>
-            filePath.Pipe(f => _console.WriteMessages($" - Minifying file: [yellow]{f}[/]"))
+            filePath.Pipe(f => _console.WriteMessages(Constants.MinifyFolderLineItem(f)))
                     .Pipe(f => _minifyService.MinifyFile(f))
                     .IsSuccess);
 }

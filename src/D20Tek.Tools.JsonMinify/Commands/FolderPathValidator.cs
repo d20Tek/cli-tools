@@ -2,7 +2,7 @@
 
 namespace D20Tek.Tools.JsonMinify.Commands;
 
-internal class FolderPathValidator(IFileAdapter fileAdapter)
+internal class FolderPathValidator(IFileSystemAdapter fileAdapter)
 {
     private static Result<string> Success(string path) => Result<string>.Success(path);
     private static Result<string> Failure(Error error) => Result<string>.Failure(error);

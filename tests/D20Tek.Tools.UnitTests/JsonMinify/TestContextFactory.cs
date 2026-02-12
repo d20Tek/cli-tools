@@ -10,7 +10,7 @@ internal static class TestContextFactory
     public static CommandAppBuilderTestContext Create() =>
         CreateWithContainer<Startup>(new ServiceCollection());
 
-    public static CommandAppBuilderTestContext CreateWithFakeFileAdapter(IFileAdapter fileAdapter)
+    public static CommandAppBuilderTestContext CreateWithFakeFileAdapter(IFileSystemAdapter fileAdapter)
     {
         var container = new ServiceCollection();
         container.AddSingleton(fileAdapter);

@@ -2,10 +2,10 @@
 
 namespace D20Tek.Tools.JsonMinify.Services;
 
-internal class MinifyService(IFileAdapter fileAdapter) : IMinifyService
+internal class MinifyService(IFileSystemAdapter fileAdapter) : IMinifyService
 {
     private static readonly JsonSerializerOptions _options = new() { WriteIndented = false };
-    private readonly IFileAdapter _fileAdapter = fileAdapter;
+    private readonly IFileSystemAdapter _fileAdapter = fileAdapter;
 
     public Result<bool> MinifyFile(string filePath) =>
         Try.Run(() =>
