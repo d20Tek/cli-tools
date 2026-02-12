@@ -1,6 +1,6 @@
 ﻿using D20Tek.Tools.JsonMinify.Services;
 
-namespace D20Tek.Tools.UnitTests.DevPassword.Fakes;
+namespace D20Tek.Tools.UnitTests.JsonMinify.Fakes;
 
 internal sealed class FakeFileAdapter(string fileBody) : IFileAdapter
 {

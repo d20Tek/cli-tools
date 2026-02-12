@@ -1,4 +1,4 @@
-﻿using D20Tek.Tools.UnitTests.DevPassword.Fakes;
+﻿using D20Tek.Tools.UnitTests.JsonMinify.Fakes;
 
 namespace D20Tek.Tools.UnitTests.JsonMinify.Commands;
 
