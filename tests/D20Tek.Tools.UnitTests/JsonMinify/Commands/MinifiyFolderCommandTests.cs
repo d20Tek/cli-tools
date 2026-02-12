@@ -25,6 +25,22 @@ public class MinifiyFolderCommandTests
     }
 
     [TestMethod]
+    public void Execute_WithTargetFolderShouldReturnSuccess_WhenFolderPathIsValid()
+    {
+        // arrange
+        var fileAdapter = new FakeFileSystemAdapter("{ \"name\": \"value\"}", ["file1.json", "file2.json"]);
+        var context = TestContextFactory.CreateWithFakeFileAdapter(fileAdapter);
+
+        // act
+        var result = context.Run(["folder", "./test/folder", "--target-folder", "./test/folder/output"]);
+
+        // assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual(0, result.ExitCode);
+        Assert.Contains($"Folder with 2 files successfully minified.", result.Output);
+    }
+
+    [TestMethod]
     public void Execute_ShouldReturnError_WhenFolderPathIsInvalid()
     {
         // arrange

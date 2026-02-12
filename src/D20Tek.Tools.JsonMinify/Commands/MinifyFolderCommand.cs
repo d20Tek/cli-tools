@@ -17,18 +17,22 @@ internal sealed class MinifyFolderCommand(IFileSystemAdapter fileAdapter, IMinif
         [CommandArgument(0, "<FOLDERPATH>")]
         [Description("The fully qualified target directory/folder path to search for json files to minify.")]
         public string FolderPath { get; init; } = string.Empty;
+
+        [CommandOption("-t|--target-folder")]
+        [Description("The target folder where the minified files will be written. Defaults to the current folder.")]
+        public string TargetFolder { get; init; } = string.Empty;
     }
 
     public override int Execute(CommandContext context, Settings settings, CancellationToken _) =>
         _validator.Validate(settings.FolderPath)
                   .Iter(f => _console.WriteMessages(Constants.MinifyFolderTitle(f)))
                   .Map(f => _fileAdapter.EnumerateFolderFiles(f, Constants.JsonFileSearchPattern))
-                  .Bind(fileSet => MinifyFileSet(fileSet))
+                  .Bind(fileSet => MinifyFileSet(fileSet, settings.TargetFolder))
                   .Render(_console, count => Constants.MultipleFileSuccess(count));
 
-    private Result<int> MinifyFileSet(IEnumerable<string> filePaths) =>
+    private Result<int> MinifyFileSet(IEnumerable<string> filePaths, string targetFolder) =>
         filePaths.Count(filePath =>
             filePath.Pipe(f => _console.WriteMessages(Constants.MinifyFolderLineItem(f)))
-                    .Pipe(f => _minifyService.MinifyFile(f))
+                    .Pipe(f => _minifyService.MinifyFile(f, targetFolder))
                     .IsSuccess);
 }

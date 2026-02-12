@@ -7,7 +7,6 @@ namespace D20Tek.Tools.JsonMinify.Commands;
 internal sealed class MinifyFileCommand(IFileSystemAdapter fileAdapter, IMinifyService minifyService, IAnsiConsole console)
     : Command<MinifyFileCommand.Settings>
 {
-    private readonly IFileSystemAdapter _fileAdapter = fileAdapter;
     private readonly IMinifyService _minifyService = minifyService;
     private readonly IAnsiConsole _console = console;
     private readonly FilePathValidator _validator = new(fileAdapter);

@@ -23,8 +23,9 @@ public class End2EndTests
     public async Task Run_WithFolderCommand()
     {
         // arrange
-        await Task.Delay(200, CancellationToken.None);
-        string[] args = ["folder", "./JsonMinify/test-data"];
+        await Task.Delay(100, CancellationToken.None);
+        string[] args = ["folder", "./JsonMinify/test-data", "-t", "./JsonMinify/test-data/output"];
+        Directory.Delete("./JsonMinify/test-data/output", true);
 
         // act
         var result = await CommandAppE2ERunner.RunAsync(Program.Main, args);

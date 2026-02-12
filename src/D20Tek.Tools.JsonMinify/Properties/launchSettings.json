@@ -6,7 +6,7 @@
     },
     "JsonMinify Folder": {
       "commandName": "Project",
-      "commandLineArgs": "folder C:\\temp\\json"
+      "commandLineArgs": "folder C:\\temp\\json -t c:\\temp\\json\\output"
     },
     "JsonMinify Help": {
       "commandName": "Project",
