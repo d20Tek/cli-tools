@@ -10,7 +10,7 @@ internal static class Constants
 
     public const string MarkdownExtension = ".md";
     public const string MarkdownSearchPattern = "*.md";
-    public const string DefaultLogFolder = "devlogs";
+    public const string DefaultLogFolder = ".";
     public const string FileNameFormat = "dev-log-{0:yyyy-MM-dd}.md";
     public const string DateDisplayFormat = "MMMM d, yyyy";
     public const string AccomplishmentBullet = "- ";

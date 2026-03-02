@@ -1,4 +1,7 @@
-﻿using D20Tek.Spectre.Console.Extensions.Services;
+﻿using D20Tek.Spectre.Console.Extensions.Injection;
+using D20Tek.Spectre.Console.Extensions.Services;
+using D20Tek.Tools.DevLog.Commands;
+using D20Tek.Tools.DevLog.Services;
 
 namespace D20Tek.Tools.DevLog;
 
@@ -10,7 +13,10 @@ internal sealed class Startup : StartupBase
         config.SetApplicationName(Constants.AppName);
         config.ValidateExamples();
 
-        // todo: add command configuration here.
+        config.AddCommand<AddEntryCommand>("add")
+              .WithDescription("Add a project entry to this week's dev-log.")
+              .WithExample(["add", "MyProject", "-f", "."]);
+
         return config;
     }
 
@@ -18,6 +24,7 @@ internal sealed class Startup : StartupBase
     {
         registrar.WithConsoleVerbosityWriter();
 
-        // todo: register services here.
+        registrar.WithLifetimes().RegisterSingleton<IFileSystemAdapter, FileSystemAdapter>();
+        registrar.WithLifetimes().RegisterSingleton<IDevLogService, DevLogService>();
     }
 }

@@ -86,7 +86,7 @@ structured template with project-level accomplishments.
 - **ListLogs**: Enumerate `*.md` files in the log folder
 - Markdown generation follows the template format exactly
 
-### 7. Create AddEntryCommand
+### 7. ✅ Create AddEntryCommand
 - **File**: `src/D20Tek.Tools.DevLog/Commands/AddEntryCommand.cs` (new)
 - `Command<AddEntryCommand.Settings>`
 - **Settings**:

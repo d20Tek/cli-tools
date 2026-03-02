@@ -12,7 +12,8 @@ internal class DevLogService(IFileSystemAdapter fileAdapter) : IDevLogService
             DevLogEntry.Create(projectName, accomplishments, date)
                 .Pipe(entry => (FilePath: GetFilePath(logFolder, entry.WeekStart), Entry: entry))
                 .Pipe(t => _fileAdapter.EnsureFolderExists(logFolder).Pipe(_ => t))
-                .Pipe(t => _fileAdapter.WriteAllText(t.FilePath, BuildContent(t.FilePath, t.Entry)))
+                .Pipe(t => _fileAdapter.WriteAllText(
+                    t.FilePath, BuildSerializedContent(t.FilePath, t.Entry, MergeEntry)))
                 .Pipe(_ => Result<bool>.Success(true)));
 
     public Result<string> ViewLog(string logFolder, DateOnly? date = null) =>
@@ -33,9 +34,8 @@ internal class DevLogService(IFileSystemAdapter fileAdapter) : IDevLogService
                     : Result<(string FilePath, DevLogEntry Entry)>.Failure(
                         Constants.Errors.FileNotFound(t.FilePath)))
                 .Bind(t => Try.Run(() =>
-                    _fileAdapter.ReadAllText(t.FilePath)
-                        .Pipe(content => ReplaceProjectSection(content, t.Entry))
-                        .Pipe(updated => _fileAdapter.WriteAllText(t.FilePath, updated))
+                    BuildSerializedContent(t.FilePath, t.Entry, UpsertEntry)
+                        .Pipe(content => _fileAdapter.WriteAllText(t.FilePath, content))
                         .Pipe(_ => Result<bool>.Success(true)))));
 
     public Result<IEnumerable<string>> ListLogs(string logFolder) =>
@@ -46,34 +46,27 @@ internal class DevLogService(IFileSystemAdapter fileAdapter) : IDevLogService
     private static string GetFilePath(string logFolder, DateOnly weekStart) =>
         Path.Combine(logFolder, string.Format(Constants.FileNameFormat, weekStart));
 
-    private string BuildContent(string filePath, DevLogEntry entry) =>
-        _fileAdapter.Exists(filePath)
-            ? _fileAdapter.ReadAllText(filePath) + "\n\n" + GenerateProjectSection(entry)
-            : GenerateFileContent(entry);
+    private string BuildSerializedContent(
+        string filePath,
+        DevLogEntry entry,
+        Func<List<DevLogEntry>, DevLogEntry, List<DevLogEntry>> updateFn) =>
+        (_fileAdapter.Exists(filePath)
+            ? updateFn(MarkdownSerializer.ParseEntries(_fileAdapter.ReadAllText(filePath), entry.WeekStart), entry)
+            : [entry])
+        .Pipe(entries => MarkdownSerializer.SerializeEntries(entry.WeekStart, entries));
 
-    private static string GenerateFileContent(DevLogEntry entry) =>
-        $"{Constants.WeekHeader(entry.WeekStart)}\n\n{GenerateProjectSection(entry)}";
+    private static List<DevLogEntry> MergeEntry(List<DevLogEntry> entries, DevLogEntry newEntry) =>
+        entries.Any(e => IsSameProject(e, newEntry.ProjectName))
+            ? [.. entries.Select(e => IsSameProject(e, newEntry.ProjectName)
+                ? e with { Accomplishments = [.. e.Accomplishments, .. newEntry.Accomplishments] }
+                : e)]
+            : [.. entries, newEntry];
 
-    private static string GenerateProjectSection(DevLogEntry entry) =>
-        $"{Constants.ProjectHeader(entry.ProjectName)}\n" +
-        string.Join("\n", entry.Accomplishments.Select(a => $"{Constants.AccomplishmentBullet}{a}"));
+    private static List<DevLogEntry> UpsertEntry(List<DevLogEntry> entries, DevLogEntry newEntry) =>
+        entries.Any(e => IsSameProject(e, newEntry.ProjectName))
+            ? [.. entries.Select(e => IsSameProject(e, newEntry.ProjectName) ? newEntry : e)]
+            : [.. entries, newEntry];
 
-    private static string ReplaceProjectSection(string content, DevLogEntry entry)
-    {
-        var lines = content.Split('\n').ToList();
-        var projectHeader = Constants.ProjectHeader(entry.ProjectName);
-        var startIndex = lines.FindIndex(l => l.TrimEnd() == projectHeader);
-
-        if (startIndex == -1) return content + "\n\n" + GenerateProjectSection(entry);
-
-        var endIndex = lines.FindIndex(startIndex + 1, l => l.StartsWith("## ") || l.StartsWith("### "));
-        if (endIndex == -1) endIndex = lines.Count;
-
-        while (endIndex > startIndex + 1 && string.IsNullOrWhiteSpace(lines[endIndex - 1]))
-            endIndex--;
-
-        lines.RemoveRange(startIndex, endIndex - startIndex);
-        lines.InsertRange(startIndex, GenerateProjectSection(entry).Split('\n'));
-        return string.Join("\n", lines);
-    }
+    private static bool IsSameProject(DevLogEntry entry, string projectName) =>
+        string.Equals(entry.ProjectName, projectName, StringComparison.OrdinalIgnoreCase);
 }
