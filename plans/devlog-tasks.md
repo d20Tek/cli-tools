@@ -61,14 +61,14 @@ structured template with project-level accomplishments.
 - Implement each method from IFileSystemAdapter using `System.IO`
 - Follow the same implementation style as JsonMinify's FileSystemAdapter
 
-### 4. Create IDevLogService interface
+### 4. ✅ Create IDevLogService interface
 - **File**: `src/D20Tek.Tools.DevLog/Services/IDevLogService.cs` (new)
 - `Result<bool> AddEntry(string logFolder, string projectName, List<string> accomplishments, DateOnly? date = null)`
 - `Result<string> ViewLog(string logFolder, DateOnly? date = null)`
 - `Result<bool> EditEntry(string logFolder, string projectName, List<string> accomplishments, DateOnly? date = null)`
 - `Result<IEnumerable<string>> ListLogs(string logFolder)`
 
-### 5. Create DevLogEntry model
+### 5. ✅ Create DevLogEntry model
 - **File**: `src/D20Tek.Tools.DevLog/Contracts/DevLogEntry.cs` (new)
 - `DateOnly WeekStart` - the Sunday date for this week
 - `string ProjectName` - name of the project
@@ -76,7 +76,7 @@ structured template with project-level accomplishments.
 - Factory method: `Create(string projectName, List<string> accomplishments, DateOnly? date)`
 - Helper: `GetWeekStart(DateOnly date)` - calculates the previous Sunday
 
-### 6. Create DevLogService implementation
+### 6. ✅ Create DevLogService implementation
 - **File**: `src/D20Tek.Tools.DevLog/Services/DevLogService.cs` (new)
 - Inject `IFileSystemAdapter`
 - Calculate weekly file path: `{logFolder}/devlog-{yyyy-MM-dd}.md` (where date = week's Sunday)
