@@ -12,6 +12,12 @@
     <Company>d20Tek</Company>
     <Copyright>Copyright (c) d20Tek.  All rights reserved.</Copyright>
     <Description>A command-line utility to help developers create and edit developer work logs to track their delivery status on projects. Creates and edits markdown files that follow a dev-log template for weekly reports.</Description>
+    <PackageProjectUrl>https://github.com/d20Tek/cli-tools/tree/main/src/D20Tek.Tools.DevLog</PackageProjectUrl>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <RepositoryUrl>https://github.com/d20Tek/cli-tools/tree/main/src/D20Tek.Tools.DevLog</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageTags>weekly status; dev log; developer log; dev status</PackageTags>
+    <PackAsTool>True</PackAsTool>
   </PropertyGroup>
 
   <ItemGroup>
@@ -25,6 +31,13 @@
 
   <ItemGroup>
     <ProjectReference Include="..\D20Tek.Tools.Common\D20Tek.Tools.Common.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
 
 </Project>
