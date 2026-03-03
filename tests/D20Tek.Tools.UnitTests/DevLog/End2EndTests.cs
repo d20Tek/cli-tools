@@ -18,8 +18,7 @@ public sealed class End2EndTests
     [TestCleanup]
     public void TearDown()
     {
-        if (Directory.Exists(_testFolder))
-            Directory.Delete(_testFolder, true);
+        if (Directory.Exists(_testFolder)) Directory.Delete(_testFolder, true);
     }
 
     [TestMethod]

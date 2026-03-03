@@ -3,8 +3,7 @@ using D20Tek.Tools.Common.Services;
 namespace D20Tek.Tools.UnitTests.DevLog.Fakes;
 
 [ExcludeFromCodeCoverage]
-internal sealed class FakeFileSystemAdapter(string fileContent = "", string[]? folderFiles = null)
-    : IFileSystemAdapter
+internal sealed class FakeFileSystemAdapter(string fileContent = "", string[]? folderFiles = null) : IFileSystemAdapter
 {
     private string _fileContent = fileContent;
 

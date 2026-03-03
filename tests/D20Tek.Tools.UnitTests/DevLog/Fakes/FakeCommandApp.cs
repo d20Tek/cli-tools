@@ -9,6 +9,5 @@ internal class FakeCommandApp(int expectedResult = 0) : ICommandApp
 
     public int Run(IEnumerable<string> args, CancellationToken token) => _expectedResult;
 
-    public Task<int> RunAsync(IEnumerable<string> args, CancellationToken token) =>
-        Task.FromResult(_expectedResult);
+    public Task<int> RunAsync(IEnumerable<string> args, CancellationToken token) => Task.FromResult(_expectedResult);
 }

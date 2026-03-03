@@ -6,8 +6,7 @@ namespace D20Tek.Tools.UnitTests.DevLog.Commands;
 [TestClass]
 public class ViewLogCommandTests
 {
-    private const string _existingContent =
-        "## Week of January 5, 2025\n\n### MyProject\n- Item 1\n- Item 2";
+    private const string _existingContent = "## Week of January 5, 2025\n\n### MyProject\n- Item 1\n- Item 2";
 
     [TestMethod]
     public void Execute_WithExistingFile_ReturnsContent()
