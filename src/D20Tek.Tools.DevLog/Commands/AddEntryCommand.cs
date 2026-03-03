@@ -16,11 +16,11 @@ internal sealed class AddEntryCommand(IDevLogService service, IAnsiConsole conso
         public string ProjectName { get; init; } = string.Empty;
 
         [CommandOption("-d|--date")]
-        [Description("The date for the dev-log entry (defaults to today). Format: yyyy-MM-dd.")]
+        [Description("The date for the dev-log entry (defaults to today). Format: MM-dd-yyyy.")]
         public string Date { get; init; } = string.Empty;
 
         [CommandOption("-f|--folder")]
-        [Description("The folder path where dev-log files are stored. Defaults to './devlogs'.")]
+        [Description("The folder path where dev-log files are stored.")]
         public string Folder { get; init; } = Constants.DefaultLogFolder;
     }
 

@@ -12,11 +12,11 @@ internal sealed class ViewLogCommand(IDevLogService service, IAnsiConsole consol
     public sealed class Settings : CommandSettings
     {
         [CommandOption("-d|--date")]
-        [Description("The date within the week to view (defaults to current week). Format: yyyy-MM-dd.")]
+        [Description("The date within the week to view (defaults to current week). Format: MM-dd-yyyy.")]
         public string Date { get; init; } = string.Empty;
 
         [CommandOption("-f|--folder")]
-        [Description("The folder path where dev-log files are stored. Defaults to './devlogs'.")]
+        [Description("The folder path where dev-log files are stored.")]
         public string Folder { get; init; } = Constants.DefaultLogFolder;
     }
 

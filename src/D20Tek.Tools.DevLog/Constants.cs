@@ -42,6 +42,8 @@ internal static class Constants
 
     public static string ListLogsEmpty(string folder) => $"No dev-log files found in '{folder}'.";
 
+    public const string ListLogsSucceeded = "Add dev logs retrieved.";
+
     public static class Errors
     {
         public static readonly Error FolderPathRequired =

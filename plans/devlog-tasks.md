@@ -115,7 +115,7 @@ structured template with project-level accomplishments.
 - **Execute**: Load existing entry, show current accomplishments, prompt for replacements
 - Chain: validate → load existing → prompt for edits → save → render result
 
-### 10. Create ListLogsCommand
+### 10. ✅ Create ListLogsCommand
 - **File**: `src/D20Tek.Tools.DevLog/Commands/ListLogsCommand.cs` (new)
 - `Command<ListLogsCommand.Settings>`
 - **Settings**:

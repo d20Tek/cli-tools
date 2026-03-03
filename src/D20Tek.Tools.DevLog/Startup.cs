@@ -21,6 +21,10 @@ internal sealed class Startup : StartupBase
               .WithDescription("Views this week's full dev-log.")
               .WithExample(["view", "-f", "."]);
 
+        config.AddCommand<ListLogsCommand>("list")
+              .WithDescription("List all available dev-log files.")
+              .WithExample(["list", "-f", "."]);
+
         return config;
     }
 
