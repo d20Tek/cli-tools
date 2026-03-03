@@ -16,6 +16,9 @@ internal static class Constants
     public const string AccomplishmentBullet = "- ";
     public const string AccomplishmentsPrompt = "Enter accomplishments (one per line, empty line to finish):";
     public const string AccomplishmentItemPrompt = "  > ";
+    public const string CurrentAccomplishmentsLabel = "Current accomplishments:";
+    public const string EditLinePrompt = "Enter line number to edit (empty to finish):";
+    public const string EditLineNewTextPrompt = "  New text:";
 
     public static string WeekHeader(DateOnly weekStart) => $"## Week of {weekStart.ToString(DateDisplayFormat)}";
 
@@ -41,6 +44,8 @@ internal static class Constants
     public const string EditEntrySuccess = "Dev-log entry updated successfully.";
 
     public static string ListLogsEmpty(string folder) => $"No dev-log files found in '{folder}'.";
+
+    public static string InvalidLineNumber(int count) => $"[red]Invalid line number. Please enter 1-{count}.[/]";
 
     public const string ListLogsSucceeded = "Add dev logs retrieved.";
 

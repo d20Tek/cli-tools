@@ -101,17 +101,17 @@ structured template with project-level accomplishments.
 - `Command<ViewLogCommand.Settings>`
 - **Settings**:
   - `[CommandOption("-d|--date")]` - optional date (defaults to current week)
-  - `[CommandOption("-f|--folder")]` - log folder path (defaults to `./devlogs`)
+  - `[CommandOption("-f|--folder")]` - log folder path 
 - **Execute**: Read and render the markdown content for the specified week
 - Display the formatted log content to the console
 
-### 9. Create EditEntryCommand
+### 9. ✅ Create EditEntryCommand
 - **File**: `src/D20Tek.Tools.DevLog/Commands/EditEntryCommand.cs` (new)
 - `Command<EditEntryCommand.Settings>`
 - **Settings**:
   - `[CommandArgument(0, "<PROJECT>")]` - project name to edit
   - `[CommandOption("-d|--date")]` - optional date override
-  - `[CommandOption("-f|--folder")]` - log folder path (defaults to `./devlogs`)
+  - `[CommandOption("-f|--folder")]` - log folder path
 - **Execute**: Load existing entry, show current accomplishments, prompt for replacements
 - Chain: validate → load existing → prompt for edits → save → render result
 
@@ -119,7 +119,7 @@ structured template with project-level accomplishments.
 - **File**: `src/D20Tek.Tools.DevLog/Commands/ListLogsCommand.cs` (new)
 - `Command<ListLogsCommand.Settings>`
 - **Settings**:
-  - `[CommandOption("-f|--folder")]` - log folder path (defaults to `./devlogs`)
+  - `[CommandOption("-f|--folder")]` - log folder path 
 - **Execute**: Enumerate and display all weekly log files with their week-of dates
 - Format output as a table or list showing available weeks
 

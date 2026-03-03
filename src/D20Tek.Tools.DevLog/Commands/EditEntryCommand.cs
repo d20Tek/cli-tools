@@ -1,0 +1,95 @@
+using D20Tek.Tools.DevLog.Contracts;
+using D20Tek.Tools.DevLog.Services;
+
+namespace D20Tek.Tools.DevLog.Commands;
+
+internal sealed class EditEntryCommand(IDevLogService service, IAnsiConsole console)
+    : Command<EditEntryCommand.Settings>
+{
+    private readonly IDevLogService _service = service;
+    private readonly IAnsiConsole _console = console;
+
+    public sealed class Settings : CommandSettings
+    {
+        [CommandArgument(0, "<PROJECT>")]
+        [Description("The name of the project entry to edit.")]
+        public string ProjectName { get; init; } = string.Empty;
+
+        [CommandOption("-d|--date")]
+        [Description("The date for the dev-log entry to edit (defaults to today). Format: MM-dd-yyyy.")]
+        public string Date { get; init; } = string.Empty;
+
+        [CommandOption("-f|--folder")]
+        [Description("The folder path where dev-log files are stored.")]
+        public string Folder { get; init; } = Constants.DefaultLogFolder;
+    }
+
+    public override int Execute(CommandContext context, Settings settings, CancellationToken _)
+    {
+        var date = ParseDate(settings.Date);
+        var weekStart = DevLogEntry.GetWeekStart(date ?? DateOnly.FromDateTime(DateTime.Today));
+
+        return ValidateProjectName(settings.ProjectName)
+            .Iter(_ => _console.MarkupLine(Constants.EditEntryTitle(settings.ProjectName, weekStart)))
+            .Map(_ => LoadAccomplishments(settings.Folder, settings.ProjectName, weekStart, date))
+            .Iter(DisplayNumberedAccomplishments)
+            .Map(EditAccomplishments)
+            .Bind(accomplishments => _service.EditEntry(settings.Folder, settings.ProjectName, accomplishments, date))
+            .Render(_console, _ => Constants.EditEntrySuccess);
+    }
+
+    private List<string> LoadAccomplishments(string folder, string projectName, DateOnly weekStart, DateOnly? date)
+    {
+        var result = _service.ViewLog(folder, date)
+            .Map(content => MarkdownSerializer.ParseEntries(content, weekStart)
+                .Where(e => string.Equals(e.ProjectName, projectName, StringComparison.OrdinalIgnoreCase))
+                .SelectMany(e => e.Accomplishments)
+                .ToList());
+
+        return result.IsSuccess ? result.GetValue() : [];
+    }
+
+    private void DisplayNumberedAccomplishments(List<string> items)
+    {
+        _console.MarkupLine(Constants.CurrentAccomplishmentsLabel);
+        if (items.Count == 0)
+        {
+            _console.MarkupLine(" [dim](none)[/]");
+            return;
+        }
+
+        for (var i = 0; i < items.Count; i++)
+            _console.MarkupLine($" [[{i + 1}]] {Markup.Escape(items[i])}");
+    }
+
+    private List<string> EditAccomplishments(List<string> items)
+    {
+        var edited = items.ToList();
+        string input;
+        while (!string.IsNullOrWhiteSpace(
+            input = _console.Prompt(new TextPrompt<string>(Constants.EditLinePrompt).AllowEmpty())))
+        {
+            if (!int.TryParse(input, out var lineNum) || lineNum < 1 || lineNum > edited.Count)
+            {
+                _console.MarkupLine(Constants.InvalidLineNumber(edited.Count));
+                continue;
+            }
+
+            var index = lineNum - 1;
+            edited[index] = _console.Prompt(
+                new TextPrompt<string>(Constants.EditLineNewTextPrompt)
+                    .DefaultValue(edited[index])).Trim();
+        }
+
+        return edited;
+    }
+
+    private static DateOnly? ParseDate(string dateString) =>
+        DateOnly.TryParse(dateString, out var date) ? date : null;
+
+    private static Result<string> ValidateProjectName(string projectName) =>
+        string.IsNullOrWhiteSpace(projectName)
+            ? Result<string>.Failure(Constants.Errors.ProjectNameRequired)
+            : Result<string>.Success(projectName);
+}
+

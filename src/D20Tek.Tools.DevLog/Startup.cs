@@ -14,14 +14,22 @@ internal sealed class Startup : StartupBase
         config.ValidateExamples();
 
         config.AddCommand<AddEntryCommand>("add")
+              .WithAlias("a")
               .WithDescription("Add a project entry to this week's dev-log.")
               .WithExample(["add", "MyProject", "-f", "."]);
 
+        config.AddCommand<EditEntryCommand>("edit")
+              .WithAlias("e")
+              .WithDescription("Edit an existing project entry in this week's dev-log.")
+              .WithExample(["edit", "MyProject", "-f", "."]);
+
         config.AddCommand<ViewLogCommand>("view")
+              .WithAlias("v")
               .WithDescription("Views this week's full dev-log.")
               .WithExample(["view", "-f", "."]);
 
         config.AddCommand<ListLogsCommand>("list")
+              .WithAlias("ls")
               .WithDescription("List all available dev-log files.")
               .WithExample(["list", "-f", "."]);
 
