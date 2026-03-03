@@ -123,7 +123,7 @@ structured template with project-level accomplishments.
 - **Execute**: Enumerate and display all weekly log files with their week-of dates
 - Format output as a table or list showing available weeks
 
-### 11. Wire Startup with commands and DI registrations
+### 11. ✅ Wire Startup with commands and DI registrations
 - **File**: `src/D20Tek.Tools.DevLog/Startup.cs` (modify)
 - Register commands:
   - `add` → `AddEntryCommand` (add a project entry to this week's log)
@@ -134,12 +134,12 @@ structured template with project-level accomplishments.
   - `IFileSystemAdapter` → `FileSystemAdapter` (singleton)
   - `IDevLogService` → `DevLogService` (singleton)
 
-### 12. Update Program.cs GlobalUsings
+### 12. ✅ Update Program.cs GlobalUsings
 - **File**: `src/D20Tek.Tools.DevLog/Program.cs` (verify)
 - Ensure global usings include all required namespaces
 - Verify `InteractiveCommand` remains the default command
 
-### 13. Implement tests for dev-log
+### 13. ✅ Implement tests for dev-log
 - Add DevLog folder to D20Tek.Tools.UnitTests project.
 - Follow the patterns in the other test classes in D20Tek.Tools.UnitTests.
 - Add unit tests for all commands and services. (no unit tests specifically for FileSystemAdapter).
