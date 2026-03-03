@@ -23,32 +23,21 @@ internal sealed class EditEntryCommand(IDevLogService service, IAnsiConsole cons
 
         return ProjectNameValidator.Validate(settings.ProjectName)
             .Iter(_ => _console.MarkupLine(Constants.EditEntryTitle(settings.ProjectName, weekStart)))
-            .Map(_ => LoadAccomplishments(settings.Folder, settings.ProjectName, weekStart, date))
+            .Map(_ => LoadAccomplishments(settings.Folder, settings.ProjectName, date))
             .Iter(DisplayNumberedAccomplishments)
             .Map(EditAccomplishments)
             .Bind(accomplishments => _service.EditEntry(settings.Folder, settings.ProjectName, accomplishments, date))
             .Render(_console, _ => Constants.EditEntrySuccess);
     }
 
-    private List<string> LoadAccomplishments(string folder, string projectName, DateOnly weekStart, DateOnly? date)
-    {
-        var result = _service.ViewLog(folder, date)
-            .Map(content => MarkdownSerializer.ParseEntries(content, weekStart)
-                .Where(e => string.Equals(e.ProjectName, projectName, StringComparison.OrdinalIgnoreCase))
-                .SelectMany(e => e.Accomplishments)
-                .ToList());
-
-        return result.IsSuccess ? result.GetValue() : [];
-    }
+    private List<string> LoadAccomplishments(string folder, string projectName, DateOnly? date) =>
+        _service.GetAccomplishments(folder, projectName, date)
+                .Match(acc => acc, e => []);
 
     private void DisplayNumberedAccomplishments(List<string> items)
     {
         _console.MarkupLine(Constants.CurrentAccomplishmentsLabel);
-        if (items.Count == 0)
-        {
-            _console.MarkupLine(" [dim](none)[/]");
-            return;
-        }
+        if (items.Count == 0) _console.MarkupLine(Constants.EmptyList);
 
         for (var i = 0; i < items.Count; i++)
         {
@@ -59,10 +48,7 @@ internal sealed class EditEntryCommand(IDevLogService service, IAnsiConsole cons
     private List<string> EditAccomplishments(List<string> items)
     {
         var edited = items.ToList();
-        string input;
-
-        while (!string.IsNullOrWhiteSpace(
-            input = _console.Prompt(new TextPrompt<string>(Constants.EditLinePrompt).AllowEmpty())))
+        while (GetAccomplishmentInput(out var input))
         {
             if (!int.TryParse(input, out var lineNum) || lineNum < 1 || lineNum > edited.Count)
             {
@@ -77,5 +63,8 @@ internal sealed class EditEntryCommand(IDevLogService service, IAnsiConsole cons
 
         return edited;
     }
+
+    private bool GetAccomplishmentInput(out string input) => !string.IsNullOrWhiteSpace(
+        input = _console.Prompt(new TextPrompt<string>(Constants.EditLinePrompt).AllowEmpty()));
 }
 

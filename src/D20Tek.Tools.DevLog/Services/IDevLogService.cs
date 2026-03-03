@@ -8,5 +8,7 @@ internal interface IDevLogService
 
     Result<bool> EditEntry(string logFolder, string projectName, List<string> accomplishments, DateOnly? date = null);
 
+    Result<List<string>> GetAccomplishments(string logFolder, string projectName, DateOnly? date = null);
+
     Result<IEnumerable<string>> ListLogs(string logFolder);
 }

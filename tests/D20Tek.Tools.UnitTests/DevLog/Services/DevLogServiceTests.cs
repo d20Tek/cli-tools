@@ -204,4 +204,50 @@ public class DevLogServiceTests
         Assert.Contains("### NewProject", fileAdapter.LastWrittenContent);
         Assert.Contains("- New Item", fileAdapter.LastWrittenContent);
     }
+
+    [TestMethod]
+    public void GetAccomplishments_WithMatchingProject_ReturnsAccomplishments()
+    {
+        // arrange
+        var fileAdapter = new FakeFileSystemAdapter(_existingContent);
+        var service = new DevLogService(fileAdapter);
+
+        // act
+        var result = service.GetAccomplishments(_logFolder, "MyProject", _testDate);
+
+        // assert
+        Assert.IsTrue(result.IsSuccess);
+        Assert.HasCount(2, result.GetValue());
+        Assert.AreEqual("Item 1", result.GetValue()[0]);
+        Assert.AreEqual("Item 2", result.GetValue()[1]);
+    }
+
+    [TestMethod]
+    public void GetAccomplishments_WithProjectNotInFile_ReturnsEmptyList()
+    {
+        // arrange
+        var fileAdapter = new FakeFileSystemAdapter(_existingContent);
+        var service = new DevLogService(fileAdapter);
+
+        // act
+        var result = service.GetAccomplishments(_logFolder, "UnknownProject", _testDate);
+
+        // assert
+        Assert.IsTrue(result.IsSuccess);
+        Assert.HasCount(0, result.GetValue());
+    }
+
+    [TestMethod]
+    public void GetAccomplishments_WithMissingFile_ReturnsFailure()
+    {
+        // arrange
+        var fileAdapter = new FakeFileSystemAdapter();
+        var service = new DevLogService(fileAdapter);
+
+        // act
+        var result = service.GetAccomplishments(_logFolder, "MyProject", _testDate);
+
+        // assert
+        Assert.IsFalse(result.IsSuccess);
+    }
 }

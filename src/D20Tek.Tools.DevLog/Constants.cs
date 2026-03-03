@@ -49,6 +49,8 @@ internal static class Constants
 
     public const string ListLogsSucceeded = "Add dev logs retrieved.";
 
+    public const string EmptyList = " [dim](none)[/]";
+
     public static class Errors
     {
         public static readonly Error FolderPathRequired =

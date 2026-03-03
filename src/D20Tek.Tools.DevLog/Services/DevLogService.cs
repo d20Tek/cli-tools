@@ -49,6 +49,15 @@ internal class DevLogService(IFileSystemAdapter fileAdapter) : IDevLogService
             Result<IEnumerable<string>>.Success(
                 _fileAdapter.EnumerateFolderFiles(logFolder, Constants.MarkdownSearchPattern)));
 
+    public Result<List<string>> GetAccomplishments(string logFolder, string projectName, DateOnly? date = null) =>
+        ViewLog(logFolder, date)
+            .Map(content =>
+                DevLogEntry.GetWeekStart(date ?? DateOnly.FromDateTime(DateTime.Today))
+                    .Pipe(weekStart => MarkdownSerializer.ParseEntries(content, weekStart)
+                        .Where(e => string.Equals(e.ProjectName, projectName, StringComparison.OrdinalIgnoreCase))
+                        .SelectMany(e => e.Accomplishments)
+                        .ToList()));
+
     private static string GetFilePath(string logFolder, DateOnly weekStart) =>
         Path.Combine(logFolder, string.Format(Constants.FileNameFormat, weekStart));
 
