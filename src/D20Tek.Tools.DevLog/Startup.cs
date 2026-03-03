@@ -17,6 +17,10 @@ internal sealed class Startup : StartupBase
               .WithDescription("Add a project entry to this week's dev-log.")
               .WithExample(["add", "MyProject", "-f", "."]);
 
+        config.AddCommand<ViewLogCommand>("view")
+              .WithDescription("Views this week's full dev-log.")
+              .WithExample(["view", "-f", "."]);
+
         return config;
     }
 

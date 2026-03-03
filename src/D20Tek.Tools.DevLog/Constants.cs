@@ -11,7 +11,7 @@ internal static class Constants
     public const string MarkdownExtension = ".md";
     public const string MarkdownSearchPattern = "*.md";
     public const string DefaultLogFolder = ".";
-    public const string FileNameFormat = "dev-log-{0:yyyy-MM-dd}.md";
+    public const string FileNameFormat = "dev-log-{0:yyyyMMdd}.md";
     public const string DateDisplayFormat = "MMMM d, yyyy";
     public const string AccomplishmentBullet = "- ";
     public const string AccomplishmentsPrompt = "Enter accomplishments (one per line, empty line to finish):";
@@ -30,7 +30,11 @@ internal static class Constants
     public static string EditEntryTitle(string project, DateOnly weekStart) =>
         $"[purple]Editing entry[/] for [yellow]'{project}'[/] in week of [yellow]{weekStart.ToString(DateDisplayFormat)}[/]";
 
+    public static string Separator = new('=', 50);
+
     public const string ListLogsTitle = "[purple]Available dev-log files:[/]";
+
+    public const string ViewLogSucceeded = "Dev log retrieved.";
 
     public const string AddEntrySuccess = "Dev-log entry added successfully.";
 

@@ -96,7 +96,7 @@ structured template with project-level accomplishments.
 - **Execute**: Prompt for accomplishments interactively (multi-line input, empty line to finish)
 - Chain: validate → display title → call service.AddEntry → render result
 
-### 8. Create ViewLogCommand
+### 8. ✅ Create ViewLogCommand
 - **File**: `src/D20Tek.Tools.DevLog/Commands/ViewLogCommand.cs` (new)
 - `Command<ViewLogCommand.Settings>`
 - **Settings**:
