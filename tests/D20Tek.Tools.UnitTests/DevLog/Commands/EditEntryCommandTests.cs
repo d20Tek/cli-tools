@@ -96,4 +96,58 @@ public class EditEntryCommandTests
         Assert.AreEqual(-1, result.ExitCode);
         Assert.Contains("Error:", result.Output);
     }
+
+    [TestMethod]
+    public void Execute_WithFolderAndDateOptions_ReturnsSuccess()
+    {
+        // arrange
+        var fileAdapter = new FakeFileSystemAdapter(_existingContent);
+        var context = TestContextFactory.CreateWithFakeFileAdapter(fileAdapter);
+        context.Console.TestInput.PushTextWithEnter(string.Empty);
+
+        // act
+        var result = context.Run(["edit", "MyProject", "-f", "./logs", "-d", "01-08-2025"]);
+
+        // assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual(0, result.ExitCode);
+        Assert.Contains(Constants.EditEntrySuccess, result.Output);
+    }
+
+    [TestMethod]
+    public void Execute_WithNonNumericLineInput_ShowsInvalidLineError()
+    {
+        // arrange
+        var fileAdapter = new FakeFileSystemAdapter(_existingContent);
+        var context = TestContextFactory.CreateWithFakeFileAdapter(fileAdapter);
+        context.Console.TestInput.PushTextWithEnter("abc");
+        context.Console.TestInput.PushTextWithEnter(string.Empty);
+
+        // act
+        var result = context.Run(["edit", "MyProject"]);
+
+        // assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual(0, result.ExitCode);
+        Assert.Contains("Invalid line number", result.Output);
+    }
+
+    [TestMethod]
+    public void Execute_WithLineNumberBelowRange_ShowsInvalidLineError()
+    {
+        // arrange
+        var fileAdapter = new FakeFileSystemAdapter(_existingContent);
+        var context = TestContextFactory.CreateWithFakeFileAdapter(fileAdapter);
+        context.Console.TestInput.PushTextWithEnter("0");
+        context.Console.TestInput.PushTextWithEnter(string.Empty);
+
+        // act
+        var result = context.Run(["edit", "MyProject"]);
+
+        // assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual(0, result.ExitCode);
+        Assert.Contains("Invalid line number", result.Output);
+    }
 }
+

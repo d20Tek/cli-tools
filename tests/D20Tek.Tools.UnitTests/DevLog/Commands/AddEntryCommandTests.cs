@@ -74,4 +74,23 @@ public class AddEntryCommandTests
         Assert.AreEqual(-1, result.ExitCode);
         Assert.Contains("Error:", result.Output);
     }
+
+    [TestMethod]
+    public void Execute_WithFolderOption_WritesEntryToSpecifiedFolder()
+    {
+        // arrange
+        var fileAdapter = new FakeFileSystemAdapter();
+        var context = TestContextFactory.CreateWithFakeFileAdapter(fileAdapter);
+        context.Console.TestInput.PushTextWithEnter("Shipped the release");
+        context.Console.TestInput.PushTextWithEnter(string.Empty);
+
+        // act
+        var result = context.Run(["add", "MyProject", "-f", "./my-logs"]);
+
+        // assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual(0, result.ExitCode);
+        Assert.Contains(Constants.AddEntrySuccess, result.Output);
+        Assert.Contains("- Shipped the release", fileAdapter.LastWrittenContent);
+    }
 }

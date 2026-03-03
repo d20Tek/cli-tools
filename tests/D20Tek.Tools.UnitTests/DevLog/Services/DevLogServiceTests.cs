@@ -151,4 +151,57 @@ public class DevLogServiceTests
         Assert.IsTrue(result.IsSuccess);
         Assert.HasCount(0, result.GetValue().ToList());
     }
+
+    [TestMethod]
+    public void AddEntry_WithMultipleExistingProjects_MergesOnlyMatchingProject()
+    {
+        // arrange
+        var content = "## Week of January 5, 2025\n\n### Project1\n- P1 Item 1\n\n### Project2\n- P2 Item 1";
+        var fileAdapter = new FakeFileSystemAdapter(content);
+        var service = new DevLogService(fileAdapter);
+
+        // act
+        var result = service.AddEntry(_logFolder, "Project1", ["P1 Item 2"], _testDate);
+
+        // assert
+        Assert.IsTrue(result.IsSuccess);
+        Assert.Contains("- P1 Item 1", fileAdapter.LastWrittenContent);
+        Assert.Contains("- P1 Item 2", fileAdapter.LastWrittenContent);
+        Assert.Contains("- P2 Item 1", fileAdapter.LastWrittenContent);
+    }
+
+    [TestMethod]
+    public void EditEntry_WithMultipleExistingProjects_ReplacesOnlyMatchingProject()
+    {
+        // arrange
+        var content = "## Week of January 5, 2025\n\n### Project1\n- P1 Item 1\n\n### Project2\n- P2 Item 1";
+        var fileAdapter = new FakeFileSystemAdapter(content);
+        var service = new DevLogService(fileAdapter);
+
+        // act
+        var result = service.EditEntry(_logFolder, "Project1", ["P1 Updated"], _testDate);
+
+        // assert
+        Assert.IsTrue(result.IsSuccess);
+        Assert.Contains("- P1 Updated", fileAdapter.LastWrittenContent);
+        Assert.DoesNotContain("- P1 Item 1", fileAdapter.LastWrittenContent);
+        Assert.Contains("- P2 Item 1", fileAdapter.LastWrittenContent);
+    }
+
+    [TestMethod]
+    public void EditEntry_WithProjectNotInFile_AppendsNewProject()
+    {
+        // arrange
+        var fileAdapter = new FakeFileSystemAdapter(_existingContent);
+        var service = new DevLogService(fileAdapter);
+
+        // act
+        var result = service.EditEntry(_logFolder, "NewProject", ["New Item"], _testDate);
+
+        // assert
+        Assert.IsTrue(result.IsSuccess);
+        Assert.Contains("### MyProject", fileAdapter.LastWrittenContent);
+        Assert.Contains("### NewProject", fileAdapter.LastWrittenContent);
+        Assert.Contains("- New Item", fileAdapter.LastWrittenContent);
+    }
 }

@@ -57,9 +57,6 @@ internal static class Constants
         public static readonly Error ProjectNameRequired =
             Error.Validation("ProjectName.Required", "The project name is required.");
 
-        public static Error FolderPathNotFound(string path) =>
-            Error.NotFound("FolderPath.NotFound", $"The folder '{path}' does not exist.");
-
         public static Error FileNotFound(string path) =>
             Error.NotFound("File.NotFound", $"No dev-log file found for the specified week at '{path}'.");
     }
