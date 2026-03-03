@@ -5,6 +5,7 @@ global using Spectre.Console.Cli;
 global using System.ComponentModel;
 global using D20Tek.Tools.Common;
 global using D20Tek.Tools.Common.Controls;
+global using D20Tek.Tools.Common.Services;
 
 using D20Tek.Tools.DevLog.Commands;
 

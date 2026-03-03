@@ -9,7 +9,7 @@ internal static class Constants
     public const string AppExitMessage = "[green]Bye![/] Thanks for managing you dev-log.";
 
     public const string MarkdownExtension = ".md";
-    public const string MarkdownSearchPattern = "*.md";
+    public const string MarkdownSearchPattern = "dev-log-*.md";
     public const string DefaultLogFolder = ".";
     public const string FileNameFormat = "dev-log-{0:yyyyMMdd}.md";
     public const string DateDisplayFormat = "MMMM d, yyyy";

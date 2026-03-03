@@ -1,6 +1,6 @@
-namespace D20Tek.Tools.DevLog.Services;
+namespace D20Tek.Tools.Common.Services;
 
-internal interface IFileSystemAdapter
+public interface IFileSystemAdapter
 {
     bool EnsureFolderExists(string path);
 
