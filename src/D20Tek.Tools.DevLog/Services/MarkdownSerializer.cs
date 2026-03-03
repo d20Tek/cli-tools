@@ -4,15 +4,18 @@ namespace D20Tek.Tools.DevLog.Services;
 
 internal static class MarkdownSerializer
 {
+    private const char _contentSplitChar = '\n';
+    private const string _projectHeaderPrefix = "### ";
+
     internal static List<DevLogEntry> ParseEntries(string content, DateOnly weekStart)
     {
         var entries = new List<DevLogEntry>();
         string? currentProject = null;
         var currentAccomplishments = new List<string>();
 
-        foreach (var line in content.Split('\n'))
+        foreach (var line in content.Split(_contentSplitChar))
         {
-            if (line.StartsWith("### "))
+            if (line.StartsWith(_projectHeaderPrefix))
             {
                 if (currentProject is not null)
                     entries.Add(new DevLogEntry(weekStart, currentProject, currentAccomplishments));

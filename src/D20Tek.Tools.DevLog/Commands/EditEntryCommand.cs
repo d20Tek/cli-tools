@@ -9,27 +9,19 @@ internal sealed class EditEntryCommand(IDevLogService service, IAnsiConsole cons
     private readonly IDevLogService _service = service;
     private readonly IAnsiConsole _console = console;
 
-    public sealed class Settings : CommandSettings
+    public sealed class Settings : EntrySettings
     {
         [CommandArgument(0, "<PROJECT>")]
         [Description("The name of the project entry to edit.")]
         public string ProjectName { get; init; } = string.Empty;
-
-        [CommandOption("-d|--date")]
-        [Description("The date for the dev-log entry to edit (defaults to today). Format: MM-dd-yyyy.")]
-        public string Date { get; init; } = string.Empty;
-
-        [CommandOption("-f|--folder")]
-        [Description("The folder path where dev-log files are stored.")]
-        public string Folder { get; init; } = Constants.DefaultLogFolder;
     }
 
     public override int Execute(CommandContext context, Settings settings, CancellationToken _)
     {
-        var date = ParseDate(settings.Date);
+        var date = settings.Date.ParseDate();
         var weekStart = DevLogEntry.GetWeekStart(date ?? DateOnly.FromDateTime(DateTime.Today));
 
-        return ValidateProjectName(settings.ProjectName)
+        return ProjectNameValidator.Validate(settings.ProjectName)
             .Iter(_ => _console.MarkupLine(Constants.EditEntryTitle(settings.ProjectName, weekStart)))
             .Map(_ => LoadAccomplishments(settings.Folder, settings.ProjectName, weekStart, date))
             .Iter(DisplayNumberedAccomplishments)
@@ -59,13 +51,16 @@ internal sealed class EditEntryCommand(IDevLogService service, IAnsiConsole cons
         }
 
         for (var i = 0; i < items.Count; i++)
+        {
             _console.MarkupLine($" [[{i + 1}]] {Markup.Escape(items[i])}");
+        }
     }
 
     private List<string> EditAccomplishments(List<string> items)
     {
         var edited = items.ToList();
         string input;
+
         while (!string.IsNullOrWhiteSpace(
             input = _console.Prompt(new TextPrompt<string>(Constants.EditLinePrompt).AllowEmpty())))
         {
@@ -76,20 +71,11 @@ internal sealed class EditEntryCommand(IDevLogService service, IAnsiConsole cons
             }
 
             var index = lineNum - 1;
-            edited[index] = _console.Prompt(
-                new TextPrompt<string>(Constants.EditLineNewTextPrompt)
-                    .DefaultValue(edited[index])).Trim();
+            edited[index] = _console.Prompt(new TextPrompt<string>(Constants.EditLineNewTextPrompt)
+                                    .DefaultValue(edited[index])).Trim();
         }
 
         return edited;
     }
-
-    private static DateOnly? ParseDate(string dateString) =>
-        DateOnly.TryParse(dateString, out var date) ? date : null;
-
-    private static Result<string> ValidateProjectName(string projectName) =>
-        string.IsNullOrWhiteSpace(projectName)
-            ? Result<string>.Failure(Constants.Errors.ProjectNameRequired)
-            : Result<string>.Success(projectName);
 }
 

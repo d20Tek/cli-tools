@@ -7,7 +7,10 @@ internal class DevLogService(IFileSystemAdapter fileAdapter) : IDevLogService
     private readonly IFileSystemAdapter _fileAdapter = fileAdapter;
 
     public Result<bool> AddEntry(
-        string logFolder, string projectName, List<string> accomplishments, DateOnly? date = null) =>
+        string logFolder,
+        string projectName,
+        List<string> accomplishments,
+        DateOnly? date = null) =>
         Try.Run(() =>
             DevLogEntry.Create(projectName, accomplishments, date)
                 .Pipe(entry => (FilePath: GetFilePath(logFolder, entry.WeekStart), Entry: entry))
@@ -25,7 +28,10 @@ internal class DevLogService(IFileSystemAdapter fileAdapter) : IDevLogService
                     : Result<string>.Failure(Constants.Errors.FileNotFound(filePath))));
 
     public Result<bool> EditEntry(
-        string logFolder, string projectName, List<string> accomplishments, DateOnly? date = null) =>
+        string logFolder,
+        string projectName,
+        List<string> accomplishments,
+        DateOnly? date = null) =>
         Try.Run(() =>
             DevLogEntry.Create(projectName, accomplishments, date)
                 .Pipe(entry => (FilePath: GetFilePath(logFolder, entry.WeekStart), Entry: entry))

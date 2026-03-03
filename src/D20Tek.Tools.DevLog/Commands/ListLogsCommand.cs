@@ -3,18 +3,12 @@ using D20Tek.Tools.DevLog.Services;
 
 namespace D20Tek.Tools.DevLog.Commands;
 
-internal sealed class ListLogsCommand(IDevLogService service, IAnsiConsole console)
-    : Command<ListLogsCommand.Settings>
+internal sealed class ListLogsCommand(IDevLogService service, IAnsiConsole console) : Command<ListLogsCommand.Settings>
 {
     private readonly IDevLogService _service = service;
     private readonly IAnsiConsole _console = console;
 
-    public sealed class Settings : CommandSettings
-    {
-        [CommandOption("-f|--folder")]
-        [Description("The folder path where dev-log files are stored.")]
-        public string Folder { get; init; } = Constants.DefaultLogFolder;
-    }
+    public sealed class Settings : FolderSettings { }
 
     public override int Execute(CommandContext context, Settings settings, CancellationToken _) =>
         _service.ListLogs(settings.Folder)
@@ -28,11 +22,12 @@ internal sealed class ListLogsCommand(IDevLogService service, IAnsiConsole conso
         if (fileList.Count == 0)
         {
             _console.MarkupLine(Constants.ListLogsEmpty(folder));
-            return;
         }
-
-        fileList.ForEach(f => _console.MarkupLine(FormatFileEntry(f)));
-       _console.WriteLine();
+        else
+        {
+            fileList.ForEach(f => _console.MarkupLine(FormatFileEntry(f)));
+            _console.WriteLine();
+        }
     }
 
     private static string FormatFileEntry(string filePath)
@@ -47,13 +42,8 @@ internal sealed class ListLogsCommand(IDevLogService service, IAnsiConsole conso
     private static DateOnly? ParseDateFromFileName(string filePath)
     {
         var name = Path.GetFileNameWithoutExtension(Path.GetFileName(filePath));
-        if (name.Length >= 8 &&
-            DateOnly.TryParseExact(
+        return (name.Length >= 8 && DateOnly.TryParseExact(
                 name[^8..], "yyyyMMdd", CultureInfo.InvariantCulture, DateTimeStyles.None, out var date))
-        {
-            return date;
-        }
-
-        return null;
+            ? date : null;
     }
 }
