@@ -15,10 +15,11 @@ internal static class Constants
     public const string DateDisplayFormat = "MMMM d, yyyy";
     public const string AccomplishmentBullet = "- ";
     public const string AccomplishmentsPrompt = "Enter accomplishments (one per line, empty line to finish):";
-    public const string AccomplishmentItemPrompt = "  > ";
+    public const string AccomplishmentItemPrompt = "> ";
     public const string CurrentAccomplishmentsLabel = "Current accomplishments:";
     public const string EditLinePrompt = "Enter line number to edit (empty to finish):";
-    public const string EditLineNewTextPrompt = "  New text:";
+    public const string EditLineNewTextPrompt = "New text: ";
+    public const string EditLineCurrentTextPrompt = "[yellow]Current text:[/] ";
 
     public static string WeekHeader(DateOnly weekStart) => $"## Week of {weekStart.ToString(DateDisplayFormat)}";
 

@@ -1,3 +1,4 @@
+using D20Tek.Spectre.Console.Extensions.Controls;
 using D20Tek.Tools.DevLog.Contracts;
 using D20Tek.Tools.DevLog.Services;
 
@@ -47,6 +48,7 @@ internal sealed class EditEntryCommand(IDevLogService service, IAnsiConsole cons
 
     private List<string> EditAccomplishments(List<string> items)
     {
+        var prompt = new EditablePrompt(Constants.EditLineNewTextPrompt);
         var edited = items.ToList();
         while (GetAccomplishmentInput(out var input))
         {
@@ -57,8 +59,10 @@ internal sealed class EditEntryCommand(IDevLogService service, IAnsiConsole cons
             }
 
             var index = lineNum - 1;
-            edited[index] = _console.Prompt(new TextPrompt<string>(Constants.EditLineNewTextPrompt)
-                                    .DefaultValue(edited[index])).Trim();
+            var currentText = edited[index];
+            _console.WriteMessages($"{Constants.EditLineCurrentTextPrompt}{currentText}");
+
+            edited[index] = _console.Prompt(prompt).Trim();
         }
 
         return edited;

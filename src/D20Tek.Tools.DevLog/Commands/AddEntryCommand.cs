@@ -31,10 +31,10 @@ internal sealed class AddEntryCommand(IDevLogService service, IAnsiConsole conso
     {
         _console.MarkupLine(Constants.AccomplishmentsPrompt);
         var accomplishments = new List<string>();
+        var prompt = new EditablePrompt(Constants.AccomplishmentItemPrompt);
         string input;
 
-        while (!string.IsNullOrWhiteSpace(
-            input = _console.Prompt(new TextPrompt<string>(Constants.AccomplishmentItemPrompt).AllowEmpty())))
+        while (!string.IsNullOrWhiteSpace(input = _console.Prompt(prompt)))
         {
             accomplishments.Add(input.Trim());
         }
