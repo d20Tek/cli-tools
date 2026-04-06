@@ -6,11 +6,13 @@ namespace D20Tek.Tools.DevLog.Commands;
 [ExcludeFromCodeCoverage]
 internal sealed class EditablePrompt(string prompt) : IPrompt<string>
 {
+    private readonly string _displayPrompt = Markup.Remove(prompt.TrimStart());
+
     public string Show(IAnsiConsole console)
     {
         var buffer = new StringBuilder();
         var cursorPos = 0;
-        console.Markup(prompt);
+        console.Profile.Out.Writer.Write(_displayPrompt);
 
         while (true)
         {
@@ -61,12 +63,8 @@ internal sealed class EditablePrompt(string prompt) : IPrompt<string>
 
     private void Redraw(IAnsiConsole console, string text, int cursorPos)
     {
-        var writer = console.Profile.Out.Writer;
-        writer.Write("\r\x1b[K");
-        console.Markup(prompt);
-        writer.Write(text);
-
         var moveBack = text.Length - cursorPos;
-        if (moveBack > 0) writer.Write($"\x1b[{moveBack}D");
+        var escape = moveBack > 0 ? $"\x1b[{moveBack}D" : string.Empty;
+        console.Profile.Out.Writer.Write($"\r\x1b[K{_displayPrompt}{text}{escape}");
     }
 }
