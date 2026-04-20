@@ -19,11 +19,11 @@ internal sealed class Startup : StartupBase
               .WithExample(["kill", "5000", "--force"])
               .WithExample(["kill", "5000", "--dry-run"]);
 
-        config.AddCommand<ListPortCommand>("list")
-              .WithAlias("ls")
-              .WithDescription("List processes bound to a port without killing.")
-              .WithExample(["list", "5000"])
-              .WithExample(["list", "5000", "--json"]);
+        config.AddCommand<ViewPortCommand>("view")
+              .WithAlias("v")
+              .WithDescription("View processes bound to a port without killing them.")
+              .WithExample(["view", "5000"])
+              .WithExample(["view", "5000", "--json"]);
 
         return config;
     }

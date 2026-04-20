@@ -2,7 +2,7 @@ using D20Tek.Tools.DevKillPort.Services;
 
 namespace D20Tek.Tools.DevKillPort.Commands;
 
-internal sealed class ListPortCommand(IPortResolver resolver, IAnsiConsole console) : AsyncCommand<PortSettings>
+internal sealed class ViewPortCommand(IPortResolver resolver, IAnsiConsole console) : AsyncCommand<PortSettings>
 {
     private readonly IPortResolver _resolver = resolver;
     private readonly IAnsiConsole _console = console;

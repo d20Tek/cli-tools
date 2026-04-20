@@ -4,7 +4,7 @@ using D20Tek.Tools.UnitTests.DevKillPort.Fakes;
 namespace D20Tek.Tools.UnitTests.DevKillPort.Commands;
 
 [TestClass]
-public class ListPortCommandTests
+public class ViewPortCommandTests
 {
     private static readonly PortProcessInfo _testProcess =
         new(5000, 1234, "dotnet", "TCP", "0.0.0.0", PortState.Listen);
@@ -18,7 +18,7 @@ public class ListPortCommandTests
         var context = TestContextFactory.CreateWithFakes(resolver, terminator);
 
         // act
-        var result = await context.RunAsync(["list", "5000"]);
+        var result = await context.RunAsync(["view", "5000"]);
 
         // assert
         Assert.IsNotNull(result);
@@ -35,7 +35,7 @@ public class ListPortCommandTests
         var context = TestContextFactory.CreateWithFakes(resolver, terminator);
 
         // act
-        var result = await context.RunAsync(["list", "5000"]);
+        var result = await context.RunAsync(["view", "5000"]);
 
         // assert
         Assert.IsNotNull(result);
@@ -53,7 +53,7 @@ public class ListPortCommandTests
         var context = TestContextFactory.CreateWithFakes(resolver, terminator);
 
         // act
-        var result = await context.RunAsync(["list", "5000", "--json"]);
+        var result = await context.RunAsync(["view", "5000", "--json"]);
 
         // assert
         Assert.IsNotNull(result);
@@ -73,7 +73,7 @@ public class ListPortCommandTests
         var context = TestContextFactory.CreateWithFakes(resolver, terminator);
 
         // act
-        var result = await context.RunAsync(["list", "5000"]);
+        var result = await context.RunAsync(["view", "5000"]);
 
         // assert
         Assert.IsNotNull(result);

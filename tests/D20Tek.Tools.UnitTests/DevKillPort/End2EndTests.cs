@@ -12,7 +12,7 @@ public sealed class End2EndTests
     public async Task Run_ListCommand_WithEmptyFolder_ReturnsSuccess()
     {
         // arrange
-        string[] args = ["list", "5000"];
+        string[] args = ["view", "5000"];
 
         // act
         var result = await CommandAppE2ERunner.RunAsync(Program.Main, args);

@@ -10,7 +10,7 @@ internal sealed class FakeStartup : StartupBase
         config.SetApplicationName("dev-killport-test");
 
         config.AddCommand<KillPortCommand>("kill");
-        config.AddCommand<ListPortCommand>("list");
+        config.AddCommand<ViewPortCommand>("view");
 
         return config;
     }
