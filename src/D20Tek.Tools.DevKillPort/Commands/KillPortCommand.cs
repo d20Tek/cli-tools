@@ -1,6 +1,4 @@
 using D20Tek.Tools.DevKillPort.Services;
-using Spectre.Console;
-using Spectre.Console.Cli;
 
 namespace D20Tek.Tools.DevKillPort.Commands;
 

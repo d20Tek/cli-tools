@@ -1,4 +1,5 @@
 using D20Tek.Tools.DevKillPort.Contracts;
+using System.Diagnostics.CodeAnalysis;
 
 namespace D20Tek.Tools.DevKillPort.Services;
 
@@ -87,6 +88,7 @@ internal sealed class WindowsPortResolver(ICommandRunner commandRunner) : IPortR
             _ => PortState.Other
         };
 
+    [ExcludeFromCodeCoverage]
     private static string GetProcessName(int pid)
     {
         try

@@ -6,35 +6,55 @@ namespace D20Tek.Tools.UnitTests.DevKillPort.Services;
 [TestClass]
 public class PortResolverFactoryTests
 {
+    private readonly FakeCommandRunner _commandRunner = new();
+
     [TestMethod]
-    public void Create_ReturnsNonNullResolver()
+    public void Create_OnWindows_ReturnsWindowsPortResolver()
     {
         // arrange
-        var commandRunner = new FakeCommandRunner();
+        var osAdapter = new FakeOperatingSystemAdapter(isWindows: true);
 
         // act
-        var resolver = PortResolverFactory.Create(commandRunner);
+        var resolver = PortResolverFactory.Create(osAdapter, _commandRunner);
 
         // assert
-        Assert.IsNotNull(resolver);
+        Assert.IsInstanceOfType<WindowsPortResolver>(resolver);
     }
 
     [TestMethod]
-    [ExcludeFromCodeCoverage]
-    public void Create_OnCurrentPlatform_ReturnsExpectedType()
+    public void Create_OnLinux_ReturnsLinuxPortResolver()
     {
         // arrange
-        var commandRunner = new FakeCommandRunner();
+        var osAdapter = new FakeOperatingSystemAdapter(isLinux: true);
 
         // act
-        var resolver = PortResolverFactory.Create(commandRunner);
+        var resolver = PortResolverFactory.Create(osAdapter, _commandRunner);
 
         // assert
-        if (OperatingSystem.IsWindows())
-            Assert.IsInstanceOfType<WindowsPortResolver>(resolver);
-        else if (OperatingSystem.IsLinux())
-            Assert.IsInstanceOfType<LinuxPortResolver>(resolver);
-        else if (OperatingSystem.IsMacOS())
-            Assert.IsInstanceOfType<MacPortResolver>(resolver);
+        Assert.IsInstanceOfType<LinuxPortResolver>(resolver);
+    }
+
+    [TestMethod]
+    public void Create_OnMacOS_ReturnsMacPortResolver()
+    {
+        // arrange
+        var osAdapter = new FakeOperatingSystemAdapter(isMacOS: true);
+
+        // act
+        var resolver = PortResolverFactory.Create(osAdapter, _commandRunner);
+
+        // assert
+        Assert.IsInstanceOfType<MacPortResolver>(resolver);
+    }
+
+    [TestMethod]
+    public void Create_OnUnsupportedPlatform_ThrowsPlatformNotSupportedException()
+    {
+        // arrange
+        var osAdapter = new FakeOperatingSystemAdapter();
+
+        // act / assert
+        Assert.ThrowsExactly<PlatformNotSupportedException>(
+            [ExcludeFromCodeCoverage]() => PortResolverFactory.Create(osAdapter, _commandRunner));
     }
 }

@@ -208,4 +208,65 @@ public class KillPortCommandTests
         Assert.AreEqual(-1, result.ExitCode);
         Assert.Contains("Timeout", result.Output);
     }
+
+    [TestMethod]
+    public async Task Execute_WithMultipleProcesses_ConfirmAll_KillsFirstProcess()
+    {
+        // arrange
+        var process2 = new PortProcessInfo(5000, 5678, "node", "TCP", "0.0.0.0", PortState.Listen);
+        var resolver = new FakePortResolver().WithResults([_testProcess, process2]);
+        var terminator = new FakeProcessTerminator();
+        var context = TestContextFactory.CreateWithFakes(resolver, terminator);
+        context.Console.TestInput.PushTextWithEnter("y");
+
+        // act
+        var result = await context.RunAsync(["kill", "5000"]);
+
+        // assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual(0, result.ExitCode);
+        Assert.Contains("Kill all 2 matching processes?", result.Output);
+        Assert.AreEqual(1, terminator.KillCallCount);
+        Assert.AreEqual(1234, terminator.KilledPids[0]);
+    }
+
+    [TestMethod]
+    public async Task Execute_WithMultipleProcesses_DeclineAll_DoesNotKill()
+    {
+        // arrange
+        var process2 = new PortProcessInfo(5000, 5678, "node", "TCP", "0.0.0.0", PortState.Listen);
+        var resolver = new FakePortResolver().WithResults([_testProcess, process2]);
+        var terminator = new FakeProcessTerminator();
+        var context = TestContextFactory.CreateWithFakes(resolver, terminator);
+        context.Console.TestInput.PushTextWithEnter("n");
+
+        // act
+        var result = await context.RunAsync(["kill", "5000"]);
+
+        // assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual(0, result.ExitCode);
+        Assert.Contains("Kill all 2 matching processes?", result.Output);
+        Assert.AreEqual(0, terminator.KillCallCount);
+    }
+
+    [TestMethod]
+    public async Task Execute_WithMultipleProcesses_ConfirmAll_WithAllFlag_KillsAll()
+    {
+        // arrange
+        var process2 = new PortProcessInfo(5000, 5678, "node", "TCP", "0.0.0.0", PortState.Listen);
+        var resolver = new FakePortResolver().WithResults([_testProcess, process2]);
+        var terminator = new FakeProcessTerminator();
+        var context = TestContextFactory.CreateWithFakes(resolver, terminator);
+        context.Console.TestInput.PushTextWithEnter("y");
+
+        // act
+        var result = await context.RunAsync(["kill", "5000", "--all"]);
+
+        // assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual(0, result.ExitCode);
+        Assert.Contains("Kill all 2 matching processes?", result.Output);
+        Assert.AreEqual(2, terminator.KillCallCount);
+    }
 }

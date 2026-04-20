@@ -37,7 +37,7 @@ internal sealed class MacPortResolver(ICommandRunner commandRunner) : IPortResol
             var processName = parts[0];
             if (!int.TryParse(parts[1], out var pid)) continue;
 
-            var protocol = parts.Length > 7 ? parts[7].ToUpperInvariant() : "TCP";
+            var protocol = parts[7].ToUpperInvariant();
             if (!string.IsNullOrEmpty(protocolFilter) &&
                 !protocol.Contains(protocolFilter, StringComparison.OrdinalIgnoreCase))
                 continue;

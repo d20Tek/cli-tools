@@ -27,11 +27,12 @@ internal sealed class ProcFdScanner(IProcFileSystem procFs)
             foreach (var fdLink in _procFs.EnumerateFdLinks(pidDir))
             {
                 var target = _procFs.ReadLink(fdLink);
-                if (string.IsNullOrEmpty(target)) continue;
-
-                if (TryExtractSocketInode(target, out var socketInode))
+                if (string.IsNullOrEmpty(target) is false)
                 {
-                    _inodeToPidCache.TryAdd(socketInode, new PidInfo(pid, processName));
+                    if (TryExtractSocketInode(target, out var socketInode))
+                    {
+                        _inodeToPidCache.TryAdd(socketInode, new PidInfo(pid, processName));
+                    }
                 }
             }
         }
@@ -49,7 +50,7 @@ internal sealed class ProcFdScanner(IProcFileSystem procFs)
             if (_procFs.Exists(commPath))
             {
                 var lines = _procFs.ReadAllLines(commPath);
-                if (lines.Length > 0 && !string.IsNullOrWhiteSpace(lines[0]))
+                if (!string.IsNullOrWhiteSpace(lines.FirstOrDefault()))
                 {
                     return lines[0].Trim();
                 }
@@ -71,7 +72,6 @@ internal sealed class ProcFdScanner(IProcFileSystem procFs)
 
         var start = 8;
         var end = linkTarget.IndexOf(']', start);
-        if (end < 0) return false;
 
         return long.TryParse(linkTarget[start..end], out inode) && inode > 0;
     }

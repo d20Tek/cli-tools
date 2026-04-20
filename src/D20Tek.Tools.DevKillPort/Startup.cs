@@ -32,8 +32,9 @@ internal sealed class Startup : StartupBase
     {
         registrar.WithConsoleVerbosityWriter();
 
+        var osAdapter = new OperatingSystemAdapter();
         var commandRunner = new CommandRunner();
-        var resolver = PortResolverFactory.Create(commandRunner);
+        var resolver = PortResolverFactory.Create(osAdapter, commandRunner);
 
         registrar.RegisterInstance(typeof(ICommandRunner), commandRunner);
         registrar.RegisterInstance(typeof(IPortResolver), resolver);

@@ -1,5 +1,4 @@
 using D20Tek.Tools.DevKillPort.Services;
-using System.Diagnostics.CodeAnalysis;
 
 namespace D20Tek.Tools.UnitTests.DevKillPort.Fakes;
 
@@ -9,6 +8,8 @@ internal sealed class FakeProcFileSystem : IProcFileSystem
     private readonly Dictionary<string, string[]> _files = new();
     private readonly Dictionary<string, string> _links = new();
     private readonly HashSet<string> _existingPaths = new();
+    private readonly HashSet<string> _throwingExistsPaths = new();
+    private readonly HashSet<string> _throwingReadAllLinesPaths = new();
     private List<string> _pidDirectories = [];
     private readonly Dictionary<string, List<string>> _fdLinks = new();
 
@@ -36,12 +37,32 @@ internal sealed class FakeProcFileSystem : IProcFileSystem
         return this;
     }
 
-    public bool Exists(string path) => _existingPaths.Contains(path);
+    public FakeProcFileSystem WithThrowingExists(string path)
+    {
+        _throwingExistsPaths.Add(path);
+        return this;
+    }
 
-    public string[] ReadAllLines(string path) =>
-        _files.TryGetValue(path, out var lines)
+    public FakeProcFileSystem WithThrowingReadAllLines(string path)
+    {
+        _existingPaths.Add(path);
+        _throwingReadAllLinesPaths.Add(path);
+        return this;
+    }
+
+    public bool Exists(string path)
+    {
+        if (_throwingExistsPaths.Contains(path)) throw new InvalidOperationException("Exists failed.");
+        return _existingPaths.Contains(path);
+    }
+
+    public string[] ReadAllLines(string path)
+    {
+        if (_throwingReadAllLinesPaths.Contains(path)) throw new InvalidOperationException("ReadAllLines failed.");
+        return _files.TryGetValue(path, out var lines)
             ? lines
             : throw new FileNotFoundException($"File not found: {path}");
+    }
 
     public IEnumerable<string> EnumeratePidDirectories() => _pidDirectories;
 

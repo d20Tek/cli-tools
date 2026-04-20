@@ -160,25 +160,131 @@ public class ProcFdScannerTests
     }
 
     [TestMethod]
-    public void FindPidByInode_WithMultiplePids_FindsCorrectOne()
+    public void FindPidByInode_WithNonIntegerPidDirectory_SkipsDirectory()
     {
         // arrange
         var procFs = new FakeProcFileSystem()
-            .WithPidDirectory("/proc/100")
-            .WithFile("/proc/100/comm", ["nginx"])
-            .WithFdLink("/proc/100", "/proc/100/fd/3", "socket:[11111]")
-            .WithPidDirectory("/proc/200")
-            .WithFile("/proc/200/comm", ["dotnet"])
-            .WithFdLink("/proc/200", "/proc/200/fd/5", "socket:[22222]");
+            .WithPidDirectory("/proc/notanumber")
+            .WithFdLink("/proc/notanumber", "/proc/notanumber/fd/3", "socket:[12345]");
 
         var scanner = new ProcFdScanner(procFs);
 
         // act
-        var result = scanner.FindPidByInode(22222);
+        var result = scanner.FindPidByInode(12345);
+
+        // assert
+        Assert.IsNull(result);
+    }
+
+    [TestMethod]
+    public void FindPidByInode_WhenExistsThrows_ReturnsUnknownProcessName()
+    {
+        // arrange
+        var procFs = new FakeProcFileSystem()
+            .WithPidDirectory("/proc/1234")
+            .WithThrowingExists("/proc/1234/comm")
+            .WithFdLink("/proc/1234", "/proc/1234/fd/3", "socket:[12345]");
+
+        var scanner = new ProcFdScanner(procFs);
+
+        // act
+        var result = scanner.FindPidByInode(12345);
 
         // assert
         Assert.IsNotNull(result);
-        Assert.AreEqual(200, result.Pid);
-        Assert.AreEqual("dotnet", result.ProcessName);
+        Assert.AreEqual(1234, result.Pid);
+        Assert.AreEqual("<unknown>", result.ProcessName);
+    }
+
+    [TestMethod]
+    public void FindPidByInode_WhenReadAllLinesThrows_ReturnsUnknownProcessName()
+    {
+        // arrange
+        var procFs = new FakeProcFileSystem()
+            .WithPidDirectory("/proc/1234")
+            .WithThrowingReadAllLines("/proc/1234/comm")
+            .WithFdLink("/proc/1234", "/proc/1234/fd/3", "socket:[12345]");
+
+        var scanner = new ProcFdScanner(procFs);
+
+        // act
+        var result = scanner.FindPidByInode(12345);
+
+        // assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual(1234, result.Pid);
+        Assert.AreEqual("<unknown>", result.ProcessName);
+    }
+
+    [TestMethod]
+    public void FindPidByInode_WithWhitespaceOnlyComm_ReturnsUnknownProcessName()
+    {
+        // arrange
+        var procFs = new FakeProcFileSystem()
+            .WithPidDirectory("/proc/1234")
+            .WithFile("/proc/1234/comm", ["   "])
+            .WithFdLink("/proc/1234", "/proc/1234/fd/3", "socket:[12345]");
+
+        var scanner = new ProcFdScanner(procFs);
+
+        // act
+        var result = scanner.FindPidByInode(12345);
+
+        // assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual(1234, result.Pid);
+        Assert.AreEqual("<unknown>", result.ProcessName);
+    }
+}
+
+[TestClass]
+public class PidInfoTests
+{
+    [TestMethod]
+    public void Constructor_SetsProperties()
+    {
+        // act
+        var pidInfo = new PidInfo(42, "dotnet");
+
+        // assert
+        Assert.AreEqual(42, pidInfo.Pid);
+        Assert.AreEqual("dotnet", pidInfo.ProcessName);
+    }
+
+    [TestMethod]
+    public void With_ChangesAllProperties_ReturnsNewInstance()
+    {
+        // arrange
+        var original = new PidInfo(1, "original");
+
+        // act
+        var updated = original with { Pid = 99, ProcessName = "updated" };
+
+        // assert
+        Assert.AreNotSame(original, updated);
+        Assert.AreEqual(99, updated.Pid);
+        Assert.AreEqual("updated", updated.ProcessName);
+    }
+
+    [TestMethod]
+    public void Equality_SameValues_AreEqual()
+    {
+        // arrange
+        var a = new PidInfo(10, "proc");
+        var b = new PidInfo(10, "proc");
+
+        // assert
+        Assert.AreEqual(a, b);
+    }
+
+    [TestMethod]
+    public void Equality_DifferentValues_AreNotEqual()
+    {
+        // arrange
+        var a = new PidInfo(10, "proc");
+        var b = new PidInfo(20, "other");
+
+        // assert
+        Assert.AreNotEqual(a, b);
     }
 }

@@ -180,7 +180,7 @@ internal sealed class LinuxPortResolver(ICommandRunner commandRunner, IProcFileS
             _ => PortState.Other
         };
 
-    private static int ExtractPidFromSs(string field)
+    internal static int ExtractPidFromSs(string field)
     {
         var pidStart = field.IndexOf("pid=", StringComparison.Ordinal);
         if (pidStart < 0) return 0;
@@ -192,7 +192,7 @@ internal sealed class LinuxPortResolver(ICommandRunner commandRunner, IProcFileS
         return int.TryParse(field[pidStart..pidEnd], out var pid) ? pid : 0;
     }
 
-    private static string ExtractProcessNameFromSs(string field)
+    internal static string ExtractProcessNameFromSs(string field)
     {
         var start = field.IndexOf("((\"", StringComparison.Ordinal);
         if (start < 0) return "<unknown>";

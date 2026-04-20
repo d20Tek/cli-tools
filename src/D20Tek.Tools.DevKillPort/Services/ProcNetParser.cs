@@ -30,16 +30,7 @@ internal sealed class ProcNetParser(IProcFileSystem procFs)
         var results = new List<ProcSocketEntry>();
         if (!_procFs.Exists(path)) return results;
 
-        string[] lines;
-        try
-        {
-            lines = _procFs.ReadAllLines(path);
-        }
-        catch
-        {
-            return results;
-        }
-
+        string[] lines = _procFs.ReadAllLines(path);
         foreach (var line in lines.Skip(1))
         {
             var entry = ParseLine(line, port, protocol);
@@ -74,7 +65,7 @@ internal sealed class ProcNetParser(IProcFileSystem procFs)
         return new ProcSocketEntry(port, inode, protocol, address, state);
     }
 
-    private static bool TryParseHexPort(string hex, out int port)
+    internal static bool TryParseHexPort(string hex, out int port)
     {
         port = 0;
         try
@@ -102,19 +93,12 @@ internal sealed class ProcNetParser(IProcFileSystem procFs)
     {
         if (hex.Length == 8)
         {
-            try
+            var bytes = new byte[4];
+            for (int i = 0; i < 4; i++)
             {
-                var bytes = new byte[4];
-                for (int i = 0; i < 4; i++)
-                {
-                    bytes[i] = Convert.ToByte(hex.Substring((3 - i) * 2, 2), 16);
-                }
-                return $"{bytes[0]}.{bytes[1]}.{bytes[2]}.{bytes[3]}";
+                bytes[i] = Convert.ToByte(hex.Substring((3 - i) * 2, 2), 16);
             }
-            catch
-            {
-                return hex;
-            }
+            return $"{bytes[0]}.{bytes[1]}.{bytes[2]}.{bytes[3]}";
         }
 
         return hex.Length == 32 ? "[::]" : hex;

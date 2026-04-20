@@ -2,15 +2,15 @@ namespace D20Tek.Tools.DevKillPort.Services;
 
 internal static class PortResolverFactory
 {
-    public static IPortResolver Create(ICommandRunner commandRunner)
+    public static IPortResolver Create(IOperatingSystemAdapter osAdapter, ICommandRunner commandRunner)
     {
-        if (OperatingSystem.IsWindows())
+        if (osAdapter.IsWindows())
             return new WindowsPortResolver(commandRunner);
 
-        if (OperatingSystem.IsLinux())
+        if (osAdapter.IsLinux())
             return new LinuxPortResolver(commandRunner, new ProcFileSystem());
 
-        if (OperatingSystem.IsMacOS())
+        if (osAdapter.IsMacOS())
             return new MacPortResolver(commandRunner);
 
         throw new PlatformNotSupportedException(
