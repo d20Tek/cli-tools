@@ -1,0 +1,50 @@
+using D20Tek.Tools.DevKillPort.Contracts;
+using Spectre.Console;
+using System.Text.Json;
+
+namespace D20Tek.Tools.DevKillPort.Commands;
+
+internal static class OutputHelper
+{
+    private static readonly JsonSerializerOptions _jsonOptions = new() { WriteIndented = true };
+
+    public static void RenderTable(IAnsiConsole console, int port, IReadOnlyList<PortProcessInfo> processes)
+    {
+        console.MarkupLine(string.Format(Constants.PortHeaderMessage, port));
+        console.WriteLine();
+
+        var table = new Table()
+            .AddColumn("PID")
+            .AddColumn("Name")
+            .AddColumn("Protocol")
+            .AddColumn("State");
+
+        foreach (var p in processes)
+        {
+            table.AddRow(
+                p.ProcessId.ToString(),
+                Markup.Escape(p.ProcessName),
+                p.Protocol,
+                p.State.ToString());
+        }
+
+        console.Write(table);
+    }
+
+    public static void RenderJson(IAnsiConsole console, int port, IReadOnlyList<PortProcessInfo> processes)
+    {
+        var output = new
+        {
+            port,
+            processes = processes.Select(p => new
+            {
+                pid = p.ProcessId,
+                name = p.ProcessName,
+                protocol = p.Protocol,
+                state = p.State.ToString()
+            })
+        };
+
+        console.WriteLine(JsonSerializer.Serialize(output, _jsonOptions));
+    }
+}

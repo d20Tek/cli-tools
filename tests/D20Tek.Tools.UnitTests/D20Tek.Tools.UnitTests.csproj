@@ -29,6 +29,7 @@
     <ProjectReference Include="..\..\src\D20Tek.Tools.DevPassword\D20Tek.Tools.DevPassword.csproj" />
     <ProjectReference Include="..\..\src\D20Tek.Tools.DevPomo\D20Tek.Tools.DevPomo.csproj" />
     <ProjectReference Include="..\..\src\D20Tek.Tools.JsonMinify\D20Tek.Tools.JsonMinify.csproj" />
+    <ProjectReference Include="..\..\src\D20Tek.Tools.DevKillPort\D20Tek.Tools.DevKillPort.csproj" />
   </ItemGroup>
 
   <ItemGroup>
