@@ -10,7 +10,7 @@ internal sealed class ListLogsCommand(IDevLogService service, IAnsiConsole conso
 
     public sealed class Settings : FolderSettings { }
 
-    public override int Execute(CommandContext context, Settings settings, CancellationToken _) =>
+    protected override int Execute(CommandContext context, Settings settings, CancellationToken _) =>
         _service.ListLogs(settings.Folder)
             .Iter(_ => _console.MarkupLine(Constants.ListLogsTitle))
             .Iter(files => DisplayFiles(files, settings.Folder))

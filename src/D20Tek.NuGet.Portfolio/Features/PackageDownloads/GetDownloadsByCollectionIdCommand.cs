@@ -21,7 +21,7 @@ internal sealed class GetDownloadsByCollectionIdCommand(
     private readonly AppDbContext _dbContext = dbContext;
     private readonly INuGetSearchClient _client = client;
 
-    public override async Task<int> ExecuteAsync(CommandContext context, CollectionId id, CancellationToken token)
+    protected override async Task<int> ExecuteAsync(CommandContext context, CollectionId id, CancellationToken token)
     {
         _console.CommandHeader().Render("Get collection package downloads");
         return await id.Pipe(i => EnsureIdInput(i))

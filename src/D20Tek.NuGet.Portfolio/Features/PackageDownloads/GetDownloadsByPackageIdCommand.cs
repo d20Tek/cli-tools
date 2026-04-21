@@ -20,7 +20,7 @@ internal sealed class GetDownloadsByPackageIdCommand(
     private readonly AppDbContext _dbContext = dbContext;
     private readonly INuGetSearchClient _client = client;
 
-    public override async Task<int> ExecuteAsync(CommandContext context, PackageId id, CancellationToken token)
+    protected override async Task<int> ExecuteAsync(CommandContext context, PackageId id, CancellationToken token)
     {
         _console.CommandHeader().Render("Get current package downloads");
         return await id.Pipe(i => EnsureIdInput(i))

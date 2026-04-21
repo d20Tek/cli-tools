@@ -10,7 +10,7 @@ internal sealed class UpdateConfigCommand(IAnsiConsole console, IVerbosityWriter
     private readonly IVerbosityWriter _writer = writer;
     private readonly IConfigurationService _service = service;
 
-    public override int Execute(CommandContext context, VerbositySettings settings, CancellationToken token)
+    protected override int Execute(CommandContext context, VerbositySettings settings, CancellationToken token)
     {
         ArgumentNullException.ThrowIfNull(settings);
         _writer.RenderCommandTitle(Constants.Configuration.Description, settings.Verbosity);

@@ -23,7 +23,7 @@ internal sealed class MinifyFolderCommand(IFileSystemAdapter fileAdapter, IMinif
         public string TargetFolder { get; init; } = string.Empty;
     }
 
-    public override int Execute(CommandContext context, Settings settings, CancellationToken _) =>
+    protected override int Execute(CommandContext context, Settings settings, CancellationToken _) =>
         _validator.Validate(settings.FolderPath)
                   .Iter(f => _console.WriteMessages(Constants.MinifyFolderTitle(f)))
                   .Map(f => _fileAdapter.EnumerateFolderFiles(f, Constants.JsonFileSearchPattern))

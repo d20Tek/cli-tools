@@ -23,7 +23,7 @@ internal sealed class CreateGuidCommand : Command<GuidSettings>
 		_writer = writer;
 	}
 
-	public override int Execute(CommandContext context, GuidSettings settings, CancellationToken token)
+    protected override int Execute(CommandContext context, GuidSettings settings, CancellationToken token)
 	{
 		_writer.Verbosity = settings.Verbosity;
 		_writer.WriteNormal("create-guid: running to generate your GUIDs:");

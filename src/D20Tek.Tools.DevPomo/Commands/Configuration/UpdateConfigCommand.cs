@@ -5,7 +5,7 @@ internal sealed class UpdateConfigCommand(IAnsiConsole console, IConfigurationSe
     private readonly IAnsiConsole _console = console;
     private readonly IConfigurationService _service = service;
 
-    public override int Execute(CommandContext context, CancellationToken token)
+    protected override int Execute(CommandContext context, CancellationToken token)
     {
         var prevConfig = _service.Get().GetValue();
 

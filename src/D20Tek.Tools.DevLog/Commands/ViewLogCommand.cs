@@ -10,7 +10,7 @@ internal sealed class ViewLogCommand(IDevLogService service, IAnsiConsole consol
 
     public sealed class Settings : EntrySettings { }
 
-    public override int Execute(CommandContext context, Settings settings, CancellationToken _)
+    protected override int Execute(CommandContext context, Settings settings, CancellationToken _)
     {
         var date = settings.Date.ParseDate();
         var weekStart = DevLogEntry.GetWeekStart(date ?? DateOnly.FromDateTime(DateTime.Today));

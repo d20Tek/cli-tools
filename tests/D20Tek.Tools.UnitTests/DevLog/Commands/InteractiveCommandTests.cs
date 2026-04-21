@@ -17,12 +17,11 @@ public class InteractiveCommandTests
         input.PushTextWithEnter("exit");
         console.TestInput = input;
 
-        var command = new InteractiveCommand(app, console);
+        ICommand command = new InteractiveCommand(app, console);
         var context = new CommandContext([], NullRemainingArguments.Instance, "test", null);
 
         // act
-        var result = await command.ExecuteAsync(context, CancellationToken.None);
-
+        var result = await command.ExecuteAsync(context, new EmptyCommandSettings(), CancellationToken.None);
         // assert
         Assert.AreEqual(0, result);
         Assert.Contains("Running interactive mode.", console.Output);
@@ -41,12 +40,11 @@ public class InteractiveCommandTests
         input.PushTextWithEnter("exit");
         console.TestInput = input;
 
-        var command = new InteractiveCommand(app, console);
+        ICommand command = new InteractiveCommand(app, console);
         var context = new CommandContext([], NullRemainingArguments.Instance, "test", null);
 
         // act
-        var result = await command.ExecuteAsync(context, CancellationToken.None);
-
+        var result = await command.ExecuteAsync(context, new EmptyCommandSettings(), CancellationToken.None);
         // assert
         Assert.AreEqual(0, result);
         Assert.Contains("Running interactive mode.", console.Output);
@@ -64,12 +62,11 @@ public class InteractiveCommandTests
         input.PushTextWithEnter("exit");
         console.TestInput = input;
 
-        var command = new InteractiveCommand(app, console);
+        ICommand command = new InteractiveCommand(app, console);
         var context = new CommandContext([], NullRemainingArguments.Instance, "test", null);
 
         // act
-        var result = await command.ExecuteAsync(context, CancellationToken.None);
-
+        var result = await command.ExecuteAsync(context, new EmptyCommandSettings(), CancellationToken.None);
         // assert
         Assert.AreEqual(0, result);
         Assert.Contains(Constants.AppPrompt, console.Output);

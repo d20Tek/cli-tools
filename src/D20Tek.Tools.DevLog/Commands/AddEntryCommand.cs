@@ -15,7 +15,7 @@ internal sealed class AddEntryCommand(IDevLogService service, IAnsiConsole conso
         public string ProjectName { get; init; } = string.Empty;
     }
 
-    public override int Execute(CommandContext context, Settings settings, CancellationToken _)
+    protected override int Execute(CommandContext context, Settings settings, CancellationToken _)
     {
         var date = settings.Date.ParseDate();
         var weekStart = DevLogEntry.GetWeekStart(date ?? DateOnly.FromDateTime(DateTime.Today));

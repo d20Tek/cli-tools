@@ -12,7 +12,7 @@ internal sealed class GeneratePasswordCommand(
     private readonly IConfigurationService _configurationService = configurationService;
     private readonly IVerbosityWriter _writer = writer;
 
-    public override int Execute(
+    protected override int Execute(
         CommandContext context,
         PasswordSettings settings,
         CancellationToken cancellationToken)

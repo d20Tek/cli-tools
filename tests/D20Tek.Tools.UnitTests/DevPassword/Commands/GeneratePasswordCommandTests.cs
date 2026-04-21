@@ -98,19 +98,19 @@ public class GeneratePasswordCommandTests
     }
 
     [TestMethod]
-    public void Execute_WithNoRequiredChars_ReturnsErrorMessage()
+    public async Task Execute_WithNoRequiredChars_ReturnsErrorMessage()
     {
         // arrange
         var console = new TestConsole();
         var config = new ConfigurationService(new LowDb<PasswordConfig>(new MemoryStorageAdapter<PasswordConfig>()));
         var writer = new ConsoleVerbosityWriter(console);
-        var command = new GeneratePasswordCommand(new PasswordGenerator(), config, writer);
+        ICommand<PasswordSettings> command = new GeneratePasswordCommand(new PasswordGenerator(), config, writer);
         var context = new CommandContext([], new NullRemainingArguments(), "GeneratePasswordCommand", null);
 
         config.Set(new PasswordConfig(false, false, false, false));
 
         // act
-        var result = command.Execute(context, new PasswordSettings(), CancellationToken.None);
+        var result = await command.ExecuteAsync(context, new PasswordSettings(), CancellationToken.None);
 
         // assert
         Assert.AreEqual(-1, result);

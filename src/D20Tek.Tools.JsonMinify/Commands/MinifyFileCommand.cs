@@ -22,7 +22,7 @@ internal sealed class MinifyFileCommand(IFileSystemAdapter fileAdapter, IMinifyS
         public string TargetFolder { get; init; } = string.Empty;
     }
 
-    public override int Execute(CommandContext context, Settings settings, CancellationToken _) =>
+    protected override int Execute(CommandContext context, Settings settings, CancellationToken _) =>
         _validator.Validate(settings.FilePath)
                   .Iter(f => _console.WriteMessages(Constants.MinifyFileTitle(f)))
                   .Bind(f => _minifyService.MinifyFile(settings.FilePath, settings.TargetFolder))
