@@ -47,4 +47,46 @@ internal static class OutputHelper
 
         console.WriteLine(JsonSerializer.Serialize(output, _jsonOptions));
     }
+
+    public static void RenderAllPortsTable(IAnsiConsole console, IReadOnlyList<PortProcessInfo> processes)
+    {
+        console.MarkupLine(Constants.AllPortsHeaderMessage);
+        console.WriteLine();
+
+        var table = new Table()
+            .AddColumn("Port")
+            .AddColumn("PID")
+            .AddColumn("Name")
+            .AddColumn("Protocol")
+            .AddColumn("State");
+
+        foreach (var p in processes.OrderBy(p => p.Port))
+        {
+            table.AddRow(
+                p.Port.ToString(),
+                p.ProcessId.ToString(),
+                Markup.Escape(p.ProcessName),
+                p.Protocol,
+                p.State.ToString());
+        }
+
+        console.Write(table);
+    }
+
+    public static void RenderAllPortsJson(IAnsiConsole console, IReadOnlyList<PortProcessInfo> processes)
+    {
+        var output = new
+        {
+            processes = processes.OrderBy(p => p.Port).Select(p => new
+            {
+                port = p.Port,
+                pid = p.ProcessId,
+                name = p.ProcessName,
+                protocol = p.Protocol,
+                state = p.State.ToString()
+            })
+        };
+
+        console.WriteLine(JsonSerializer.Serialize(output, _jsonOptions));
+    }
 }

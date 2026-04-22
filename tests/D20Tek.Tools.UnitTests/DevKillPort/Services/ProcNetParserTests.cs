@@ -288,6 +288,223 @@ public class ProcNetParserTests
         Assert.IsTrue(result);
         Assert.AreEqual(5000, port);
     }
+
+    [TestMethod]
+    public void ParseLineAll_WithValidEntry_ReturnsParsedSocket()
+    {
+        // arrange
+        var line =
+            "   0: 00000000:1388 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 12345 1 0000000000000000 100 0 0 10 0";
+
+        // act
+        var result = ProcNetParser.ParseLineAll(line, "TCP");
+
+        // assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual(5000, result.Port);
+        Assert.AreEqual(12345L, result.Inode);
+        Assert.AreEqual("TCP", result.Protocol);
+        Assert.AreEqual(PortState.Listen, result.State);
+        Assert.AreEqual("0.0.0.0", result.Address);
+    }
+
+    [TestMethod]
+    public void ParseLineAll_WithTooFewParts_ReturnsNull()
+    {
+        // arrange
+        var line = "   0: 00000000:1388";
+
+        // act
+        var result = ProcNetParser.ParseLineAll(line, "TCP");
+
+        // assert
+        Assert.IsNull(result);
+    }
+
+    [TestMethod]
+    public void ParseLineAll_WithNoColonInLocalAddress_ReturnsNull()
+    {
+        // arrange
+        var line = "   0: 000000001388 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 12345 1 0000000000000000 100 0 0 10 0";
+
+        // act
+        var result = ProcNetParser.ParseLineAll(line, "TCP");
+
+        // assert
+        Assert.IsNull(result);
+    }
+
+    [TestMethod]
+    public void ParseLineAll_WithInvalidHexPort_ReturnsNull()
+    {
+        // arrange
+        var line = "   0: 00000000:ZZZZ 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 12345 1 0000000000000000 100 0 0 10 0";
+
+        // act
+        var result = ProcNetParser.ParseLineAll(line, "TCP");
+
+        // assert
+        Assert.IsNull(result);
+    }
+
+    [TestMethod]
+    public void ParseLineAll_WithZeroPort_ReturnsNull()
+    {
+        // arrange - port 0 in hex is 0000
+        var line = "   0: 00000000:0000 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 12345 1 0000000000000000 100 0 0 10 0";
+
+        // act
+        var result = ProcNetParser.ParseLineAll(line, "TCP");
+
+        // assert
+        Assert.IsNull(result);
+    }
+
+    [TestMethod]
+    public void ParseLineAll_WithNonIntegerInode_ReturnsNull()
+    {
+        // arrange
+        var line = "   0: 00000000:1388 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 XXXX 1 0000000000000000 100 0 0 10 0";
+
+        // act
+        var result = ProcNetParser.ParseLineAll(line, "TCP");
+
+        // assert
+        Assert.IsNull(result);
+    }
+
+    [TestMethod]
+    public void ParseLineAll_WithZeroInode_ReturnsNull()
+    {
+        // arrange
+        var line = "   0: 00000000:1388 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 0 1 0000000000000000 100 0 0 10 0";
+
+        // act
+        var result = ProcNetParser.ParseLineAll(line, "TCP");
+
+        // assert
+        Assert.IsNull(result);
+    }
+
+    [TestMethod]
+    public void ParseLineAll_WithIPv6Address_ReturnsDoubleColonAddress()
+    {
+        // arrange
+        var line = "   0: 00000000000000000000000000000000:1388 00000000000000000000000000000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 55555 1 0000000000000000 100 0 0 10 0";
+
+        // act
+        var result = ProcNetParser.ParseLineAll(line, "TCP");
+
+        // assert
+        Assert.IsNotNull(result);
+        Assert.AreEqual(5000, result.Port);
+        Assert.AreEqual("[::]", result.Address);
+    }
+
+    [TestMethod]
+    public void ParseProcNetFileAll_WithValidTcpEntry_ReturnsParsedSocket()
+    {
+        // arrange
+        var procFs = new FakeProcFileSystem()
+            .WithFile("/proc/net/tcp",
+            [
+                "  sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode",
+                "   0: 00000000:1388 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 12345 1 0000000000000000 100 0 0 10 0"
+            ]);
+        var parser = new ProcNetParser(procFs);
+
+        // act
+        var results = parser.ParseProcNetFileAll("/proc/net/tcp", "TCP");
+
+        // assert
+        Assert.HasCount(1, results);
+        Assert.AreEqual(5000, results[0].Port);
+        Assert.AreEqual(12345L, results[0].Inode);
+        Assert.AreEqual("TCP", results[0].Protocol);
+        Assert.AreEqual(PortState.Listen, results[0].State);
+    }
+
+    [TestMethod]
+    public void ParseProcNetFileAll_WithMissingFile_ReturnsEmpty()
+    {
+        // arrange
+        var procFs = new FakeProcFileSystem();
+        var parser = new ProcNetParser(procFs);
+
+        // act
+        var results = parser.ParseProcNetFileAll("/proc/net/tcp", "TCP");
+
+        // assert
+        Assert.HasCount(0, results);
+    }
+
+    [TestMethod]
+    public void FindAllSockets_WithTcpProtocol_OnlyParsesTcpFiles()
+    {
+        // arrange
+        var procFs = new FakeProcFileSystem()
+            .WithFile("/proc/net/tcp",
+            [
+                "  sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode",
+                "   0: 00000000:1388 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 12345 1 0000000000000000 100 0 0 10 0"
+            ]);
+        var parser = new ProcNetParser(procFs);
+
+        // act
+        var results = parser.FindAllSockets(ProtocolType.Tcp);
+
+        // assert
+        Assert.HasCount(1, results);
+        Assert.AreEqual("TCP", results[0].Protocol);
+        Assert.AreEqual(5000, results[0].Port);
+    }
+
+    [TestMethod]
+    public void FindAllSockets_WithUdpProtocol_OnlyParsesUdpFiles()
+    {
+        // arrange
+        var procFs = new FakeProcFileSystem()
+            .WithFile("/proc/net/udp",
+            [
+                "  sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode",
+                "   0: 00000000:1F90 00000000:0000 07 00000000:00000000 00:00000000 00000000     0        0 22222 1 0000000000000000 100 0 0 10 0"
+            ]);
+        var parser = new ProcNetParser(procFs);
+
+        // act
+        var results = parser.FindAllSockets(ProtocolType.Udp);
+
+        // assert
+        Assert.HasCount(1, results);
+        Assert.AreEqual("UDP", results[0].Protocol);
+        Assert.AreEqual(8080, results[0].Port);
+    }
+
+    [TestMethod]
+    public void FindAllSockets_WithBothProtocols_ParsesTcpAndUdpFiles()
+    {
+        // arrange
+        var procFs = new FakeProcFileSystem()
+            .WithFile("/proc/net/tcp",
+            [
+                "  sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode",
+                "   0: 00000000:1388 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 11111 1 0000000000000000 100 0 0 10 0"
+            ])
+            .WithFile("/proc/net/udp",
+            [
+                "  sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode",
+                "   0: 00000000:1F90 00000000:0000 07 00000000:00000000 00:00000000 00000000     0        0 22222 1 0000000000000000 100 0 0 10 0"
+            ]);
+        var parser = new ProcNetParser(procFs);
+
+        // act
+        var results = parser.FindAllSockets(ProtocolType.Both);
+
+        // assert
+        Assert.HasCount(2, results);
+        Assert.IsTrue(results.Any(r => r.Protocol == "TCP"));
+        Assert.IsTrue(results.Any(r => r.Protocol == "UDP"));
+    }
 }
 
 [TestClass]

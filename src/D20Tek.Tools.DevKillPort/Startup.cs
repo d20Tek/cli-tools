@@ -25,6 +25,13 @@ internal sealed class Startup : StartupBase
               .WithExample(["view", "5000"])
               .WithExample(["view", "5000", "--json"]);
 
+        config.AddCommand<ListPortsCommand>("list")
+              .WithAlias("ls")
+              .WithDescription("List all ports with their mapped process details.")
+              .WithExample(["list"])
+              .WithExample(["list", "--json"])
+              .WithExample(["list", "--protocol", "tcp"]);
+
         return config;
     }
 

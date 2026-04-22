@@ -9,7 +9,7 @@ internal class PortSettings : CommandSettings
     [Description("The port number to find processes for.")]
     public int Port { get; init; }
 
-    [CommandOption("--force")]
+    [CommandOption("--force | -f")]
     [Description("Kill without confirmation.")]
     public bool Force { get; init; }
 
@@ -17,24 +17,24 @@ internal class PortSettings : CommandSettings
     [Description("Kill all matching processes.")]
     public bool All { get; init; }
 
-    [CommandOption("--protocol")]
+    [CommandOption("--protocol | -p")]
     [Description("Protocol filter: tcp, udp, or both (default: both).")]
     [DefaultValue("both")]
     public string Protocol { get; init; } = "both";
 
-    [CommandOption("--json")]
+    [CommandOption("--json | -j")]
     [Description("Output results as JSON.")]
     public bool Json { get; init; }
 
-    [CommandOption("--dry-run")]
+    [CommandOption("--dry-run | -d")]
     [Description("Show what would happen without killing.")]
     public bool DryRun { get; init; }
 
-    [CommandOption("--watch")]
+    [CommandOption("--watch | -w")]
     [Description("Wait until the port is free.")]
     public bool Watch { get; init; }
 
-    [CommandOption("--timeout")]
+    [CommandOption("--timeout | -t")]
     [Description("Max wait time in seconds for watch mode (default: 30).")]
     [DefaultValue(30)]
     public int Timeout { get; init; } = 30;

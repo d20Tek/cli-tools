@@ -481,4 +481,252 @@ public class LinuxPortResolverTests
         // assert
         Assert.AreEqual(expected, result);
     }
+
+    [TestMethod]
+    public void ParseSsAllOutput_WithValidOutput_ReturnsParsedResults()
+    {
+        // arrange
+        var output = """
+            State   Recv-Q  Send-Q  Local Address:Port  Peer Address:Port  Process
+            LISTEN  0       128     0.0.0.0:5000        0.0.0.0:*          users:(("dotnet",pid=1234,fd=3))
+            """;
+
+        // act
+        var results = LinuxPortResolver.ParseSsAllOutput(output);
+
+        // assert
+        Assert.HasCount(1, results);
+        Assert.AreEqual(5000, results[0].Port);
+        Assert.AreEqual(1234, results[0].ProcessId);
+        Assert.AreEqual("dotnet", results[0].ProcessName);
+        Assert.AreEqual(PortState.Listen, results[0].State);
+    }
+
+    [TestMethod]
+    public void ParseSsAllOutput_WithEmptyOutput_ReturnsEmptyList()
+    {
+        // act
+        var results = LinuxPortResolver.ParseSsAllOutput("");
+
+        // assert
+        Assert.HasCount(0, results);
+    }
+
+    [TestMethod]
+    public void ParseSsAllOutput_WithHeaderOnly_ReturnsEmptyList()
+    {
+        // arrange
+        var output = "State   Recv-Q  Send-Q  Local Address:Port  Peer Address:Port  Process";
+
+        // act
+        var results = LinuxPortResolver.ParseSsAllOutput(output);
+
+        // assert
+        Assert.HasCount(0, results);
+    }
+
+    [TestMethod]
+    public void ParseSsAllOutput_WithMultiplePorts_ReturnsAll()
+    {
+        // arrange
+        var output = """
+            State   Recv-Q  Send-Q  Local Address:Port  Peer Address:Port  Process
+            LISTEN  0       128     0.0.0.0:5000        0.0.0.0:*          users:(("dotnet",pid=1234,fd=3))
+            LISTEN  0       128     0.0.0.0:8080        0.0.0.0:*          users:(("node",pid=5678,fd=3))
+            """;
+
+        // act
+        var results = LinuxPortResolver.ParseSsAllOutput(output);
+
+        // assert
+        Assert.HasCount(2, results);
+        Assert.AreEqual(5000, results[0].Port);
+        Assert.AreEqual(8080, results[1].Port);
+    }
+
+    [TestMethod]
+    public void ParseSsAllOutput_WithTooFewParts_SkipsRow()
+    {
+        // arrange
+        var output = """
+            State   Recv-Q  Send-Q  Local Address:Port  Peer Address:Port  Process
+            LISTEN  0       128
+            """;
+
+        // act
+        var results = LinuxPortResolver.ParseSsAllOutput(output);
+
+        // assert
+        Assert.HasCount(0, results);
+    }
+
+    [TestMethod]
+    public void ParseSsAllOutput_WithNoColonInAddress_SkipsRow()
+    {
+        // arrange
+        var output = """
+            State   Recv-Q  Send-Q  Local Address:Port  Peer Address:Port  Process
+            LISTEN  0       128     nocolonhere         0.0.0.0:*          users:(("dotnet",pid=1234,fd=3))
+            """;
+
+        // act
+        var results = LinuxPortResolver.ParseSsAllOutput(output);
+
+        // assert
+        Assert.HasCount(0, results);
+    }
+
+    [TestMethod]
+    public void ParseSsAllOutput_WithNonNumericPort_SkipsRow()
+    {
+        // arrange
+        var output = """
+            State   Recv-Q  Send-Q  Local Address:Port  Peer Address:Port  Process
+            LISTEN  0       128     0.0.0.0:abc         0.0.0.0:*          users:(("dotnet",pid=1234,fd=3))
+            """;
+
+        // act
+        var results = LinuxPortResolver.ParseSsAllOutput(output);
+
+        // assert
+        Assert.HasCount(0, results);
+    }
+
+    [TestMethod]
+    public void ParseSsAllOutput_WithNoPidField_SkipsRow()
+    {
+        // arrange
+        var output = """
+            State   Recv-Q  Send-Q  Local Address:Port  Peer Address:Port
+            LISTEN  0       128     0.0.0.0:5000        0.0.0.0:*
+            """;
+
+        // act
+        var results = LinuxPortResolver.ParseSsAllOutput(output);
+
+        // assert
+        Assert.HasCount(0, results);
+    }
+
+    [TestMethod]
+    public void ParseSsAllOutput_WithNoPidInProcessField_SkipsRow()
+    {
+        // arrange
+        var output = """
+            State   Recv-Q  Send-Q  Local Address:Port  Peer Address:Port  Process
+            LISTEN  0       128     0.0.0.0:5000        0.0.0.0:*          users:((nopidhere))
+            """;
+
+        // act
+        var results = LinuxPortResolver.ParseSsAllOutput(output);
+
+        // assert
+        Assert.HasCount(0, results);
+    }
+
+    [TestMethod]
+    public void ParseSsAllOutput_WithDuplicatePids_DeduplicatesResults()
+    {
+        // arrange
+        var output = """
+            State   Recv-Q  Send-Q  Local Address:Port  Peer Address:Port  Process
+            LISTEN  0       128     0.0.0.0:5000        0.0.0.0:*          users:(("dotnet",pid=1234,fd=3))
+            LISTEN  0       128     [::]:5000            [::]:*             users:(("dotnet",pid=1234,fd=4))
+            """;
+
+        // act
+        var results = LinuxPortResolver.ParseSsAllOutput(output);
+
+        // assert
+        Assert.HasCount(1, results);
+        Assert.AreEqual(1234, results[0].ProcessId);
+    }
+
+    [TestMethod]
+    public async Task ListAllAsync_WithSsResults_ReturnsSsResults()
+    {
+        // arrange
+        var ssOutput = """
+            State   Recv-Q  Send-Q  Local Address:Port  Peer Address:Port  Process
+            LISTEN  0       128     0.0.0.0:5000        0.0.0.0:*          users:(("dotnet",pid=1234,fd=3))
+            LISTEN  0       128     0.0.0.0:8080        0.0.0.0:*          users:(("node",pid=5678,fd=3))
+            """;
+        var commandRunner = new FakeCommandRunner().WithResponse("ss", ssOutput);
+        var procFs = new FakeProcFileSystem();
+        var resolver = new LinuxPortResolver(commandRunner, procFs);
+        var options = new PortQueryOptions(ProtocolType.Both);
+
+        // act
+        var results = await resolver.ListAllAsync(options);
+
+        // assert
+        Assert.HasCount(2, results);
+        Assert.AreEqual(5000, results[0].Port);
+        Assert.AreEqual(8080, results[1].Port);
+    }
+
+    [TestMethod]
+    public async Task ListAllAsync_WithSsEmpty_FallsBackToProc()
+    {
+        // arrange
+        var commandRunner = new FakeCommandRunner()
+            .WithResponse("ss", "")
+            .WithResponse("lsof", "");
+        var procFs = new FakeProcFileSystem()
+            .WithFile("/proc/net/tcp",
+            [
+                "  sl  local_address rem_address   st tx_queue rx_queue tr tm->when retrnsmt   uid  timeout inode",
+                "   0: 00000000:1388 00000000:0000 0A 00000000:00000000 00:00000000 00000000     0        0 12345 1 0000000000000000 100 0 0 10 0"
+            ])
+            .WithPidDirectory("/proc/9999")
+            .WithFile("/proc/9999/comm", ["myapp"])
+            .WithFdLink("/proc/9999", "/proc/9999/fd/3", "socket:[12345]");
+        var resolver = new LinuxPortResolver(commandRunner, procFs);
+        var options = new PortQueryOptions(ProtocolType.Tcp);
+
+        // act
+        var results = await resolver.ListAllAsync(options);
+
+        // assert
+        Assert.HasCount(1, results);
+        Assert.AreEqual(5000, results[0].Port);
+        Assert.AreEqual(9999, results[0].ProcessId);
+        Assert.AreEqual("myapp", results[0].ProcessName);
+    }
+
+    [TestMethod]
+    public async Task ListAllAsync_WithTcpProtocol_PassesTcpFlagToSs()
+    {
+        // arrange
+        var ssOutput = """
+            State   Recv-Q  Send-Q  Local Address:Port  Peer Address:Port  Process
+            LISTEN  0       128     0.0.0.0:5000        0.0.0.0:*          users:(("dotnet",pid=1234,fd=3))
+            """;
+        var commandRunner = new FakeCommandRunner().WithResponse("ss", ssOutput);
+        var procFs = new FakeProcFileSystem();
+        var resolver = new LinuxPortResolver(commandRunner, procFs);
+        var options = new PortQueryOptions(ProtocolType.Tcp);
+
+        // act
+        var results = await resolver.ListAllAsync(options);
+
+        // assert
+        Assert.HasCount(1, results);
+    }
+
+    [TestMethod]
+    public async Task ListAllAsync_WithUdpProtocol_PassesUdpFlagToSs()
+    {
+        // arrange
+        var commandRunner = new FakeCommandRunner().WithResponse("ss", "");
+        var procFs = new FakeProcFileSystem();
+        var resolver = new LinuxPortResolver(commandRunner, procFs);
+        var options = new PortQueryOptions(ProtocolType.Udp);
+
+        // act
+        var results = await resolver.ListAllAsync(options);
+
+        // assert
+        Assert.HasCount(0, results);
+    }
 }

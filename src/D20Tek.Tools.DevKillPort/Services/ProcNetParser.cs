@@ -1,4 +1,5 @@
 using D20Tek.Tools.DevKillPort.Contracts;
+using System.Diagnostics.CodeAnalysis;
 
 namespace D20Tek.Tools.DevKillPort.Services;
 
@@ -20,6 +21,43 @@ internal sealed class ProcNetParser(IProcFileSystem procFs)
         {
             results.AddRange(ParseProcNetFile("/proc/net/udp", port, "UDP"));
             results.AddRange(ParseProcNetFile("/proc/net/udp6", port, "UDP"));
+        }
+
+        return results;
+    }
+
+    internal List<ProcSocketEntry> FindAllSockets(ProtocolType protocolType)
+    {
+        var results = new List<ProcSocketEntry>();
+
+        if (protocolType is ProtocolType.Tcp or ProtocolType.Both)
+        {
+            results.AddRange(ParseProcNetFileAll("/proc/net/tcp", "TCP"));
+            results.AddRange(ParseProcNetFileAll("/proc/net/tcp6", "TCP"));
+        }
+
+        if (protocolType is ProtocolType.Udp or ProtocolType.Both)
+        {
+            results.AddRange(ParseProcNetFileAll("/proc/net/udp", "UDP"));
+            results.AddRange(ParseProcNetFileAll("/proc/net/udp6", "UDP"));
+        }
+
+        return results;
+    }
+
+    internal List<ProcSocketEntry> ParseProcNetFileAll(string path, string protocol)
+    {
+        var results = new List<ProcSocketEntry>();
+        if (!_procFs.Exists(path)) return results;
+
+        string[] lines = _procFs.ReadAllLines(path);
+        foreach (var line in lines.Skip(1))
+        {
+            var entry = ParseLineAll(line, protocol);
+            if (entry is not null)
+            {
+                results.Add(entry);
+            }
         }
 
         return results;
@@ -102,6 +140,29 @@ internal sealed class ProcNetParser(IProcFileSystem procFs)
         }
 
         return hex.Length == 32 ? "[::]" : hex;
+    }
+
+    [ExcludeFromCodeCoverage]
+    internal static ProcSocketEntry? ParseLineAll(string line, string protocol)
+    {
+        var parts = line.Split([' '], StringSplitOptions.RemoveEmptyEntries);
+        if (parts.Length < 10) return null;
+
+        var localAddress = parts[1];
+        var colonIndex = localAddress.LastIndexOf(':');
+        if (colonIndex < 0) return null;
+
+        var portHex = localAddress[(colonIndex + 1)..];
+        if (!TryParseHexPort(portHex, out var localPort) || localPort == 0) return null;
+
+        var stateHex = parts[3];
+        var state = ParseTcpState(stateHex);
+
+        var address = ParseHexAddress(localAddress[..colonIndex]);
+
+        if (!long.TryParse(parts[9], out var inode) || inode == 0) return null;
+
+        return new ProcSocketEntry(localPort, inode, protocol, address, state);
     }
 }
 

@@ -33,4 +33,13 @@ internal sealed class FakePortResolver : IPortResolver
         var result = _resultSequence.Count > 0 ? _resultSequence.Dequeue() : _results;
         return Task.FromResult(result);
     }
+
+    public Task<IReadOnlyList<PortProcessInfo>> ListAllAsync(
+        PortQueryOptions options,
+        CancellationToken ct = default)
+    {
+        _callCount++;
+        var result = _resultSequence.Count > 0 ? _resultSequence.Dequeue() : _results;
+        return Task.FromResult(result);
+    }
 }

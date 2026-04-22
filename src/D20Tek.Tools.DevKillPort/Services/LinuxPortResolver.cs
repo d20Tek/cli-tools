@@ -8,6 +8,129 @@ internal sealed class LinuxPortResolver(ICommandRunner commandRunner, IProcFileS
     private readonly ProcNetParser _procParser = new(procFs);
     private readonly ProcFdScanner _procScanner = new(procFs);
 
+    public async Task<IReadOnlyList<PortProcessInfo>> ListAllAsync(
+        PortQueryOptions options,
+        CancellationToken ct = default)
+    {
+        var results = await TryListAllWithSsAsync(options, ct);
+        if (results.Count > 0) return results;
+
+        results = await TryListAllWithLsofAsync(options, ct);
+        if (results.Count > 0) return results;
+
+        return ListAllWithProc(options);
+    }
+
+    private async Task<List<PortProcessInfo>> TryListAllWithSsAsync(
+        PortQueryOptions options,
+        CancellationToken ct)
+    {
+        try
+        {
+            var protocolFlag = options.Protocol switch
+            {
+                ProtocolType.Tcp => "-t",
+                ProtocolType.Udp => "-u",
+                _ => "-tu"
+            };
+
+            var output = await _commandRunner.RunAsync("ss", $"-lnp {protocolFlag}", ct);
+            return ParseSsAllOutput(output);
+        }
+        catch
+        {
+            return [];
+        }
+    }
+
+    private async Task<List<PortProcessInfo>> TryListAllWithLsofAsync(
+        PortQueryOptions options,
+        CancellationToken ct)
+    {
+        try
+        {
+            var protocolFilter = options.Protocol switch
+            {
+                ProtocolType.Tcp => "TCP",
+                ProtocolType.Udp => "UDP",
+                _ => ""
+            };
+
+            var output = await _commandRunner.RunAsync("lsof", "-i -n -P", ct);
+            return ParseLsofOutput(output, 0, protocolFilter)
+                .Where(r => r.Port > 0)
+                .ToList();
+        }
+        catch
+        {
+            return [];
+        }
+    }
+
+    internal List<PortProcessInfo> ListAllWithProc(PortQueryOptions options)
+    {
+        try
+        {
+            var sockets = _procParser.FindAllSockets(options.Protocol);
+            if (sockets.Count == 0) return [];
+
+            var results = new List<PortProcessInfo>();
+            var seenPids = new HashSet<(int, string, int)>();
+
+            foreach (var socket in sockets)
+            {
+                var pidInfo = _procScanner.FindPidByInode(socket.Inode);
+                if (pidInfo is null) continue;
+
+                if (!seenPids.Add((pidInfo.Pid, socket.Protocol, socket.Port))) continue;
+
+                results.Add(new PortProcessInfo(
+                    socket.Port, pidInfo.Pid, pidInfo.ProcessName,
+                    socket.Protocol, socket.Address, socket.State));
+            }
+
+            return results;
+        }
+        catch
+        {
+            return [];
+        }
+    }
+
+    internal static List<PortProcessInfo> ParseSsAllOutput(string output)
+    {
+        var results = new List<PortProcessInfo>();
+        if (string.IsNullOrWhiteSpace(output)) return results;
+
+        var lines = output.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+
+        foreach (var line in lines.Skip(1))
+        {
+            var parts = line.Split([' ', '\t'], StringSplitOptions.RemoveEmptyEntries);
+            if (parts.Length < 5) continue;
+
+            var state = ParseState(parts[0]);
+            var localAddr = parts[3];
+
+            var lastColon = localAddr.LastIndexOf(':');
+            if (lastColon < 0) continue;
+
+            var portStr = localAddr[(lastColon + 1)..];
+            if (!int.TryParse(portStr, out var port)) continue;
+
+            var address = localAddr[..lastColon];
+            var pid = ExtractPidFromSs(parts.Length > 5 ? parts[5] : "");
+            var processName = ExtractProcessNameFromSs(parts.Length > 5 ? parts[5] : "");
+
+            if (pid > 0)
+            {
+                results.Add(new PortProcessInfo(port, pid, processName, "TCP", address, state));
+            }
+        }
+
+        return DeduplicateByPid(results);
+    }
+
     public async Task<IReadOnlyList<PortProcessInfo>> FindAsync(
         int port,
         PortQueryOptions options,

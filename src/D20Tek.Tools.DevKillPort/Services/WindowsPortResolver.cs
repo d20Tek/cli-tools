@@ -29,6 +29,65 @@ internal sealed class WindowsPortResolver(ICommandRunner commandRunner) : IPortR
         return DeduplicateByPid(results);
     }
 
+    public async Task<IReadOnlyList<PortProcessInfo>> ListAllAsync(
+        PortQueryOptions options,
+        CancellationToken ct = default)
+    {
+        var results = new List<PortProcessInfo>();
+
+        if (options.Protocol is ProtocolType.Tcp or ProtocolType.Both)
+        {
+            var output = await _commandRunner.RunAsync(
+                "powershell",
+                "-NoProfile -Command \"Get-NetTCPConnection -ErrorAction SilentlyContinue " +
+                "| Select-Object LocalAddress,LocalPort,OwningProcess,State " +
+                "| ConvertTo-Csv -NoTypeInformation\"",
+                ct);
+
+            results.AddRange(ParseAllCsvOutput(output, "TCP"));
+        }
+
+        if (options.Protocol is ProtocolType.Udp or ProtocolType.Both)
+        {
+            var output = await _commandRunner.RunAsync(
+                "powershell",
+                "-NoProfile -Command \"Get-NetUDPEndpoint -ErrorAction SilentlyContinue " +
+                "| Select-Object LocalAddress,LocalPort,OwningProcess " +
+                "| ConvertTo-Csv -NoTypeInformation\"",
+                ct);
+
+            results.AddRange(ParseAllCsvOutput(output, "UDP"));
+        }
+
+        return DeduplicateByPid(results);
+    }
+
+    internal static List<PortProcessInfo> ParseAllCsvOutput(string output, string protocol)
+    {
+        var results = new List<PortProcessInfo>();
+        if (string.IsNullOrWhiteSpace(output)) return results;
+
+        var lines = output.Split('\n', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
+        if (lines.Length < 2) return results;
+
+        for (int i = 1; i < lines.Length; i++)
+        {
+            var fields = lines[i].Split(',');
+            if (fields.Length < 3) continue;
+
+            var address = fields[0].Trim('"');
+            if (!int.TryParse(fields[1].Trim('"'), out var port)) continue;
+            if (!int.TryParse(fields[2].Trim('"'), out var pid)) continue;
+
+            var state = fields.Length > 3 ? ParseState(fields[3].Trim('"')) : PortState.Listen;
+            var processName = GetProcessName(pid);
+
+            results.Add(new PortProcessInfo(port, pid, processName, protocol, address, state));
+        }
+
+        return results;
+    }
+
     private async Task<List<PortProcessInfo>> FindTcpAsync(int port, CancellationToken ct)
     {
         var output = await _commandRunner.RunAsync(

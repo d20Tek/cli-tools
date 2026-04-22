@@ -5,4 +5,6 @@ namespace D20Tek.Tools.DevKillPort.Services;
 internal interface IPortResolver
 {
     Task<IReadOnlyList<PortProcessInfo>> FindAsync(int port, PortQueryOptions options, CancellationToken ct = default);
+
+    Task<IReadOnlyList<PortProcessInfo>> ListAllAsync(PortQueryOptions options, CancellationToken ct = default);
 }

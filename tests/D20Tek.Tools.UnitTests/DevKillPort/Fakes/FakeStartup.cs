@@ -11,6 +11,7 @@ internal sealed class FakeStartup : StartupBase
 
         config.AddCommand<KillPortCommand>("kill");
         config.AddCommand<ViewPortCommand>("view");
+        config.AddCommand<ListPortsCommand>("list");
 
         return config;
     }

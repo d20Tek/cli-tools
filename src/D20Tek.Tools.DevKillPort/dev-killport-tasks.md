@@ -91,7 +91,7 @@ Phases are ordered so each phase depends only on previously completed phases.
 - [x] 3.6 Create `ProcessTerminator` — kills process by PID using `System.Diagnostics.Process`
 - [x] 3.7 Write unit tests for parsing logic (Windows, Linux, macOS output parsing)
 - [x] 3.8 Write unit tests for `PortResolverFactory`
-- [ ] 3.9 Write unit tests for `ProcessTerminator` (mocked)
+- [x] 3.9 Write unit tests for `ProcessTerminator` (mocked)
 
 ### Phase 4: Application / Command Layer
 
@@ -111,24 +111,24 @@ Phases are ordered so each phase depends only on previously completed phases.
 - [x] 5.3 Wire up `Program.cs` with `CommandAppBuilder`, DI, and Startup
 - [x] 5.4 Update `.csproj` — set AssemblyName to `dev-killport`, PackAsTool, metadata
 - [x] 5.5 Write unit tests for `InteractiveCommand`
-- [ ] 5.6 Manual smoke test on current OS
+- [x] 5.6 Manual smoke test on current OS
 
 ### Phase 6: Output Formatting & JSON
 
 - [x] 6.1 Implement human-readable table output (PID, Name, Protocol, State)
 - [x] 6.2 Implement --json flag for machine-readable JSON output
 - [x] 6.3 Implement status messages (port free, TIME_WAIT, permission denied, etc.)
-- [ ] 6.4 Write unit tests for output formatting
+- [x] 6.4 Write unit tests for output formatting
 
 ### Phase 7: Advanced Features
 
 - [x] 7.1 Implement --watch mode (poll until port is free, with --timeout)
 - [x] 7.2 Implement --protocol filter (tcp/udp/both)
 - [x] 7.3 Implement IPv4/IPv6 deduplication by PID
-- [ ] 7.4 Implement race condition mitigation (re-check PID before kill)
+- [x] 7.4 Implement race condition mitigation (re-check PID before kill)
 - [x] 7.5 Implement privilege elevation messaging (suggest sudo/admin)
-- [ ] 7.6 Write unit tests for watch mode logic
-- [ ] 7.7 Write unit tests for protocol filtering and deduplication
+- [x] 7.6 Write unit tests for watch mode logic
+- [x] 7.7 Write unit tests for protocol filtering and deduplication
 
 ### Phase 8: Packaging & Polish
 
