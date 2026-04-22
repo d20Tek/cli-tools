@@ -17,7 +17,7 @@ public class LinuxPortResolverTests
             """;
 
         // act
-        var results = LinuxPortResolver.ParseSsOutput(output, 5000);
+        var results = SsPortScanner.ParseSsOutput(output, 5000);
 
         // assert
         Assert.HasCount(1, results);
@@ -31,7 +31,7 @@ public class LinuxPortResolverTests
     public void ParseSsOutput_WithEmptyOutput_ReturnsEmptyList()
     {
         // act
-        var results = LinuxPortResolver.ParseSsOutput("", 5000);
+        var results = SsPortScanner.ParseSsOutput("", 5000);
 
         // assert
         Assert.HasCount(0, results);
@@ -44,7 +44,7 @@ public class LinuxPortResolverTests
         var output = "State   Recv-Q  Send-Q  Local Address:Port  Peer Address:Port  Process";
 
         // act
-        var results = LinuxPortResolver.ParseSsOutput(output, 5000);
+        var results = SsPortScanner.ParseSsOutput(output, 5000);
 
         // assert
         Assert.HasCount(0, results);
@@ -60,7 +60,7 @@ public class LinuxPortResolverTests
             """;
 
         // act
-        var results = LinuxPortResolver.ParseSsOutput(output, 5000);
+        var results = SsPortScanner.ParseSsOutput(output, 5000);
 
         // assert
         Assert.HasCount(0, results);
@@ -76,7 +76,7 @@ public class LinuxPortResolverTests
             """;
 
         // act
-        var results = LinuxPortResolver.ParseLsofOutput(output, 5000, "");
+        var results = LsofPortScanner.ParseLsofOutput(output, 5000, "");
 
         // assert
         Assert.HasCount(1, results);
@@ -89,7 +89,7 @@ public class LinuxPortResolverTests
     public void ParseLsofOutput_WithEmptyOutput_ReturnsEmptyList()
     {
         // act
-        var results = LinuxPortResolver.ParseLsofOutput("", 5000, "");
+        var results = LsofPortScanner.ParseLsofOutput("", 5000, "");
 
         // assert
         Assert.HasCount(0, results);
@@ -105,7 +105,7 @@ public class LinuxPortResolverTests
             """;
 
         // act
-        var results = LinuxPortResolver.ParseLsofOutput(output, 5000, "TCP");
+        var results = LsofPortScanner.ParseLsofOutput(output, 5000, "TCP");
 
         // assert
         Assert.HasCount(0, results);
@@ -122,7 +122,7 @@ public class LinuxPortResolverTests
     public void ParseState_WithVariousStates_ReturnsCorrectEnum(string input, int expected)
     {
         // act
-        var result = LinuxPortResolver.ParseState(input);
+        var result = SsPortScanner.ParseState(input);
 
         // assert
         Assert.AreEqual((PortState)expected, result);
@@ -138,7 +138,7 @@ public class LinuxPortResolverTests
             """;
 
         // act
-        var results = LinuxPortResolver.ParseSsOutput(output, 5000);
+        var results = SsPortScanner.ParseSsOutput(output, 5000);
 
         // assert
         Assert.HasCount(0, results);
@@ -154,7 +154,7 @@ public class LinuxPortResolverTests
             """;
 
         // act
-        var results = LinuxPortResolver.ParseSsOutput(output, 5000);
+        var results = SsPortScanner.ParseSsOutput(output, 5000);
 
         // assert
         Assert.HasCount(0, results);
@@ -170,7 +170,7 @@ public class LinuxPortResolverTests
             """;
 
         // act
-        var results = LinuxPortResolver.ParseSsOutput(output, 5000);
+        var results = SsPortScanner.ParseSsOutput(output, 5000);
 
         // assert
         Assert.HasCount(0, results);
@@ -186,7 +186,7 @@ public class LinuxPortResolverTests
             """;
 
         // act
-        var results = LinuxPortResolver.ParseSsOutput(output, 5000);
+        var results = SsPortScanner.ParseSsOutput(output, 5000);
 
         // assert
         Assert.HasCount(0, results);
@@ -202,7 +202,7 @@ public class LinuxPortResolverTests
             """;
 
         // act
-        var results = LinuxPortResolver.ParseSsOutput(output, 5000);
+        var results = SsPortScanner.ParseSsOutput(output, 5000);
 
         // assert
         Assert.HasCount(0, results);
@@ -219,7 +219,7 @@ public class LinuxPortResolverTests
             """;
 
         // act
-        var results = LinuxPortResolver.ParseSsOutput(output, 5000);
+        var results = SsPortScanner.ParseSsOutput(output, 5000);
 
         // assert
         Assert.HasCount(1, results);
@@ -236,7 +236,7 @@ public class LinuxPortResolverTests
             """;
 
         // act
-        var results = LinuxPortResolver.ParseSsOutput(output, 5000);
+        var results = SsPortScanner.ParseSsOutput(output, 5000);
 
         // assert
         Assert.HasCount(1, results);
@@ -253,7 +253,7 @@ public class LinuxPortResolverTests
             """;
 
         // act
-        var results = LinuxPortResolver.ParseLsofOutput(output, 5000, "");
+        var results = LsofPortScanner.ParseLsofOutput(output, 5000, "");
 
         // assert
         Assert.HasCount(1, results);
@@ -270,7 +270,7 @@ public class LinuxPortResolverTests
             """;
 
         // act
-        var results = LinuxPortResolver.ParseLsofOutput(output, 5000, "");
+        var results = LsofPortScanner.ParseLsofOutput(output, 5000, "");
 
         // assert
         Assert.HasCount(1, results);
@@ -287,7 +287,7 @@ public class LinuxPortResolverTests
             """;
 
         // act
-        var results = LinuxPortResolver.ParseLsofOutput(output, 5000, "");
+        var results = LsofPortScanner.ParseLsofOutput(output, 5000, "");
 
         // assert
         Assert.HasCount(1, results);
@@ -304,7 +304,7 @@ public class LinuxPortResolverTests
             """;
 
         // act
-        var results = LinuxPortResolver.ParseLsofOutput(output, 5000, "");
+        var results = LsofPortScanner.ParseLsofOutput(output, 5000, "");
 
         // assert
         Assert.HasCount(0, results);
@@ -320,7 +320,7 @@ public class LinuxPortResolverTests
             """;
 
         // act
-        var results = LinuxPortResolver.ParseLsofOutput(output, 5000, "");
+        var results = LsofPortScanner.ParseLsofOutput(output, 5000, "");
 
         // assert
         Assert.HasCount(0, results);
@@ -337,7 +337,7 @@ public class LinuxPortResolverTests
             """;
 
         // act
-        var results = LinuxPortResolver.ParseLsofOutput(output, 5000, "");
+        var results = LsofPortScanner.ParseLsofOutput(output, 5000, "");
 
         // assert
         Assert.HasCount(1, results);
@@ -463,7 +463,7 @@ public class LinuxPortResolverTests
     public void ExtractPidFromSs_WithVariousFields_ReturnsExpectedPid(string field, int expected)
     {
         // act
-        var result = LinuxPortResolver.ExtractPidFromSs(field);
+        var result = SsPortScanner.ExtractPidFromSs(field);
 
         // assert
         Assert.AreEqual(expected, result);
@@ -476,7 +476,7 @@ public class LinuxPortResolverTests
     public void ExtractProcessNameFromSs_WithVariousFields_ReturnsExpectedName(string field, string expected)
     {
         // act
-        var result = LinuxPortResolver.ExtractProcessNameFromSs(field);
+        var result = SsPortScanner.ExtractProcessNameFromSs(field);
 
         // assert
         Assert.AreEqual(expected, result);
@@ -492,7 +492,7 @@ public class LinuxPortResolverTests
             """;
 
         // act
-        var results = LinuxPortResolver.ParseSsAllOutput(output);
+        var results = SsPortScanner.ParseSsAllOutput(output);
 
         // assert
         Assert.HasCount(1, results);
@@ -506,7 +506,7 @@ public class LinuxPortResolverTests
     public void ParseSsAllOutput_WithEmptyOutput_ReturnsEmptyList()
     {
         // act
-        var results = LinuxPortResolver.ParseSsAllOutput("");
+        var results = SsPortScanner.ParseSsAllOutput("");
 
         // assert
         Assert.HasCount(0, results);
@@ -519,7 +519,7 @@ public class LinuxPortResolverTests
         var output = "State   Recv-Q  Send-Q  Local Address:Port  Peer Address:Port  Process";
 
         // act
-        var results = LinuxPortResolver.ParseSsAllOutput(output);
+        var results = SsPortScanner.ParseSsAllOutput(output);
 
         // assert
         Assert.HasCount(0, results);
@@ -536,7 +536,7 @@ public class LinuxPortResolverTests
             """;
 
         // act
-        var results = LinuxPortResolver.ParseSsAllOutput(output);
+        var results = SsPortScanner.ParseSsAllOutput(output);
 
         // assert
         Assert.HasCount(2, results);
@@ -554,7 +554,7 @@ public class LinuxPortResolverTests
             """;
 
         // act
-        var results = LinuxPortResolver.ParseSsAllOutput(output);
+        var results = SsPortScanner.ParseSsAllOutput(output);
 
         // assert
         Assert.HasCount(0, results);
@@ -570,7 +570,7 @@ public class LinuxPortResolverTests
             """;
 
         // act
-        var results = LinuxPortResolver.ParseSsAllOutput(output);
+        var results = SsPortScanner.ParseSsAllOutput(output);
 
         // assert
         Assert.HasCount(0, results);
@@ -586,7 +586,7 @@ public class LinuxPortResolverTests
             """;
 
         // act
-        var results = LinuxPortResolver.ParseSsAllOutput(output);
+        var results = SsPortScanner.ParseSsAllOutput(output);
 
         // assert
         Assert.HasCount(0, results);
@@ -602,7 +602,7 @@ public class LinuxPortResolverTests
             """;
 
         // act
-        var results = LinuxPortResolver.ParseSsAllOutput(output);
+        var results = SsPortScanner.ParseSsAllOutput(output);
 
         // assert
         Assert.HasCount(0, results);
@@ -618,7 +618,7 @@ public class LinuxPortResolverTests
             """;
 
         // act
-        var results = LinuxPortResolver.ParseSsAllOutput(output);
+        var results = SsPortScanner.ParseSsAllOutput(output);
 
         // assert
         Assert.HasCount(0, results);
@@ -635,7 +635,7 @@ public class LinuxPortResolverTests
             """;
 
         // act
-        var results = LinuxPortResolver.ParseSsAllOutput(output);
+        var results = SsPortScanner.ParseSsAllOutput(output);
 
         // assert
         Assert.HasCount(1, results);

@@ -37,8 +37,7 @@ internal sealed class MacPortResolver(ICommandRunner commandRunner) : IPortResol
             if (!int.TryParse(parts[1], out var pid)) continue;
 
             var protocol = parts[7].ToUpperInvariant();
-            if (!string.IsNullOrEmpty(protocolFilter) &&
-                !protocol.Contains(protocolFilter, StringComparison.OrdinalIgnoreCase))
+            if (!string.IsNullOrEmpty(protocolFilter) && !protocol.Contains(protocolFilter, StringComparison.OrdinalIgnoreCase))
                 continue;
 
             var nameField = parts[8];
@@ -46,9 +45,7 @@ internal sealed class MacPortResolver(ICommandRunner commandRunner) : IPortResol
 
             var state = parts.Length > 9 && parts[^1].Contains("LISTEN", StringComparison.OrdinalIgnoreCase)
                 ? PortState.Listen
-                : parts.Length > 9 && parts[^1].Contains("ESTABLISHED", StringComparison.OrdinalIgnoreCase)
-                    ? PortState.Established
-                    : PortState.Other;
+                : parts.Length > 9 && parts[^1].Contains("ESTABLISHED", StringComparison.OrdinalIgnoreCase) ? PortState.Established : PortState.Other;
 
             results.Add(new PortProcessInfo(port, pid, processName, protocol, "*", state));
         }
@@ -100,16 +97,13 @@ internal sealed class MacPortResolver(ICommandRunner commandRunner) : IPortResol
             if (!int.TryParse(parts[1], out var pid)) continue;
 
             var protocol = parts[7].ToUpperInvariant();
-            if (!string.IsNullOrEmpty(protocolFilter) &&
-                !protocol.Contains(protocolFilter, StringComparison.OrdinalIgnoreCase))
+            if (!string.IsNullOrEmpty(protocolFilter) && !protocol.Contains(protocolFilter, StringComparison.OrdinalIgnoreCase))
                 continue;
 
             var nameField = parts[^1];
             var state = nameField.Contains("LISTEN", StringComparison.OrdinalIgnoreCase)
                 ? PortState.Listen
-                : nameField.Contains("ESTABLISHED", StringComparison.OrdinalIgnoreCase)
-                    ? PortState.Established
-                    : PortState.Other;
+                : nameField.Contains("ESTABLISHED", StringComparison.OrdinalIgnoreCase) ? PortState.Established : PortState.Other;
 
             results.Add(new PortProcessInfo(port, pid, processName, protocol, "*", state));
         }

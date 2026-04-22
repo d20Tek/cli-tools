@@ -5,11 +5,8 @@ internal sealed class ProcFdScanner(IProcFileSystem procFs)
     private readonly IProcFileSystem _procFs = procFs;
     private Dictionary<long, PidInfo>? _inodeToPidCache;
 
-    internal PidInfo? FindPidByInode(long inode)
-    {
-        var cache = GetOrBuildCache();
-        return cache.TryGetValue(inode, out var pidInfo) ? pidInfo : null;
-    }
+    internal PidInfo? FindPidByInode(long inode) => 
+        GetOrBuildCache().TryGetValue(inode, out var pidInfo) ? pidInfo : null;
 
     internal Dictionary<long, PidInfo> GetOrBuildCache()
     {

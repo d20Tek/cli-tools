@@ -1,5 +1,6 @@
 using D20Tek.Tools.DevKillPort.Contracts;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 namespace D20Tek.Tools.DevKillPort.Services;
 
@@ -103,29 +104,17 @@ internal sealed class ProcNetParser(IProcFileSystem procFs)
         return new ProcSocketEntry(port, inode, protocol, address, state);
     }
 
-    internal static bool TryParseHexPort(string hex, out int port)
-    {
-        port = 0;
-        try
-        {
-            port = Convert.ToInt32(hex, 16);
-            return true;
-        }
-        catch
-        {
-            return false;
-        }
-    }
+    internal static bool TryParseHexPort(string hex, out int port) =>
+        int.TryParse(hex, NumberStyles.HexNumber, CultureInfo.InvariantCulture, out port);
 
-    internal static PortState ParseTcpState(string hexState) =>
-        hexState.ToUpperInvariant() switch
-        {
-            "0A" => PortState.Listen,
-            "01" => PortState.Established,
-            "06" => PortState.TimeWait,
-            "08" => PortState.CloseWait,
-            _ => PortState.Other
-        };
+    internal static PortState ParseTcpState(string hexState) => hexState.ToUpperInvariant() switch
+    {
+        "0A" => PortState.Listen,
+        "01" => PortState.Established,
+        "06" => PortState.TimeWait,
+        "08" => PortState.CloseWait,
+        _ => PortState.Other
+    };
 
     private static string ParseHexAddress(string hex)
     {

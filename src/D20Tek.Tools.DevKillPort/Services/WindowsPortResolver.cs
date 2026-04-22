@@ -137,15 +137,14 @@ internal sealed class WindowsPortResolver(ICommandRunner commandRunner) : IPortR
         return DeduplicateByPid(results);
     }
 
-    internal static PortState ParseState(string state) =>
-        state.ToUpperInvariant() switch
-        {
-            "LISTEN" or "2" => PortState.Listen,
-            "ESTABLISHED" or "5" => PortState.Established,
-            "TIMEWAIT" or "11" => PortState.TimeWait,
-            "CLOSEWAIT" or "8" => PortState.CloseWait,
-            _ => PortState.Other
-        };
+    internal static PortState ParseState(string state) => state.ToUpperInvariant() switch
+    {
+        "LISTEN" or "2" => PortState.Listen,
+        "ESTABLISHED" or "5" => PortState.Established,
+        "TIMEWAIT" or "11" => PortState.TimeWait,
+        "CLOSEWAIT" or "8" => PortState.CloseWait,
+        _ => PortState.Other
+    };
 
     [ExcludeFromCodeCoverage]
     private static string GetProcessName(int pid)
@@ -162,7 +161,5 @@ internal sealed class WindowsPortResolver(ICommandRunner commandRunner) : IPortR
     }
 
     private static List<PortProcessInfo> DeduplicateByPid(List<PortProcessInfo> results) =>
-        results.GroupBy(r => (r.ProcessId, r.Protocol))
-               .Select(g => g.First())
-               .ToList();
+        [.. results.GroupBy(r => (r.ProcessId, r.Protocol)).Select(g => g.First())];
 }
