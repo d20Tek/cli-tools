@@ -28,6 +28,7 @@ internal static class Constants
     public const string AllPortsHeaderMessage = "All ports with active processes:";
     public const string NoPortsFoundMessage = "[green]No active port bindings found.[/]";
     public const string ScanningPortsMessage = "Scanning for active ports...";
+    public const string ScanningPortMessage = "Scanning port {0}...";
 
     public const string KillCommandSuccess = "Process terminated successfully.";
     public const string ListCommandSuccess = "Port scan complete.";

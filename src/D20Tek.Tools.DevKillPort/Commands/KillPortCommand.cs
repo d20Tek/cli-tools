@@ -11,10 +11,15 @@ internal sealed class KillPortCommand(
     private readonly IProcessTerminator _terminator = terminator;
     private readonly IAnsiConsole _console = console;
 
-    protected override async Task<int> ExecuteAsync(CommandContext context, PortSettings settings, CancellationToken _)
+    protected override async Task<int> ExecuteAsync(CommandContext context, PortSettings settings, CancellationToken ct)
     {
         var options = settings.ToQueryOptions();
-        var processes = await _resolver.FindAsync(settings.Port, options);
+
+        var processes = await _console.Status()
+            .Spinner(Spinner.Known.Default)
+            .StartAsync(
+                string.Format(Constants.ScanningPortMessage, settings.Port),
+                _ => _resolver.FindAsync(settings.Port, options, ct));
 
         if (processes.Count == 0)
         {
