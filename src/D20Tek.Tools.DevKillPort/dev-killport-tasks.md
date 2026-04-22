@@ -132,7 +132,6 @@ Phases are ordered so each phase depends only on previously completed phases.
 
 ### Phase 8: Packaging & Polish
 
-- [ ] 8.1 Add README.md for the project
-- [ ] 8.2 Verify .NET global tool packaging (`dotnet pack` / `dotnet tool install`)
-- [ ] 8.3 Cross-platform integration testing (Windows, Linux, macOS)
-- [ ] 8.4 Final review and cleanup
+- [x] 8.1 Add README.md for the project
+- [x] 8.2 Verify .NET global tool packaging (`dotnet pack` / `dotnet tool install`)
+- [ ] 8.3 Final review and cleanup
