@@ -1,5 +1,4 @@
 using D20Tek.Tools.DevKillPort.Contracts;
-using Spectre.Console;
 using System.Text.Json;
 
 namespace D20Tek.Tools.DevKillPort.Commands;

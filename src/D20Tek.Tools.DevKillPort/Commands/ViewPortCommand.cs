@@ -1,3 +1,4 @@
+using D20Tek.Tools.DevKillPort.Contracts;
 using D20Tek.Tools.DevKillPort.Services;
 
 namespace D20Tek.Tools.DevKillPort.Commands;
@@ -23,15 +24,19 @@ internal sealed class ViewPortCommand(IPortResolver resolver, IAnsiConsole conso
             return 0;
         }
 
-        if (options.Json)
+        RenderOutput(settings.Port, options.Json, processes);
+        return 0;
+    }
+
+    private void RenderOutput(int port, bool isJson, IReadOnlyList<PortProcessInfo> processes)
+    {
+        if (isJson)
         {
-            OutputHelper.RenderJson(_console, settings.Port, processes);
+            OutputHelper.RenderJson(_console, port, processes);
         }
         else
         {
-            OutputHelper.RenderTable(_console, settings.Port, processes);
+            OutputHelper.RenderTable(_console, port, processes);
         }
-
-        return 0;
     }
 }
