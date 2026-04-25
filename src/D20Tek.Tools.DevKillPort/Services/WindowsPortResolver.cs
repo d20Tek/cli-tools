@@ -161,5 +161,5 @@ internal sealed class WindowsPortResolver(ICommandRunner commandRunner) : IPortR
     }
 
     private static List<PortProcessInfo> DeduplicateByPid(List<PortProcessInfo> results) =>
-        [.. results.GroupBy(r => (r.ProcessId, r.Protocol)).Select(g => g.First())];
+        [.. results.GroupBy(r => (r.ProcessId, r.Protocol, r.Port)).Select(g => g.First())];
 }

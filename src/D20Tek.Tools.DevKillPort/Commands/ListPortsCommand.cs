@@ -12,7 +12,8 @@ internal sealed class ListPortsCommand(IPortResolver resolver, IAnsiConsole cons
     {
         var options = settings.ToQueryOptions();
 
-        var processes = await GetProcesses(options, ct);
+        var allProcesses = await GetProcesses(options, ct);
+        var processes = FilterByPortRange(allProcesses, settings.MinPort, settings.MaxPort);
         if (processes.Count == 0)
         {
             _console.MarkupLine(Constants.NoPortsFoundMessage);
@@ -27,6 +28,12 @@ internal sealed class ListPortsCommand(IPortResolver resolver, IAnsiConsole cons
         await _console.Status()
             .Spinner(Spinner.Known.Default)
             .StartAsync(Constants.ScanningPortsMessage, _ => _resolver.ListAllAsync(options, ct));
+
+    internal static IReadOnlyList<PortProcessInfo> FilterByPortRange(
+        IReadOnlyList<PortProcessInfo> processes,
+        int minPort,
+        int maxPort) =>
+        [.. processes.Where(p => p.Port >= minPort && p.Port <= maxPort)];
 
     private void RenderOutput(bool isJson, IReadOnlyList<PortProcessInfo> processes)
     {

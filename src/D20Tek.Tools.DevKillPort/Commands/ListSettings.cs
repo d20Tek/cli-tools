@@ -14,6 +14,16 @@ internal class ListSettings : CommandSettings
     [Description("Output results as JSON.")]
     public bool Json { get; init; }
 
+    [CommandOption("--min-port")]
+    [Description("Minimum port number to include (default: 1024 to skip system ports). Use 0 for all.")]
+    [DefaultValue(1024)]
+    public int MinPort { get; init; } = 1024;
+
+    [CommandOption("--max-port")]
+    [Description("Maximum port number to include (default: 65535).")]
+    [DefaultValue(65535)]
+    public int MaxPort { get; init; } = 65535;
+
     public PortQueryOptions ToQueryOptions() => new(ParseProtocol(), false, false, false, Json, false, 30);
 
     private ProtocolType ParseProtocol() => Protocol.ToLowerInvariant() switch
