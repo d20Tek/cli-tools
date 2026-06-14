@@ -13,7 +13,7 @@ internal sealed class CreateGuidState(
     private readonly IGuidFormatter _guidFormatter = formatter;
     private readonly IVerbosityWriter _writer = writer;
     private readonly IClipboard _clipboard = clipboard;
-    private readonly StringBuilder _stringBuilder = new StringBuilder();
+    private readonly StringBuilder _stringBuilder = new();
 
     internal CreateGuidState CopyToClipboard(GuidSettings settings)
     {
@@ -36,7 +36,7 @@ internal sealed class CreateGuidState(
         {
             string text = _guidFormatter.Format(item, settings.Format, settings.UsesUpperCase);
             _writer.WriteSummary(text);
-            _stringBuilder.AppendLine(text);
+            _ = settings.Count > 1 ? _stringBuilder.AppendLine(text) : _stringBuilder.Append(text);
         }
 
         return this;
