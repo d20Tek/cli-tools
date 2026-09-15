@@ -6,14 +6,21 @@
 	<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
 	</PropertyGroup>
 
-  <!-- Shared package definition properties -->
-  <PropertyGroup>
+	<!-- Shared package definition properties -->
+	<PropertyGroup>
 	<Authors>DarthPedro</Authors>
 	<Company>d20Tek</Company>
 	<Copyright>Copyright (c) d20Tek.  All rights reserved.</Copyright>
 	<RepositoryType>git</RepositoryType>
 	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<PackageIcon>package-icon.png</PackageIcon>
 	<PackAsTool>True</PackAsTool>
-  </PropertyGroup>
+	</PropertyGroup>
+
+	<!-- Link the root solution README and package icon into every NuGet package -->
+	<ItemGroup Condition="'$(IsPackable)' != 'false'">
+	<None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" Visible="false" />
+	<None Include="$(MSBuildThisFileDirectory)package-icon.png" Pack="true" PackagePath="\" Visible="false" />
+	</ItemGroup>
 
 </Project>

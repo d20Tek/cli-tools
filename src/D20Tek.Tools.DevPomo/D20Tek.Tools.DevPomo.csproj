@@ -19,10 +19,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="\" />
-  </ItemGroup>
-
-  <ItemGroup>
     <InternalsVisibleTo Include="D20Tek.Tools.UnitTests" />
   </ItemGroup>
 

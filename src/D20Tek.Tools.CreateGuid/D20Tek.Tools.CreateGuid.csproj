@@ -22,8 +22,4 @@
     <InternalsVisibleTo Include="D20Tek.Tools.UnitTests" />
   </ItemGroup>
 
-  <ItemGroup>
-    <None Include="README.md" Pack="true" PackagePath="\" />
-  </ItemGroup>
-  
-</Project>
+  </Project>
