@@ -3,26 +3,18 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <AssemblyName>dev-killport</AssemblyName>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>dev-killport CLI Tool</Title>
-    <Authors>DarthPedro</Authors>
-    <Company>d20Tek</Company>
-    <Copyright>Copyright (c) d20Tek.  All rights reserved.</Copyright>
     <Description>A cross-platform command-line tool that identifies and terminates processes bound to a given port.</Description>
     <PackageProjectUrl>https://github.com/d20Tek/cli-tools/tree/main/src/D20Tek.Tools.DevKillPort</PackageProjectUrl>
     <RepositoryUrl>https://github.com/d20Tek/cli-tools/tree/main/src/D20Tek.Tools.DevKillPort</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
     <PackageTags>port;kill;process;network;developer tool</PackageTags>
-    <PackAsTool>True</PackAsTool>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="D20Tek.Functional" Version="1.1.5" />
-    <PackageReference Include="D20Tek.Spectre.Console.Extensions" Version="1.56.1" />
+    <PackageReference Include="D20Tek.Functional" />
+    <PackageReference Include="D20Tek.Spectre.Console.Extensions" />
   </ItemGroup>
 
   <ItemGroup>

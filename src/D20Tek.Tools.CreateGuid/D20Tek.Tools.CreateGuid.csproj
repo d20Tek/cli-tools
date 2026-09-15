@@ -3,27 +3,19 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFrameworks>net9.0;net10.0</TargetFrameworks>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <AssemblyName>create-guid</AssemblyName>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>Create Guid</Title>
-    <Authors>DarthPedro</Authors>
-    <Company>d20Tek</Company>
     <Description>A command-line utility to help developers create GUIDs and UUIDs for their projects in various output formats, copy to clipboard, and save to output file.\nRun create-guid in your favorite console window.</Description>
-    <Copyright>Copyright (c) d20Tek.  All rights reserved.</Copyright>
     <PackageProjectUrl>https://github.com/d20Tek/cli-tools/tree/main/src/D20Tek.Tools.CreateGuid</PackageProjectUrl>
     <RepositoryUrl>https://github.com/d20Tek/cli-tools/tree/main/src/D20Tek.Tools.CreateGuid</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
     <PackageTags>guid; create guid; uuid; guidgen; uuid7</PackageTags>
     <PackageReleaseNotes>Updated to .NET 9 and added UUID 7 guid generation option.</PackageReleaseNotes>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackAsTool>True</PackAsTool>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="D20Tek.Spectre.Console.Extensions" Version="1.56.1" />
-    <PackageReference Include="TextCopy" Version="6.2.1" />
+    <PackageReference Include="D20Tek.Spectre.Console.Extensions" />
+    <PackageReference Include="TextCopy" />
   </ItemGroup>
 
   <ItemGroup>

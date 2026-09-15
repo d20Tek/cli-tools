@@ -17,7 +17,7 @@ public class DevLogEntryTests
         // assert
         Assert.AreEqual(_weekStart, entry.WeekStart);
         Assert.AreEqual("MyProject", entry.ProjectName);
-        Assert.AreEqual(_accomplishments, entry.Accomplishments);
+        Assert.AreSequenceEqual(_accomplishments, entry.Accomplishments);
     }
 
     [TestMethod]
@@ -40,7 +40,7 @@ public class DevLogEntryTests
         Assert.AreNotSame(entry, result);
         Assert.AreEqual(newWeekStart, result.WeekStart);
         Assert.AreEqual("OtherProject", result.ProjectName);
-        Assert.AreEqual(newAccomplishments, result.Accomplishments);
+        Assert.AreSequenceEqual(newAccomplishments, result.Accomplishments);
     }
 
     [TestMethod]
@@ -78,7 +78,7 @@ public class DevLogEntryTests
         // assert
         Assert.AreEqual(expectedWeekStart, entry.WeekStart);
         Assert.AreEqual("MyProject", entry.ProjectName);
-        Assert.AreEqual(_accomplishments, entry.Accomplishments);
+        Assert.AreSequenceEqual(_accomplishments, entry.Accomplishments);
     }
 
     [TestMethod]

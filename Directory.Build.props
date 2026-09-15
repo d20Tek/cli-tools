@@ -1,0 +1,19 @@
+<Project>
+
+	<PropertyGroup>
+	<ImplicitUsings>enable</ImplicitUsings>
+	<Nullable>enable</Nullable>
+	<TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+	</PropertyGroup>
+
+  <!-- Shared package definition properties -->
+  <PropertyGroup>
+	<Authors>DarthPedro</Authors>
+	<Company>d20Tek</Company>
+	<Copyright>Copyright (c) d20Tek.  All rights reserved.</Copyright>
+	<RepositoryType>git</RepositoryType>
+	<PackageReadmeFile>README.md</PackageReadmeFile>
+	<PackAsTool>True</PackAsTool>
+  </PropertyGroup>
+
+</Project>

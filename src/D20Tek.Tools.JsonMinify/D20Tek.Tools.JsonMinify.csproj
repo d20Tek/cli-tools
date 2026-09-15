@@ -3,27 +3,19 @@
   <PropertyGroup>
     <OutputType>Exe</OutputType>
     <TargetFramework>net10.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
     <AssemblyName>json-minify</AssemblyName>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Title>JSON Minify</Title>
-    <Authors>DarthPedro</Authors>
-    <Company>d20Tek</Company>
     <Description>A command-line utility to help developers minify JSON files by removing whitespace and formatting, reducing file size (typically 30%) for production use.</Description>
-    <Copyright>Copyright (c) d20Tek.  All rights reserved.</Copyright>
     <PackageProjectUrl>https://github.com/d20Tek/cli-tools/tree/main/src/D20Tek.Tools.JsonMinify</PackageProjectUrl>
     <RepositoryUrl>https://github.com/d20Tek/cli-tools/tree/main/src/D20Tek.Tools.JsonMinify</RepositoryUrl>
-    <RepositoryType>git</RepositoryType>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
     <PackageTags>json; minify; json minify; remove spacing</PackageTags>
     <PackageReleaseNotes>Initial minification tool that supports minifying single JSON file or all JSON files in a particular folder.</PackageReleaseNotes>
-    <PackAsTool>True</PackAsTool>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="D20Tek.Functional" Version="1.1.5" />
-    <PackageReference Include="D20Tek.Spectre.Console.Extensions" Version="1.56.1" />
+    <PackageReference Include="D20Tek.Functional" />
+    <PackageReference Include="D20Tek.Spectre.Console.Extensions" />
   </ItemGroup>
 
   <ItemGroup>
