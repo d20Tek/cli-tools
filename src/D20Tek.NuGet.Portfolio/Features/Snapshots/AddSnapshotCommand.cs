@@ -1,4 +1,4 @@
-﻿using D20Tek.NuGet.Portfolio.Abstractions;
+using D20Tek.NuGet.Portfolio.Abstractions;
 using D20Tek.NuGet.Portfolio.Features.Helpers;
 using D20Tek.NuGet.Portfolio.Persistence;
 
@@ -11,7 +11,7 @@ internal sealed class AddSnapshotCommand(IAnsiConsole console, AppDbContext dbCo
     private readonly AppDbContext _dbContext = dbContext;
     private readonly INuGetSearchClient _client = client;
 
-    protected override async Task<int> ExecuteAsync(CommandContext context, CollectionId id, CancellationToken token)
+    public override async Task<int> ExecuteAsync(CommandContext context, CollectionId id, CancellationToken token)
     {
         _console.CommandHeader().Render("Add snapshot package downloads");
         return await id.Pipe(i => EnsureIdInput(i))

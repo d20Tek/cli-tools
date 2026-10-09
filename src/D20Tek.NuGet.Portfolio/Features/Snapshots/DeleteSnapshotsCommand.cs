@@ -1,4 +1,4 @@
-﻿using D20Tek.NuGet.Portfolio.Persistence;
+using D20Tek.NuGet.Portfolio.Persistence;
 
 namespace D20Tek.NuGet.Portfolio.Features.Snapshots;
 
@@ -19,7 +19,7 @@ internal sealed class DeleteSnapshotsCommand(IAnsiConsole console, AppDbContext 
     private readonly IAnsiConsole _console = console;
     private readonly AppDbContext _dbContext = dbContext;
 
-    protected override async Task<int> ExecuteAsync(CommandContext context, Settings settings, CancellationToken token)
+    public override async Task<int> ExecuteAsync(CommandContext context, Settings settings, CancellationToken token)
     {
         _console.CommandHeader().Render("Delete tracked package");
         return await settings.Pipe(s => EnsureIdInput(s))

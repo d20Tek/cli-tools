@@ -1,4 +1,4 @@
-﻿using D20Tek.NuGet.Portfolio.Domain;
+using D20Tek.NuGet.Portfolio.Domain;
 using D20Tek.NuGet.Portfolio.Persistence;
 
 namespace D20Tek.NuGet.Portfolio.Features.Collections;
@@ -8,7 +8,7 @@ internal sealed class ListCollectionsCommand(IAnsiConsole console, AppDbContext 
     private readonly IAnsiConsole _console = console;
     private readonly AppDbContext _dbContext = dbContext;
 
-    protected override int Execute(CommandContext context, CancellationToken token) =>
+    public override int Execute(CommandContext context, CancellationToken token) =>
         GetCollections().Iter(RenderCollections)
                         .Render(_console, s => $"{s.Length} collections retrieved.");
 

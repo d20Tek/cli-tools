@@ -1,4 +1,4 @@
-﻿using D20Tek.NuGet.Portfolio.Abstractions;
+using D20Tek.NuGet.Portfolio.Abstractions;
 using D20Tek.NuGet.Portfolio.Features.Helpers;
 using D20Tek.NuGet.Portfolio.Persistence;
 
@@ -21,7 +21,7 @@ internal sealed class GetDownloadsByCollectionIdCommand(
     private readonly AppDbContext _dbContext = dbContext;
     private readonly INuGetSearchClient _client = client;
 
-    protected override async Task<int> ExecuteAsync(CommandContext context, CollectionId id, CancellationToken token)
+    public override async Task<int> ExecuteAsync(CommandContext context, CollectionId id, CancellationToken token)
     {
         _console.CommandHeader().Render("Get collection package downloads");
         return await id.Pipe(i => EnsureIdInput(i))

@@ -1,4 +1,4 @@
-﻿using D20Tek.Spectre.Console.Extensions.Settings;
+using D20Tek.Spectre.Console.Extensions.Settings;
 using D20Tek.Tools.Common.Controls;
 
 namespace D20Tek.Tools.DevPassword.Commands;
@@ -10,7 +10,7 @@ internal sealed class UpdateConfigCommand(IAnsiConsole console, IVerbosityWriter
     private readonly IVerbosityWriter _writer = writer;
     private readonly IConfigurationService _service = service;
 
-    protected override int Execute(CommandContext context, VerbositySettings settings, CancellationToken token)
+    public override int Execute(CommandContext context, VerbositySettings settings, CancellationToken token)
     {
         ArgumentNullException.ThrowIfNull(settings);
         _writer.RenderCommandTitle(Constants.Configuration.Description, settings.Verbosity);

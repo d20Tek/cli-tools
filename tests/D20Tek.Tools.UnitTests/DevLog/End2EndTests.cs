@@ -4,6 +4,7 @@ namespace D20Tek.Tools.UnitTests.DevLog;
 
 [TestClass]
 [ExcludeFromCodeCoverage]
+[DoNotParallelize]
 public sealed class End2EndTests
 {
     private string _testFolder = string.Empty;

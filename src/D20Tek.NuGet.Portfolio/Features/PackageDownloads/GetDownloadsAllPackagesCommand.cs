@@ -1,4 +1,4 @@
-﻿using D20Tek.NuGet.Portfolio.Abstractions;
+using D20Tek.NuGet.Portfolio.Abstractions;
 using D20Tek.NuGet.Portfolio.Features.Helpers;
 using D20Tek.NuGet.Portfolio.Persistence;
 
@@ -13,7 +13,7 @@ internal sealed class GetDownloadsAllPackagesCommand(
     private readonly AppDbContext _dbContext = dbContext;
     private readonly INuGetSearchClient _client = client;
 
-    protected override async Task<int> ExecuteAsync(CommandContext context, CancellationToken token) =>
+    public override async Task<int> ExecuteAsync(CommandContext context, CancellationToken token) =>
         await _dbContext.GetAllTrackedPackages()
                 .Pipe(_client.RetrieveDownloadSnapshots)
                 .IterAsync(_console.RenderDownloadSnapshots)

@@ -1,4 +1,4 @@
-﻿using D20Tek.NuGet.Portfolio.Domain;
+using D20Tek.NuGet.Portfolio.Domain;
 using D20Tek.NuGet.Portfolio.Persistence;
 
 namespace D20Tek.NuGet.Portfolio.Features.Collections;
@@ -20,7 +20,7 @@ internal sealed class EditCollectionCommand(IAnsiConsole console, AppDbContext d
     private readonly IAnsiConsole _console = console;
     private readonly AppDbContext _dbContext = dbContext;
 
-    protected override async Task<int> ExecuteAsync(CommandContext context, Request request, CancellationToken token)
+    public override async Task<int> ExecuteAsync(CommandContext context, Request request, CancellationToken token)
     {
         _console.CommandHeader().Render("Edit collection");
         return await GetEntity(request.Id)

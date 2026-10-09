@@ -8,7 +8,7 @@ internal sealed class ViewPortCommand(IPortResolver resolver, IAnsiConsole conso
     private readonly IPortResolver _resolver = resolver;
     private readonly IAnsiConsole _console = console;
 
-    protected override async Task<int> ExecuteAsync(CommandContext context, PortSettings settings, CancellationToken ct)
+    public override async Task<int> ExecuteAsync(CommandContext context, PortSettings settings, CancellationToken ct)
     {
         var options = settings.ToQueryOptions();
 

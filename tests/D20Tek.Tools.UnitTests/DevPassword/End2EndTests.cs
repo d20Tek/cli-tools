@@ -4,6 +4,7 @@ namespace D20Tek.Tools.UnitTests.DevPassword;
 
 [TestClass]
 [ExcludeFromCodeCoverage]
+[DoNotParallelize]
 public sealed class End2EndTests
 {
     [TestMethod]

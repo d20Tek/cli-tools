@@ -12,7 +12,7 @@ internal sealed class KillPortCommand(
     private readonly IProcessTerminator _terminator = terminator;
     private readonly IAnsiConsole _console = console;
 
-    protected override async Task<int> ExecuteAsync(CommandContext context, PortSettings settings, CancellationToken ct)
+    public override async Task<int> ExecuteAsync(CommandContext context, PortSettings settings, CancellationToken ct)
     {
         var options = settings.ToQueryOptions();
         var port = settings.Port;

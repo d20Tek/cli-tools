@@ -1,4 +1,4 @@
-﻿using D20Tek.Spectre.Console.Extensions.Controls;
+using D20Tek.Spectre.Console.Extensions.Controls;
 using D20Tek.Tools.Common.Controls;
 using D20Tek.Tools.JsonMinify.Services;
 
@@ -23,7 +23,7 @@ internal sealed class MinifyFolderCommand(IFileSystemAdapter fileAdapter, IMinif
         public string TargetFolder { get; init; } = string.Empty;
     }
 
-    protected override int Execute(CommandContext context, Settings settings, CancellationToken _) =>
+    public override int Execute(CommandContext context, Settings settings, CancellationToken _) =>
         _validator.Validate(settings.FolderPath)
                   .Iter(f => _console.WriteMessages(Constants.MinifyFolderTitle(f)))
                   .Map(f => _fileAdapter.EnumerateFolderFiles(f, Constants.JsonFileSearchPattern))

@@ -1,4 +1,4 @@
-﻿using D20Tek.NuGet.Portfolio.Persistence;
+using D20Tek.NuGet.Portfolio.Persistence;
 
 namespace D20Tek.NuGet.Portfolio.Features.TrackedPackages;
 
@@ -15,7 +15,7 @@ internal sealed class DeleteTrackedPackageCommand(IAnsiConsole console, AppDbCon
     private readonly IAnsiConsole _console = console;
     private readonly AppDbContext _dbContext = dbContext;
 
-    protected override async Task<int> ExecuteAsync(CommandContext context, PackageId id, CancellationToken token)
+    public override async Task<int> ExecuteAsync(CommandContext context, PackageId id, CancellationToken token)
     {
         _console.CommandHeader().Render("Delete tracked package");
         return await id.Pipe(i => EnsureIdInput(i))

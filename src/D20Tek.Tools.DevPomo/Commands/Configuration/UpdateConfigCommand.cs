@@ -1,11 +1,11 @@
-﻿namespace D20Tek.Tools.DevPomo.Commands.Configuration;
+namespace D20Tek.Tools.DevPomo.Commands.Configuration;
 
 internal sealed class UpdateConfigCommand(IAnsiConsole console, IConfigurationService service) : Command
 {
     private readonly IAnsiConsole _console = console;
     private readonly IConfigurationService _service = service;
 
-    protected override int Execute(CommandContext context, CancellationToken token)
+    public override int Execute(CommandContext context, CancellationToken token)
     {
         var prevConfig = _service.Get().GetValue();
 

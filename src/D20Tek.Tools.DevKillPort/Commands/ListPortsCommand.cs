@@ -8,7 +8,7 @@ internal sealed class ListPortsCommand(IPortResolver resolver, IAnsiConsole cons
     private readonly IPortResolver _resolver = resolver;
     private readonly IAnsiConsole _console = console;
 
-    protected override async Task<int> ExecuteAsync(CommandContext context, ListSettings settings, CancellationToken ct)
+    public override async Task<int> ExecuteAsync(CommandContext context, ListSettings settings, CancellationToken ct)
     {
         var options = settings.ToQueryOptions();
 

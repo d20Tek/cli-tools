@@ -1,4 +1,4 @@
-﻿using D20Tek.NuGet.Portfolio.Persistence;
+using D20Tek.NuGet.Portfolio.Persistence;
 
 namespace D20Tek.NuGet.Portfolio.Features.Collections;
 
@@ -15,7 +15,7 @@ internal sealed class DeleteCollectionCommand(IAnsiConsole console, AppDbContext
     private readonly IAnsiConsole _console = console;
     private readonly AppDbContext _dbContext = dbContext;
 
-    protected override async Task<int> ExecuteAsync(CommandContext context, CollectionId id, CancellationToken token)
+    public override async Task<int> ExecuteAsync(CommandContext context, CollectionId id, CancellationToken token)
     {
         _console.CommandHeader().Render("Delete collection");
         return await id.Pipe(i => EnsureIdInput(i))

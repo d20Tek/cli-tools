@@ -4,6 +4,7 @@ namespace D20Tek.Tools.UnitTests.JsonMinify;
 
 [TestClass]
 [ExcludeFromCodeCoverage]
+[DoNotParallelize]
 public class End2EndTests
 {
     [TestMethod]

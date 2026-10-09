@@ -1,4 +1,4 @@
-﻿using D20Tek.Tools.Common.Controls;
+using D20Tek.Tools.Common.Controls;
 
 namespace D20Tek.Tools.DevPassword.Commands;
 
@@ -12,7 +12,7 @@ internal sealed class GeneratePasswordCommand(
     private readonly IConfigurationService _configurationService = configurationService;
     private readonly IVerbosityWriter _writer = writer;
 
-    protected override int Execute(
+    public override int Execute(
         CommandContext context,
         PasswordSettings settings,
         CancellationToken cancellationToken)

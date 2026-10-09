@@ -1,4 +1,4 @@
-﻿using D20Tek.NuGet.Portfolio.Domain;
+using D20Tek.NuGet.Portfolio.Domain;
 using D20Tek.NuGet.Portfolio.Features.Helpers;
 using D20Tek.NuGet.Portfolio.Persistence;
 
@@ -10,7 +10,7 @@ internal sealed class ListTodayByCollectionCommand(IAnsiConsole console, AppDbCo
     private readonly IAnsiConsole _console = console;
     private readonly AppDbContext _dbContext = dbContext;
 
-    protected override int Execute(CommandContext context, CollectionId id, CancellationToken token)
+    public override int Execute(CommandContext context, CollectionId id, CancellationToken token)
     {
         _console.CommandHeader().Render("Packages snapshots");
         return id.Pipe(i => EnsureIdInput(i))

@@ -1,4 +1,4 @@
-﻿using System.ComponentModel;
+using System.ComponentModel;
 
 namespace D20Tek.Tools.DevPomo.Commands.RunTimer;
 
@@ -16,7 +16,7 @@ internal sealed class RunTimerCommand(IAnsiConsole console, IConfigurationServic
     private readonly IAnsiConsole _console = console;
     private readonly IConfigurationService _configurationService = configurationService;
 
-    protected override int Execute(CommandContext context, Settings settings, CancellationToken token)
+    public override int Execute(CommandContext context, Settings settings, CancellationToken token)
     {
         var timerConfig = _configurationService.Get().GetValue();
 
